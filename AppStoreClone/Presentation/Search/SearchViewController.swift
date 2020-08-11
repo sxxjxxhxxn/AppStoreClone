@@ -23,7 +23,7 @@ class SearchViewController: UIViewController, View {
     func bind(reactor: SearchReactor) {
         //통신 결과 확인
         Observable.just(Void())
-            .map {Reactor.Action.testAction(path: "term=hakuna&country=kr&entity=software")}
+            .map { Reactor.Action.testAction(path: "term=hakuna&country=kr&entity=software") }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

@@ -1,5 +1,5 @@
 //
-//  App.swift
+//  AppItemResponse.swift
 //  AppStoreClone
 //
 //  Created by Paul.S on 2020/08/10.

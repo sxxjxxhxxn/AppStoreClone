@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79811E24E100F8006F6406 /* AppDelegate.swift */; };
-		0F79812624E100F8006F6406 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F79812424E100F8006F6406 /* Main.storyboard */; };
 		0F79812824E100F9006F6406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F79812724E100F9006F6406 /* Assets.xcassets */; };
 		0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F79812924E100F9006F6406 /* LaunchScreen.storyboard */; };
 		0F79813624E100F9006F6406 /* AppStoreCloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79813524E100F9006F6406 /* AppStoreCloneTests.swift */; };
 		0F79814224E109F1006F6406 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0F79814124E109F1006F6406 /* .swiftlint.yml */; };
 		0F79814624E11008006F6406 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814524E11008006F6406 /* Network.swift */; };
 		0F79814824E110B3006F6406 /* AppStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814724E110B3006F6406 /* AppStoreService.swift */; };
-		0F79814B24E11163006F6406 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814A24E11163006F6406 /* App.swift */; };
+		0F79814B24E11163006F6406 /* AppItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814A24E11163006F6406 /* AppItemResponse.swift */; };
 		0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814D24E13175006F6406 /* SearchViewController.swift */; };
 		0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814F24E131C9006F6406 /* SearchReactor.swift */; };
 		0F79815824E2457B006F6406 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79815724E2457B006F6406 /* Reusable.swift */; };
+		0F79815D24E2827D006F6406 /* SearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F79815C24E2827D006F6406 /* SearchViewController.storyboard */; };
 		6830D8CEFC3806348B93E44E /* Pods_AppStoreClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC4E0EEE50F7BA97AAAB0D1 /* Pods_AppStoreClone.framework */; };
 		992644DC63C10A01D54DE95F /* Pods_AppStoreCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */; };
 /* End PBXBuildFile section */
@@ -36,7 +36,6 @@
 /* Begin PBXFileReference section */
 		0F79811B24E100F8006F6406 /* AppStoreClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppStoreClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F79811E24E100F8006F6406 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0F79812524E100F8006F6406 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F79812724E100F9006F6406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F79812A24E100F9006F6406 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F79812C24E100F9006F6406 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,10 +45,11 @@
 		0F79814124E109F1006F6406 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0F79814524E11008006F6406 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0F79814724E110B3006F6406 /* AppStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreService.swift; sourceTree = "<group>"; };
-		0F79814A24E11163006F6406 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		0F79814A24E11163006F6406 /* AppItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppItemResponse.swift; sourceTree = "<group>"; };
 		0F79814D24E13175006F6406 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0F79814F24E131C9006F6406 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
 		0F79815724E2457B006F6406 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		0F79815C24E2827D006F6406 /* SearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchViewController.storyboard; sourceTree = "<group>"; };
 		15936A3C8E693C179DE791CA /* Pods-AppStoreClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.debug.xcconfig"; sourceTree = "<group>"; };
 		25B0B3CC7402D1065AC11EDC /* Pods-AppStoreCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreCloneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,7 +142,7 @@
 		0F79814924E11119006F6406 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0F79814A24E11163006F6406 /* App.swift */,
+				0F79814A24E11163006F6406 /* AppItemResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -152,6 +152,7 @@
 			children = (
 				0F79814F24E131C9006F6406 /* SearchReactor.swift */,
 				0F79814D24E13175006F6406 /* SearchViewController.swift */,
+				0F79815C24E2827D006F6406 /* SearchViewController.storyboard */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -169,7 +170,6 @@
 		0F79815524E244CA006F6406 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				0F79812424E100F8006F6406 /* Main.storyboard */,
 				0F79814C24E13144006F6406 /* Search */,
 			);
 			path = Presentation;
@@ -282,7 +282,7 @@
 				0F79814224E109F1006F6406 /* .swiftlint.yml in Resources */,
 				0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */,
 				0F79812824E100F9006F6406 /* Assets.xcassets in Resources */,
-				0F79812624E100F8006F6406 /* Main.storyboard in Resources */,
+				0F79815D24E2827D006F6406 /* SearchViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +385,7 @@
 				0F79815824E2457B006F6406 /* Reusable.swift in Sources */,
 				0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */,
 				0F79814624E11008006F6406 /* Network.swift in Sources */,
-				0F79814B24E11163006F6406 /* App.swift in Sources */,
+				0F79814B24E11163006F6406 /* AppItemResponse.swift in Sources */,
 				0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */,
 				0F79814824E110B3006F6406 /* AppStoreService.swift in Sources */,
 			);
@@ -410,14 +410,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		0F79812424E100F8006F6406 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0F79812524E100F8006F6406 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0F79812924E100F9006F6406 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

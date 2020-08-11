@@ -10,15 +10,24 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    static var shared: AppDelegate? {
-        return UIApplication.shared.delegate as? AppDelegate
-    }
-
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.makeKeyAndVisible()
+        
+        let iTunesSearchAPI = "https://itunes.apple.com/search"
+        let service = ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
+        let searchReactor = SearchReactor(service: service)
+        let searchVC = SearchViewController.instantiate()
+        searchVC.reactor = searchReactor
+        
+        let navigationController = UINavigationController(rootViewController: searchVC)
+        window.rootViewController = navigationController
+        
+        self.window = window
         return true
     }
     

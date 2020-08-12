@@ -70,7 +70,6 @@ final class SearchReactor: Reactor {
             newState.items = items
             return newState
         case let .appendItems(items):
-            print("appendItems: ", items)
             guard !items.isEmpty else {
                 return state
             }

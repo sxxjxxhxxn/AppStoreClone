@@ -21,8 +21,8 @@ final class AppStoreService: AppStoreServiceType {
         self.network = network
     }
     
-    func appItems(_ path: String) -> Observable<[AppItem]> {
-        network.getItem(path).map { (response) -> [AppItem] in
+    func appItems(_ query: String) -> Observable<[AppItem]> {
+        network.getItem(query).map { (response) -> [AppItem] in
             print("응답: \(response.resultCount)개")
             return response.results
         }

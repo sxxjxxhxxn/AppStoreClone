@@ -21,11 +21,10 @@ final class Network<T: Decodable> {
         self.scheduler = ConcurrentDispatchQueueScheduler(qos: DispatchQoS(qosClass: DispatchQoS.QoSClass.background, relativePriority: 1))
     }
 
-    func getItem(_ path: String) -> Observable<T> {
-        let absolutePath = "\(endPoint)?\(path)"
+    func getItem(_ query: String) -> Observable<T> {
+        let absolutePath = endPoint + query
         return RxAlamofire
             .data(.get, absolutePath)
-//            .debug()
             .observeOn(scheduler)
             .map({ data -> T in
                 return try JSONDecoder().decode(T.self, from: data)

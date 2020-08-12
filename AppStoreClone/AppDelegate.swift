@@ -14,11 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         
-        let iTunesSearchAPI = "https://itunes.apple.com/search"
+        let iTunesSearchAPI = "https://itunes.apple.com/search?country=kr&entity=software&term="
         let service = ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
         let searchReactor = SearchReactor(service: service)
         let searchVC = SearchViewController.instantiate()

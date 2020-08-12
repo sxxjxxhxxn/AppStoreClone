@@ -14,11 +14,11 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     
     enum Action {
-        case testAction(path: String)
+        case search(query: String)
     }
     
     enum Mutation {
-        case testItems([AppItem])
+        case setItems([AppItem])
     }
     
     struct State {
@@ -31,15 +31,15 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .testAction(let path):
-            return service.appItems(path)
-                .map { Mutation.testItems($0) }
+        case .search(let query):
+            return service.appItems(query)
+                .map { Mutation.setItems($0) }
         }
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
         switch mutation {
-        case let .testItems(items):
+        case let .setItems(items):
             print(items)
             var newState = state
             newState.items = items

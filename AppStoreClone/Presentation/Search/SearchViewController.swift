@@ -17,25 +17,14 @@ class SearchViewController: UIViewController, View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     func bind(reactor: SearchReactor) {
         //통신 결과 확인
         Observable.just(Void())
-            .map { Reactor.Action.testAction(path: "term=hakuna&country=kr&entity=software") }
+            .map { Reactor.Action.search(query: "hakuna") }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

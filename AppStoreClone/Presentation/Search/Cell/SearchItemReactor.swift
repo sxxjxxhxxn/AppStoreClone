@@ -16,6 +16,6 @@ class SearchItemReactor: Reactor {
     
     init(appItem: AppItem) {
         self.initialState = appItem
-        print(appItem)
+        print(appItem.trackName)
     }
 }

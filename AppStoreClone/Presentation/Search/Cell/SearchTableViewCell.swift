@@ -10,10 +10,13 @@ import UIKit
 import ReactorKit
 
 class SearchTableViewCell: UITableViewCell, View {
+    @IBOutlet weak var label: UILabel!
     
     var disposeBag: DisposeBag = DisposeBag()
     
     func bind(reactor: SearchItemReactor) {
+        let appItem = reactor.currentState
+        label.text = appItem.trackName
         
         layout()
     }

@@ -15,8 +15,8 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     
     enum Action {
-        case pull(path: String)
-        case loadMore(path: String)
+        case search(query: String)
+        case loadMore(query: String)
     }
     
     enum Mutation {
@@ -36,7 +36,7 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .pull(var path):
+        case .search(var path):
             numberOfItems = 20
             path += "&limit=\(numberOfItems)"
             return Observable.concat([
@@ -50,14 +50,12 @@ final class SearchReactor: Reactor {
                 Observable.just(Mutation.setFetching(false))
             ])
         case .loadMore(var path):
-            numberOfItems += 20
-            path += "&limit=\(numberOfItems)"
+            path += "&limit=\(numberOfItems + 20)"
             return service.appItems(path)
                 .map { (appItems) -> [AppItem] in
-                    let numberOfMoreItems = appItems.count
                     var items = appItems
                     items.removeSubrange(0 ..< self.numberOfItems)
-                    self.numberOfItems = numberOfMoreItems
+                    self.numberOfItems = appItems.count
                     return items
                 }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
@@ -72,12 +70,12 @@ final class SearchReactor: Reactor {
             newState.items = items
             return newState
         case let .appendItems(items):
+            print("appendItems: ", items)
             guard !items.isEmpty else {
                 return state
             }
             var newState = state
             newState.items += items
-            numberOfItems += 20
             return newState
         case let .setFetching(isFetching):
             var newState = state

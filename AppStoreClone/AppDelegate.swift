@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         
-        let iTunesSearchAPI = "https://itunes.apple.com/search?hakuna&country=kr&entity=software&term="
+        let iTunesSearchAPI = "https://itunes.apple.com/search?country=kr&entity=software&term="
         let service = ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
         let searchReactor = SearchReactor(service: service)
         let searchVC = SearchViewController.instantiate()

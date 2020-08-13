@@ -49,8 +49,6 @@ final class SearchReactor: Reactor {
                 Observable.just(Mutation.setFetching(false))
             ])
         case .loadMore(var query):
-            print("요청: ", self.currentState.numberOfItems + 20)
-            print("")
             query += "&limit=\(self.currentState.numberOfItems + 20)"
             return service.appItems(query)
                 .map { (appItems) -> [AppItem] in

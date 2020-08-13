@@ -12,7 +12,7 @@ public struct AppItem: Decodable {
 
     public let screenshotUrls: [String]
     public let artworkUrl100: String
-    public let artistViewUrl: String
+    public let artistViewUrl: String?
     public let sellerUrl: String?
     public let averageUserRating: Double
     public let trackContentRating: String

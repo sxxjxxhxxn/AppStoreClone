@@ -22,10 +22,11 @@ final class AppStoreService: AppStoreServiceType {
     }
     
     func appItems(_ query: String) -> Observable<[AppItem]> {
-        network.getItem(query).map { (response) -> [AppItem] in
-            print("응답: \(response.resultCount)개")
-            return response.results
-        }
+        network.getItem(query)
+            .map { (response) -> [AppItem] in
+                print("응답: \(response?.resultCount ?? -1)개")
+                return response?.results ?? []
+            }
     }
 }
 

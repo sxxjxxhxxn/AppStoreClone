@@ -40,13 +40,14 @@ class SearchViewController: UIViewController, View {
         bindSearchController(reactor)
     }
     
-    private func updateQueryListVisibility() {
-        guard searchController.searchBar.isFirstResponder else {
-            print("close query list")
-            return
-        }
-        print("open query list")
-    }
+//    private func updateQueryListVisibility() {
+//        guard searchController.searchBar.isFirstResponder else {
+//            print("close query list")
+//            return
+//        }
+//        print("open query list")
+//        
+//    }
 
 }
 
@@ -91,10 +92,9 @@ extension SearchViewController {
 
 // MARK: - Search Controller
 
-extension SearchViewController: UISearchControllerDelegate {
+extension SearchViewController {
     
     private func setupSearchController() {
-        searchController.delegate = self
         searchController.searchBar.placeholder = "Search Apps"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.barStyle = .default
@@ -121,14 +121,18 @@ extension SearchViewController: UISearchControllerDelegate {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-    }
-    
-    public func willPresentSearchController(_ searchController: UISearchController) {
-        updateQueryListVisibility()
+        
+        searchController.rx
+            .willPresent
+            .map { Reactor.Action.openQueryList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        searchController.rx
+            .didDismiss
+            .map { Reactor.Action.closeQueryList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
-    public func didDismissSearchController(_ searchController: UISearchController) {
-        updateQueryListVisibility()
-    }
-    
 }

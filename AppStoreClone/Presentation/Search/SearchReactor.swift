@@ -16,12 +16,15 @@ final class SearchReactor: Reactor {
     enum Action {
         case search(query: String)
         case loadMore(query: String)
+        case openQueryList
+        case closeQueryList
     }
     
     enum Mutation {
         case setFetching(Bool)
         case setItems([SearchItemReactor])
         case appendItems([SearchItemReactor])
+        case setQueryListVisibility(Bool)
     }
     
     struct State {
@@ -29,6 +32,7 @@ final class SearchReactor: Reactor {
         var isFetching: Bool = false
         var items: [SearchItemReactor] = []
         var numberOfItems = 20
+        var queryListVisibility: Bool = false
     }
     
     init(service: AppStoreServiceType) {
@@ -58,6 +62,12 @@ final class SearchReactor: Reactor {
                 }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
+        case .openQueryList:
+            print("open")
+            return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(true)).asObservable()
+        case .closeQueryList:
+            print("close")
+            return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(false)).asObservable()
         }
     }
 
@@ -79,6 +89,10 @@ final class SearchReactor: Reactor {
         case let .setFetching(isFetching):
             var newState = state
             newState.isFetching = isFetching
+            return newState
+        case let .setQueryListVisibility(visibility):
+            var newState = state
+            newState.queryListVisibility = visibility
             return newState
         }
     }

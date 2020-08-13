@@ -11,7 +11,6 @@ import ReactorKit
 
 final class SearchReactor: Reactor {
     let initialState = State()
-    var numberOfItems = 20
     private let service: AppStoreServiceType
     
     enum Action {
@@ -26,8 +25,10 @@ final class SearchReactor: Reactor {
     }
     
     struct State {
+        let title = "검색"
         var isFetching: Bool = false
         var items: [SearchItemReactor] = []
+        var numberOfItems = 20
     }
     
     init(service: AppStoreServiceType) {
@@ -36,26 +37,25 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .search(var path):
-            numberOfItems = 20
-            path += "&limit=\(numberOfItems)"
+        case .search(var query):
+            query += "&limit=20"
             return Observable.concat([
                 Observable.just(Mutation.setFetching(true)),
 
-                service.appItems(path)
-                    .do(onNext: { self.numberOfItems = $0.count })
+                service.appItems(query)
                     .map { $0.map { SearchItemReactor(appItem: $0) } }
                     .map { Mutation.setItems($0) },
                     
                 Observable.just(Mutation.setFetching(false))
             ])
-        case .loadMore(var path):
-            path += "&limit=\(numberOfItems + 20)"
-            return service.appItems(path)
+        case .loadMore(var query):
+            print("요청: ", self.currentState.numberOfItems + 20)
+            print("")
+            query += "&limit=\(self.currentState.numberOfItems + 20)"
+            return service.appItems(query)
                 .map { (appItems) -> [AppItem] in
                     var items = appItems
-                    items.removeSubrange(0 ..< self.numberOfItems)
-                    self.numberOfItems = appItems.count
+                    items.removeSubrange(0 ..< self.currentState.numberOfItems)
                     return items
                 }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
@@ -68,6 +68,7 @@ final class SearchReactor: Reactor {
         case let .setItems(items):
             var newState = state
             newState.items = items
+            newState.numberOfItems = items.count
             return newState
         case let .appendItems(items):
             guard !items.isEmpty else {
@@ -75,6 +76,7 @@ final class SearchReactor: Reactor {
             }
             var newState = state
             newState.items += items
+            newState.numberOfItems += items.count
             return newState
         case let .setFetching(isFetching):
             var newState = state

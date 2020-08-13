@@ -12,48 +12,32 @@ import RxSwift
 import RxCocoa
 
 class SearchViewController: UIViewController, View {
-    @IBOutlet weak var searchBarContainer: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var disposeBag = DisposeBag()
-    
     private var searchController = UISearchController(searchResultsController: nil)
-    let testString = "ha"
+    private var query: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "검색"
+        guard let reactor = self.reactor else { return }
+        
+        title = reactor.initialState.title
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
-        } else {
-            // Fallback on earlier versions
         }
-        bind(reactor: self.reactor!)
-        setupSearchController()
+        
+        bind(reactor: reactor)
     }
     
     func bind(reactor: SearchReactor) {
-        guard let tableView = tableView else { return }
+        guard tableView != nil else { return }
         
-        Observable.just(Void())
-            .map { Reactor.Action.search(query: self.testString) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self, at: IndexPath.init(row: row, section: 0))
-                cell.bind(reactor: itemReactor)
-                return cell
-            }
-            .disposed(by: disposeBag)
-
         setupTableView(reactor)
-    }
-    
-    func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
-        return (tableView.contentSize.height - tableView.frame.size.height) == contentOffset.y
+        setupSearchController()
+        
+        bindTableView(reactor)
+        bindSearchController(reactor)
     }
     
     private func updateQueryListVisibility() {
@@ -66,9 +50,10 @@ class SearchViewController: UIViewController, View {
 
 }
 
-// MARK: - Setup Table View
+// MARK: - Table View
 
 extension SearchViewController {
+    
     private func setupTableView(_ reactor: SearchReactor) {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
@@ -76,47 +61,40 @@ extension SearchViewController {
         
         let searchTableViewCellNib = UINib(nibName: "SearchTableViewCell", bundle: nil)
         tableView.register(searchTableViewCellNib, forCellReuseIdentifier: SearchTableViewCell.reuseID)
-        
+    }
+    
+    private func bindTableView(_ reactor: SearchReactor) {
         tableView.rx
             .contentOffset
             .flatMap { [weak self] contentOffset in
                 self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
             }
-        .map { Reactor.Action.loadMore(query: self.testString) }
-            .bind(to: reactor.action)
+            .map { Reactor.Action.loadMore(query: self.query) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.items }
+            .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self, at: IndexPath.init(row: row, section: 0))
+                cell.bind(reactor: itemReactor)
+                return cell
+            }
             .disposed(by: disposeBag)
     }
-}
-
-extension SearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchBar.text, !searchText.isEmpty else { return }
-        
-        searchController.isActive = false
-        print("serach query: ", searchText)
+    
+    func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
+        return (tableView.contentSize.height - tableView.frame.size.height) == contentOffset.y
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("cancel")
-    }
 }
+
+// MARK: - Search Controller
 
 extension SearchViewController: UISearchControllerDelegate {
-    public func willPresentSearchController(_ searchController: UISearchController) {
-        updateQueryListVisibility()
-    }
-
-    public func didDismissSearchController(_ searchController: UISearchController) {
-        updateQueryListVisibility()
-    }
-}
-
-// MARK: - Setup Search Controller
-
-extension SearchViewController {
+    
     private func setupSearchController() {
         searchController.delegate = self
-        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Apps"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.barStyle = .default
@@ -129,4 +107,28 @@ extension SearchViewController {
         }
         definesPresentationContext = true
     }
+    
+    private func bindSearchController(_ reactor: SearchReactor) {
+        searchController.searchBar.rx
+            .searchButtonClicked
+            .filter { [weak self] in
+                self?.query = self?.searchController.searchBar.text ?? ""
+                return !(self?.query.isEmpty ?? true)
+            }
+            .map { [weak self] in
+                self?.searchController.isActive = false
+                return Reactor.Action.search(query: self?.query ?? "")
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    public func willPresentSearchController(_ searchController: UISearchController) {
+        updateQueryListVisibility()
+    }
+
+    public func didDismissSearchController(_ searchController: UISearchController) {
+        updateQueryListVisibility()
+    }
+    
 }

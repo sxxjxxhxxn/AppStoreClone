@@ -9,9 +9,16 @@
 import Foundation
 import ReactorKit
 
+struct SearchReactorClosures {
+    let showAppDetails: (AppItem) -> Void
+    let openAppQueryList: (@escaping (_ didSelect: AppQuery) -> Void) -> Void
+    let closeAppQueryList: () -> Void
+}
+
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
+    private let closures: SearchReactorClosures?
     
     enum Action {
         case search(query: String)
@@ -35,8 +42,10 @@ final class SearchReactor: Reactor {
         var queryListVisibility: Bool = false
     }
     
-    init(service: AppStoreServiceType) {
+    init(service: AppStoreServiceType,
+         closures: SearchReactorClosures? = nil) {
         self.service = service
+        self.closures = closures
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

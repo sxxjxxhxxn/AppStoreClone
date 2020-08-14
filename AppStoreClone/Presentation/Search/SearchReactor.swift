@@ -66,8 +66,12 @@ final class SearchReactor: Reactor {
             return service.appItems(query)
                 .map { (appItems) -> [AppItem] in
                     var items = appItems
-                    items.removeSubrange(0 ..< self.currentState.numberOfItems)
-                    return items
+                    if items.count > self.currentState.numberOfItems {
+                        items.removeSubrange(0 ..< self.currentState.numberOfItems)
+                        return items
+                    } else {
+                        return []
+                    }
                 }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }

@@ -147,7 +147,7 @@
 			children = (
 				0FBFAC9F24E53A3000C5BEEA /* Application */,
 				0F79815524E244CA006F6406 /* Presentation */,
-				0F79814924E11119006F6406 /* Model */,
+				0FBFACB424E66A8800C5BEEA /* Domain */,
 				0F79814324E10F71006F6406 /* Service */,
 				0F79815424E2449B006F6406 /* Resources */,
 				0F79815624E244FE006F6406 /* Extensions */,
@@ -249,6 +249,22 @@
 				0FBFACAE24E65FE900C5BEEA /* AppQueryListViewController.storyboard */,
 			);
 			path = AppQueryList;
+			sourceTree = "<group>";
+		};
+		0FBFACB424E66A8800C5BEEA /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				0FBFACB524E66AB400C5BEEA /* UseCase */,
+				0F79814924E11119006F6406 /* Model */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		0FBFACB524E66AB400C5BEEA /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCase;
 			sourceTree = "<group>";
 		};
 		6E92B0439F0B5E12F9254A24 /* Pods */ = {

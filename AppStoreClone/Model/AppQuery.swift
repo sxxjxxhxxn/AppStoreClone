@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct AppQuery: Equatable {
+struct AppQuery: Equatable, Codable {
     let query: String
 }

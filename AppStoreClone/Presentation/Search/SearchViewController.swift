@@ -13,6 +13,7 @@ import RxCocoa
 
 class SearchViewController: UIViewController, View {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var queryListContainer: UIView!
     
     var disposeBag = DisposeBag()
     private var searchController = UISearchController(searchResultsController: nil)
@@ -32,22 +33,19 @@ class SearchViewController: UIViewController, View {
     
     func bind(reactor: SearchReactor) {
         guard tableView != nil else { return }
+        guard queryListContainer != nil else { return }
         
-        setupTableView(reactor)
+        setupTableView()
         setupSearchController()
         
         bindTableView(reactor)
         bindSearchController(reactor)
+        
+        reactor.state
+            .map { !$0.queryListVisibility }
+            .bind(to: queryListContainer.rx.isHidden)
+            .disposed(by: disposeBag)
     }
-    
-//    private func updateQueryListVisibility() {
-//        guard searchController.searchBar.isFirstResponder else {
-//            print("close query list")
-//            return
-//        }
-//        print("open query list")
-//        
-//    }
 
 }
 
@@ -55,7 +53,7 @@ class SearchViewController: UIViewController, View {
 
 extension SearchViewController {
     
-    private func setupTableView(_ reactor: SearchReactor) {
+    private func setupTableView() {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none

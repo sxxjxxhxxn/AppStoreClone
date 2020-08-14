@@ -36,9 +36,10 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - App Query List
-//    func makeAppQueryListViewController(didSelect: @escaping AppQueryListReactorDidSelectClosure) -> UIViewController {
-//        return AppQueryTableViewController.create(with: makeAppQueryListReactor(didSelect: didSelect))
-//    }
+    func makeAppQueryListViewController() -> UIViewController {
+        let appQueryListVC = AppQueryListViewController.instantiate()
+        return appQueryListVC
+    }
 //
 //    func makeAppQueryListReactor(didSelect: @escaping AppQueryListReactorDidSelectClosure) -> AppQueryListReactor {
 //        return AppQueryListReactor(numberOfQueriesToShow: 10,

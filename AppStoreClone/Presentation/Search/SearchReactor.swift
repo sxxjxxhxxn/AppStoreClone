@@ -11,7 +11,7 @@ import ReactorKit
 
 struct SearchReactorClosures {
     let showAppDetails: (AppItem) -> Void
-    let openAppQueryList: (@escaping (_ didSelect: AppQuery) -> Void) -> Void
+    let openAppQueryList: () -> Void
     let closeAppQueryList: () -> Void
 }
 
@@ -72,10 +72,10 @@ final class SearchReactor: Reactor {
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
         case .openQueryList:
-            print("open")
+            closures?.openAppQueryList()
             return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(true)).asObservable()
         case .closeQueryList:
-            print("close")
+            closures?.closeAppQueryList()
             return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(false)).asObservable()
         }
     }

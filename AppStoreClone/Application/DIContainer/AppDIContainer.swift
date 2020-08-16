@@ -16,9 +16,16 @@ final class AppDIContainer {
         return ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
     }()
     
+    // MARK: - Storage
+    lazy var appQueryStorage: AppQueryStorageType = {
+        let storage = Storage()
+        return StorageProvider().makeAppQueryStorage(maxStorageLimit: 10)
+    }()
+    
     // MARK: - DIContainers of scenes
     func makeSearchSceneDIContainer() -> SearchSceneDIContainer {
-        let dependencies = SearchSceneDIContainer.Dependencies(appStoreService: appStoreService)
+        let dependencies = SearchSceneDIContainer.Dependencies(appStoreService: appStoreService,
+                                                               appQueryStorage: appQueryStorage)
         return SearchSceneDIContainer(dependencies: dependencies)
     }
 }

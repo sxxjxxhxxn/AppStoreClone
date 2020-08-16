@@ -12,12 +12,10 @@ final class SearchSceneDIContainer {
     
     struct Dependencies {
         let appStoreService: AppStoreServiceType
+        let appQueryStorage: AppQueryStorageType
     }
     
     private let dependencies: Dependencies
-
-    // MARK: - Persistent Storage
-//    lazy var AppQueryStorage: AppQueryStorage = CoreDataAppQueryStorage(maxStorageLimit: 10)
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -32,20 +30,20 @@ final class SearchSceneDIContainer {
     
     func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
+                             storage: dependencies.appQueryStorage,
                              closures: closures)
     }
     
     // MARK: - App Query List
-    func makeAppQueryListViewController() -> UIViewController {
-        let appQueryListVC = AppQueryListViewController.instantiate()
-        return appQueryListVC
+    func makeQueryListViewController() -> UIViewController {
+        let queryListVC = QueryListViewController.instantiate()
+        
+        return queryListVC
     }
-//
-//    func makeAppQueryListReactor(didSelect: @escaping AppQueryListReactorDidSelectClosure) -> AppQueryListReactor {
-//        return AppQueryListReactor(numberOfQueriesToShow: 10,
-//                                   fetchRecentAppQueryUseCaseFactory: makeFetchRecentAppQueryUseCase,
-//                                   didSelect: didSelect)
-//    }
+
+    func makeQueryListReactor(didSelect: @escaping QueryListReactorDidSelectClosure) -> QueryListReactor {
+        return QueryListReactor(storage: dependencies.appQueryStorage)
+    }
 
     // MARK: - Flow Coordinators
     func makeSearchFlowCoordinator(navigationController: UINavigationController) -> SearchFlowCoordinator {

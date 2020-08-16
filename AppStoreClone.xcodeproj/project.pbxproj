@@ -27,12 +27,13 @@
 		0FBFACA424E53D8200C5BEEA /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA324E53D8200C5BEEA /* AppDIContainer.swift */; };
 		0FBFACA624E53E6E00C5BEEA /* SearchSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA524E53E6E00C5BEEA /* SearchSceneDIContainer.swift */; };
 		0FBFACA824E626E700C5BEEA /* SearchFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA724E626E700C5BEEA /* SearchFlowCoordinator.swift */; };
-		0FBFACAC24E65FB600C5BEEA /* AppQueryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACAA24E65FB600C5BEEA /* AppQueryListViewController.swift */; };
-		0FBFACAF24E65FE900C5BEEA /* AppQueryListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBFACAE24E65FE900C5BEEA /* AppQueryListViewController.storyboard */; };
-		0FBFACB124E660FE00C5BEEA /* AppQueryListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB024E660FE00C5BEEA /* AppQueryListReactor.swift */; };
+		0FBFACAC24E65FB600C5BEEA /* QueryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACAA24E65FB600C5BEEA /* QueryListViewController.swift */; };
+		0FBFACAF24E65FE900C5BEEA /* QueryListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBFACAE24E65FE900C5BEEA /* QueryListViewController.storyboard */; };
+		0FBFACB124E660FE00C5BEEA /* QueryListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB024E660FE00C5BEEA /* QueryListReactor.swift */; };
 		0FBFACB324E6626300C5BEEA /* UIViewController+AddChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */; };
-		0FBFACB824E677FC00C5BEEA /* AppQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB724E677FC00C5BEEA /* AppQueryStorage.swift */; };
-		0FBFACBA24E6785000C5BEEA /* UserDefaultAppQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB924E6785000C5BEEA /* UserDefaultAppQueryStorage.swift */; };
+		0FBFACBA24E6785000C5BEEA /* AppQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB924E6785000C5BEEA /* AppQueryStorage.swift */; };
+		0FBFACBD24E933AB00C5BEEA /* QueryItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */; };
+		0FBFACBF24E9371300C5BEEA /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACBE24E9371300C5BEEA /* Storage.swift */; };
 		6830D8CEFC3806348B93E44E /* Pods_AppStoreClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC4E0EEE50F7BA97AAAB0D1 /* Pods_AppStoreClone.framework */; };
 		992644DC63C10A01D54DE95F /* Pods_AppStoreCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */; };
 /* End PBXBuildFile section */
@@ -72,12 +73,13 @@
 		0FBFACA324E53D8200C5BEEA /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		0FBFACA524E53E6E00C5BEEA /* SearchSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSceneDIContainer.swift; sourceTree = "<group>"; };
 		0FBFACA724E626E700C5BEEA /* SearchFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFlowCoordinator.swift; sourceTree = "<group>"; };
-		0FBFACAA24E65FB600C5BEEA /* AppQueryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQueryListViewController.swift; sourceTree = "<group>"; };
-		0FBFACAE24E65FE900C5BEEA /* AppQueryListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppQueryListViewController.storyboard; sourceTree = "<group>"; };
-		0FBFACB024E660FE00C5BEEA /* AppQueryListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQueryListReactor.swift; sourceTree = "<group>"; };
+		0FBFACAA24E65FB600C5BEEA /* QueryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryListViewController.swift; sourceTree = "<group>"; };
+		0FBFACAE24E65FE900C5BEEA /* QueryListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QueryListViewController.storyboard; sourceTree = "<group>"; };
+		0FBFACB024E660FE00C5BEEA /* QueryListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryListReactor.swift; sourceTree = "<group>"; };
 		0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AddChild.swift"; sourceTree = "<group>"; };
-		0FBFACB724E677FC00C5BEEA /* AppQueryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQueryStorage.swift; sourceTree = "<group>"; };
-		0FBFACB924E6785000C5BEEA /* UserDefaultAppQueryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultAppQueryStorage.swift; sourceTree = "<group>"; };
+		0FBFACB924E6785000C5BEEA /* AppQueryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQueryStorage.swift; sourceTree = "<group>"; };
+		0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryItemReactor.swift; sourceTree = "<group>"; };
+		0FBFACBE24E9371300C5BEEA /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		15936A3C8E693C179DE791CA /* Pods-AppStoreClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.debug.xcconfig"; sourceTree = "<group>"; };
 		25B0B3CC7402D1065AC11EDC /* Pods-AppStoreCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreCloneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,9 +251,10 @@
 		0FBFACA924E65F5C00C5BEEA /* AppQueryList */ = {
 			isa = PBXGroup;
 			children = (
-				0FBFACB024E660FE00C5BEEA /* AppQueryListReactor.swift */,
-				0FBFACAA24E65FB600C5BEEA /* AppQueryListViewController.swift */,
-				0FBFACAE24E65FE900C5BEEA /* AppQueryListViewController.storyboard */,
+				0FBFACBB24E9339C00C5BEEA /* Cell */,
+				0FBFACB024E660FE00C5BEEA /* QueryListReactor.swift */,
+				0FBFACAA24E65FB600C5BEEA /* QueryListViewController.swift */,
+				0FBFACAE24E65FE900C5BEEA /* QueryListViewController.storyboard */,
 			);
 			path = AppQueryList;
 			sourceTree = "<group>";
@@ -259,10 +262,18 @@
 		0FBFACB624E677CC00C5BEEA /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				0FBFACB724E677FC00C5BEEA /* AppQueryStorage.swift */,
-				0FBFACB924E6785000C5BEEA /* UserDefaultAppQueryStorage.swift */,
+				0FBFACB924E6785000C5BEEA /* AppQueryStorage.swift */,
+				0FBFACBE24E9371300C5BEEA /* Storage.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		0FBFACBB24E9339C00C5BEEA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		6E92B0439F0B5E12F9254A24 /* Pods */ = {
@@ -361,7 +372,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FBFACAF24E65FE900C5BEEA /* AppQueryListViewController.storyboard in Resources */,
+				0FBFACAF24E65FE900C5BEEA /* QueryListViewController.storyboard in Resources */,
 				0F79814224E109F1006F6406 /* .swiftlint.yml in Resources */,
 				0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */,
 				0F79812824E100F9006F6406 /* Assets.xcassets in Resources */,
@@ -472,17 +483,18 @@
 				0F79815824E2457B006F6406 /* Reusable.swift in Sources */,
 				0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */,
 				0F79814624E11008006F6406 /* Network.swift in Sources */,
-				0FBFACB124E660FE00C5BEEA /* AppQueryListReactor.swift in Sources */,
+				0FBFACB124E660FE00C5BEEA /* QueryListReactor.swift in Sources */,
 				0F79814B24E11163006F6406 /* AppItemResponse.swift in Sources */,
-				0FBFACAC24E65FB600C5BEEA /* AppQueryListViewController.swift in Sources */,
+				0FBFACBF24E9371300C5BEEA /* Storage.swift in Sources */,
+				0FBFACAC24E65FB600C5BEEA /* QueryListViewController.swift in Sources */,
 				0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */,
 				0FBFACA424E53D8200C5BEEA /* AppDIContainer.swift in Sources */,
 				0FBFACB324E6626300C5BEEA /* UIViewController+AddChild.swift in Sources */,
 				0F79814824E110B3006F6406 /* AppStoreService.swift in Sources */,
+				0FBFACBD24E933AB00C5BEEA /* QueryItemReactor.swift in Sources */,
 				0FBFACA124E53A7D00C5BEEA /* AppFlowCoordinator.swift in Sources */,
 				0FBFACA624E53E6E00C5BEEA /* SearchSceneDIContainer.swift in Sources */,
-				0FBFACBA24E6785000C5BEEA /* UserDefaultAppQueryStorage.swift in Sources */,
-				0FBFACB824E677FC00C5BEEA /* AppQueryStorage.swift in Sources */,
+				0FBFACBA24E6785000C5BEEA /* AppQueryStorage.swift in Sources */,
 				0F285F9A24E37C9F008E956E /* SearchItemReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

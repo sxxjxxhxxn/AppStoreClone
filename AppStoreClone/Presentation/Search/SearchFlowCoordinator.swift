@@ -10,7 +10,7 @@ import UIKit
 
 protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
-    func makeAppQueryListViewController() -> UIViewController
+    func makeQueryListViewController() -> UIViewController
     //    func makeAppDetailsViewController
 }
 
@@ -20,7 +20,7 @@ class SearchFlowCoordinator {
     private let dependencies: SearchFlowCoordinatorDependencies
 
     private weak var searchVC: SearchViewController?
-    private weak var appQueryListVC: UIViewController?
+    private weak var queryListVC: UIViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SearchFlowCoordinatorDependencies) {
@@ -33,7 +33,6 @@ class SearchFlowCoordinator {
                                              openAppQueryList: openAppQueryList,
                                              closeAppQueryList: closeAppQueryList)
         let vc = dependencies.makeSearchViewController(closures: closures)
-        
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
     }
@@ -42,19 +41,20 @@ class SearchFlowCoordinator {
     }
 
     private func openAppQueryList() {
-        guard let searchViewController = searchVC, appQueryListVC == nil,
+        guard let searchViewController = searchVC, queryListVC == nil,
             let container = searchViewController.queryListContainer else { return }
 
-        let vc = dependencies.makeAppQueryListViewController()
-
+        let vc = dependencies.makeQueryListViewController()
         searchViewController.add(child: vc, container: container)
-        appQueryListVC = vc
+        
+        queryListVC = vc
 //        container.isHidden = false
+        
     }
 
     private func closeAppQueryList() {
-        appQueryListVC?.remove()
-        appQueryListVC = nil
+        queryListVC?.remove()
+        queryListVC = nil
 //        searchVC?.queryListContainer.isHidden = true
     }
 }

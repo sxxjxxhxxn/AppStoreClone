@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--App Query List View Controller-->
+        <!--Query List View Controller-->
         <scene sceneID="iZx-Jr-uCa">
             <objects>
-                <viewController storyboardIdentifier="AppQueryListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kra-Bo-7c5" customClass="AppQueryListViewController" customModule="AppStoreClone" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QueryListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kra-Bo-7c5" customClass="QueryListViewController" customModule="AppStoreClone" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HJL-uD-ff2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

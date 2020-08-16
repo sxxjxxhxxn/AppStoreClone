@@ -18,6 +18,7 @@ struct SearchReactorClosures {
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
+    private let storage: AppQueryStorageType
     private let closures: SearchReactorClosures?
     
     enum Action {
@@ -43,8 +44,10 @@ final class SearchReactor: Reactor {
     }
     
     init(service: AppStoreServiceType,
+         storage: AppQueryStorageType,
          closures: SearchReactorClosures? = nil) {
         self.service = service
+        self.storage = storage
         self.closures = closures
     }
     
@@ -109,5 +112,18 @@ final class SearchReactor: Reactor {
             return newState
         }
     }
+    
+    //    private func updateQueries() {
+    //        let request = FetchRecentQueriesUseCase.RequestValue(maxCount: numberOfQueriesToShow)
+    //        let completion: (FetchRecentQueriesUseCase.ResultValue) -> Void = { result in
+    //            switch result {
+    //            case .success(let items):
+    //                self.items.value = items.map { $0.query }.map(QueryListItemReactor.init)
+    //            case .failure: break
+    //            }
+    //        }
+    //        let useCase = fetchRecentQueriesUseCaseFactory(request, completion)
+    //        useCase.start()
+    //    }
     
 }

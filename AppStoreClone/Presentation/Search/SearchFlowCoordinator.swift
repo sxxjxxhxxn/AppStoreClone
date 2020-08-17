@@ -46,15 +46,11 @@ class SearchFlowCoordinator {
 
         let vc = dependencies.makeQueryListViewController()
         searchViewController.add(child: vc, container: container)
-        
         queryListVC = vc
-//        container.isHidden = false
-        
     }
 
     private func closeAppQueryList() {
         queryListVC?.remove()
         queryListVC = nil
-//        searchVC?.queryListContainer.isHidden = true
     }
 }

@@ -37,11 +37,11 @@ final class SearchSceneDIContainer {
     // MARK: - App Query List
     func makeQueryListViewController() -> UIViewController {
         let queryListVC = QueryListViewController.instantiate()
-        
+        queryListVC.reactor = makeQueryListReactor()
         return queryListVC
     }
 
-    func makeQueryListReactor(didSelect: @escaping QueryListReactorDidSelectClosure) -> QueryListReactor {
+    func makeQueryListReactor() -> QueryListReactor {
         return QueryListReactor(storage: dependencies.appQueryStorage)
     }
 

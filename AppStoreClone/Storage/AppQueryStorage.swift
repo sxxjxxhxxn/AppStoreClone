@@ -11,7 +11,7 @@ import RxSwift
 
 protocol AppQueryStorageType {
     func fetchQueries() -> Observable<[AppQuery]>
-    func saveQuery(query: AppQuery, completion: @escaping (Result<AppQuery, Error>) -> Void)
+    func saveQuery(query: AppQuery)
 }
 
 final class AppQueryStorage: AppQueryStorageType {
@@ -25,24 +25,16 @@ final class AppQueryStorage: AppQueryStorageType {
     }
     
     func fetchQueries() -> Observable<[AppQuery]> {
-        var items: [AppQuery] = []
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            var queries = self.storage.fetchMoviesQuries()
-            queries = queries.count < self.maxStorageLimit ? queries : Array(queries[0 ..< self.maxStorageLimit])
-            items = queries
-        }
-        return BehaviorSubject.init(value: items).asObservable()
+        return BehaviorSubject.init(value: storage.fetchMoviesQuries()).asObservable()
     }
     
-    func saveQuery(query: AppQuery, completion: @escaping (Result<AppQuery, Error>) -> Void) {
+    func saveQuery(query: AppQuery) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             var queries = self.storage.fetchMoviesQuries()
             queries = queries.filter { $0 != query }
             queries.insert(query, at: 0)
             self.storage.persist(appQuries: self.storage.removeOldQueries(queries, self.maxStorageLimit))
-            completion(.success(query))
         }
     }
 }

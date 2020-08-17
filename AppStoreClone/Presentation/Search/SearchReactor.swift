@@ -54,6 +54,7 @@ final class SearchReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(var query):
+            storage.saveQuery(query: AppQuery(query: query))
             query += "&limit=20"
             return Observable.concat([
                 Observable.just(Mutation.setFetching(true)),
@@ -80,6 +81,12 @@ final class SearchReactor: Reactor {
                 .map { Mutation.appendItems($0) }
         case .openQueryList:
             closures?.openAppQueryList()
+//            return Observable<Bool>
+//                .create { (observer) -> Disposable in
+//                    observer.onNext(true)
+//                    return Disposables.create()
+//                }
+//                .map { Mutation.setFetching($0) }
             return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(true)).asObservable()
         case .closeQueryList:
             closures?.closeAppQueryList()

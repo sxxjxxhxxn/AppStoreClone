@@ -16,6 +16,5 @@ class QueryItemReactor: Reactor {
     
     init(appQuery: AppQuery) {
         self.initialState = appQuery
-        print(appQuery.query)
     }
 }

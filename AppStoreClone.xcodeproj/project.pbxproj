@@ -34,6 +34,8 @@
 		0FBFACBA24E6785000C5BEEA /* AppQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB924E6785000C5BEEA /* AppQueryStorage.swift */; };
 		0FBFACBD24E933AB00C5BEEA /* QueryItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */; };
 		0FBFACBF24E9371300C5BEEA /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACBE24E9371300C5BEEA /* Storage.swift */; };
+		0FBFACC224E94DAC00C5BEEA /* QueryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACC024E94DAC00C5BEEA /* QueryListTableViewCell.swift */; };
+		0FBFACC324E94DAC00C5BEEA /* QueryListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBFACC124E94DAC00C5BEEA /* QueryListTableViewCell.xib */; };
 		6830D8CEFC3806348B93E44E /* Pods_AppStoreClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC4E0EEE50F7BA97AAAB0D1 /* Pods_AppStoreClone.framework */; };
 		992644DC63C10A01D54DE95F /* Pods_AppStoreCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */; };
 /* End PBXBuildFile section */
@@ -80,6 +82,8 @@
 		0FBFACB924E6785000C5BEEA /* AppQueryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQueryStorage.swift; sourceTree = "<group>"; };
 		0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryItemReactor.swift; sourceTree = "<group>"; };
 		0FBFACBE24E9371300C5BEEA /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		0FBFACC024E94DAC00C5BEEA /* QueryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryListTableViewCell.swift; sourceTree = "<group>"; };
+		0FBFACC124E94DAC00C5BEEA /* QueryListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryListTableViewCell.xib; sourceTree = "<group>"; };
 		15936A3C8E693C179DE791CA /* Pods-AppStoreClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.debug.xcconfig"; sourceTree = "<group>"; };
 		25B0B3CC7402D1065AC11EDC /* Pods-AppStoreCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		28346BFD0DD8A21C1884220B /* Pods_AppStoreCloneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreCloneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,6 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				0FBFACBC24E933AB00C5BEEA /* QueryItemReactor.swift */,
+				0FBFACC024E94DAC00C5BEEA /* QueryListTableViewCell.swift */,
+				0FBFACC124E94DAC00C5BEEA /* QueryListTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				0F79814224E109F1006F6406 /* .swiftlint.yml in Resources */,
 				0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */,
 				0F79812824E100F9006F6406 /* Assets.xcassets in Resources */,
+				0FBFACC324E94DAC00C5BEEA /* QueryListTableViewCell.xib in Resources */,
 				0F79815D24E2827D006F6406 /* SearchViewController.storyboard in Resources */,
 				0F285F9E24E37CFE008E956E /* SearchTableViewCell.xib in Resources */,
 			);
@@ -476,6 +483,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FBFACC224E94DAC00C5BEEA /* QueryListTableViewCell.swift in Sources */,
 				0FBFAC9E24E5372300C5BEEA /* AppQuery.swift in Sources */,
 				0F285F9D24E37CFE008E956E /* SearchTableViewCell.swift in Sources */,
 				0FBFACA824E626E700C5BEEA /* SearchFlowCoordinator.swift in Sources */,

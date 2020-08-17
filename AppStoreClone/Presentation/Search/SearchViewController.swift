@@ -23,6 +23,7 @@ class SearchViewController: UIViewController, View {
         super.viewDidLoad()
         guard let reactor = self.reactor else { return }
         
+        queryListContainer.isHidden = true
         title = reactor.initialState.title
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -96,6 +97,7 @@ extension SearchViewController {
         searchController.searchBar.placeholder = "Search Apps"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.barStyle = .default
+//        searchController.hidesNavigationBarDuringPresentation = false
         
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController

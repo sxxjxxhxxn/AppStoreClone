@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 final class Storage {
     
@@ -19,14 +20,15 @@ final class Storage {
 
     func fetchMoviesQuries() -> [AppQuery] {
         if let queriesData = userDefaults.object(forKey: recentsAppQueriesKey) as? Data {
-            if let appQueryList = try? JSONDecoder().decode([AppQuery].self, from: queriesData) {
-                return appQueryList
+            if let queries = try? JSONDecoder().decode([AppQuery].self, from: queriesData) {
+                return queries
             }
         }
         return []
     }
 
     func persist(appQuries: [AppQuery]) {
+        print("persist")
         if let encoded = try? JSONEncoder().encode(appQuries) {
             userDefaults.set(encoded, forKey: recentsAppQueriesKey)
         }

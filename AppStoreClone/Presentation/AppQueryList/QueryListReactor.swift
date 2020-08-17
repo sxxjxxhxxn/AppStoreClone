@@ -9,7 +9,7 @@
 import Foundation
 import ReactorKit
 
-typealias QueryListReactorDidSelectClosure = (AppQuery) -> Void
+//typealias QueryListReactorDidSelectClosure = (AppQuery) -> Void
 
 final class QueryListReactor: Reactor {
     let initialState = State()
@@ -38,6 +38,15 @@ final class QueryListReactor: Reactor {
             return storage.fetchQueries()
                 .map { $0.map { QueryItemReactor(appQuery: $0) } }
                 .map { Mutation.setQueries($0) }
+        }
+    }
+    
+    func reduce(state: State, mutation: Mutation) -> State {
+        switch mutation {
+        case let .setQueries(queries):
+            var newState = state
+            newState.queries = queries
+            return newState
         }
     }
     

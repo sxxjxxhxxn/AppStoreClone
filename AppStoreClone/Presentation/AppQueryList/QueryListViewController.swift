@@ -24,6 +24,7 @@ class QueryListViewController: UIViewController, View {
     func bind(reactor: QueryListReactor) {
         guard tableView != nil else { return }
         
+        setupTableView()
         bindTableView(reactor)
         
         Observable.just(Void())
@@ -38,18 +39,17 @@ class QueryListViewController: UIViewController, View {
 
 extension QueryListViewController {
     
-    private func setupTableView() {
-//        let searchTableViewCellNib = UINib(nibName: "SearchTableViewCell", bundle: nil)
-//        tableView.register(searchTableViewCellNib, forCellReuseIdentifier: SearchTableViewCell.reuseID)
+    private func setupTableView() {   
+        let queryListTableViewCellNib = UINib(nibName: "QueryListTableViewCell", bundle: nil)
+        tableView.register(queryListTableViewCellNib, forCellReuseIdentifier: QueryListTableViewCell.reuseID)
     }
     
     private func bindTableView(_ reactor: QueryListReactor) {
         reactor.state
             .map { $0.queries }
             .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(at: IndexPath.init(row: row, section: 0))
-//                cell.bind(reactor: itemReactor)
-                cell.textLabel?.text = itemReactor.initialState.query
+                let cell = tableView.dequeueReusableCell(of: QueryListTableViewCell.self, at: IndexPath.init(row: row, section: 0))
+                cell.bind(reactor: itemReactor)
                 return cell
             }
             .disposed(by: disposeBag)

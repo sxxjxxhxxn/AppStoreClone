@@ -97,7 +97,6 @@ extension SearchViewController {
         searchController.searchBar.placeholder = "Search Apps"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.barStyle = .default
-//        searchController.hidesNavigationBarDuringPresentation = false
         
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
@@ -129,7 +128,7 @@ extension SearchViewController {
             .disposed(by: disposeBag)
         
         searchController.rx
-            .didDismiss
+            .willDismiss
             .map { Reactor.Action.closeQueryList }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

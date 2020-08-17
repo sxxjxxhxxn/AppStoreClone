@@ -75,8 +75,8 @@ extension SearchViewController {
         
         reactor.state
             .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self, at: IndexPath.init(row: row, section: 0))
+            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
                 cell.bind(reactor: itemReactor)
                 return cell
             }

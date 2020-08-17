@@ -47,8 +47,8 @@ extension QueryListViewController {
     private func bindTableView(_ reactor: QueryListReactor) {
         reactor.state
             .map { $0.queries }
-            .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(of: QueryListTableViewCell.self, at: IndexPath.init(row: row, section: 0))
+            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(of: QueryListTableViewCell.self)
                 cell.bind(reactor: itemReactor)
                 return cell
             }

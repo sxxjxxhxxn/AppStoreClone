@@ -12,19 +12,23 @@ import RxSwift
 import RxCocoa
 
 class SearchViewController: UIViewController, View {
+    @IBOutlet weak var tableView: UITableView!
     
     var disposeBag = DisposeBag()
 
+    private var query: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let reactor = self.reactor else { return }
+        
+        title = reactor.initialState.title
+        bind(reactor: reactor)
     }
     
     func bind(reactor: SearchReactor) {
-        //통신 결과 확인
-        Observable.just(Void())
-            .map { Reactor.Action.search(query: "hakuna") }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        guard tableView != nil else { return }
+        
     }
 
 }

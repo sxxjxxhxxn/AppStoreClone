@@ -1,6 +1,8 @@
 disabled_rules:
-- line_length
-- trailing_whitespace
-
+    - line_length
+    - trailing_whitespace
+enabled_rules:
+    - closure_spacing
 excluded:
 - Pods
+- AppStoreClone/Extensions

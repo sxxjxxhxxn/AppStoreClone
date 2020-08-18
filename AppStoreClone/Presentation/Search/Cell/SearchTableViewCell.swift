@@ -22,7 +22,7 @@ class SearchTableViewCell: UITableViewCell, View {
     }
     
     func layout() {
-        
+        //셀 UI 작업 후 작성
     }
 
     override func awakeFromNib() {

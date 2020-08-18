@@ -32,8 +32,9 @@ class SearchViewController: UIViewController, View {
         setupTableView()
         bindTableView(reactor)
         
+        query = "Ha"
         Observable.just(Void())
-            .map { Reactor.Action.search(query: "hakuna") }
+            .map { Reactor.Action.search(query: self.query) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -46,7 +47,7 @@ extension SearchViewController {
     
     private func setupTableView() {
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = 44
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         let searchTableViewCellNib = UINib(nibName: "SearchTableViewCell", bundle: nil)
@@ -62,6 +63,20 @@ extension SearchViewController {
                 return cell
             }
             .disposed(by: disposeBag)
+        
+        tableView.rx
+            .contentOffset
+            .filter { $0.y != .zero }
+            .flatMap { [weak self] contentOffset in
+                self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
+            }
+            .map { Reactor.Action.loadMore(query: self.query) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+    }
+    
+    func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
+        return (tableView.contentSize.height - tableView.frame.size.height) < (contentOffset.y + tableView.estimatedRowHeight)
     }
 
 }

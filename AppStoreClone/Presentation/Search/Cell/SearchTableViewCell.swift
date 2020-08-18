@@ -9,7 +9,7 @@
 import UIKit
 import ReactorKit
 
-class SearchTableViewCell: UITableViewCell {
+class SearchTableViewCell: UITableViewCell, View {
     @IBOutlet weak var label: UILabel!
     
     var disposeBag: DisposeBag = DisposeBag()

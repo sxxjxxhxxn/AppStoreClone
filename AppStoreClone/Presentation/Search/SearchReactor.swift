@@ -18,11 +18,12 @@ final class SearchReactor: Reactor {
     }
     
     enum Mutation {
-        case setItems([AppItem])
+        case setItems([SearchItemReactor])
     }
     
     struct State {
-        var items: [AppItem] = []
+        let title = "검색"
+        var items: [SearchItemReactor] = []
     }
     
     init(service: AppStoreServiceType) {
@@ -33,6 +34,7 @@ final class SearchReactor: Reactor {
         switch action {
         case .search(let query):
             return service.appItems(query)
+                .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.setItems($0) }
         }
     }
@@ -40,7 +42,6 @@ final class SearchReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         switch mutation {
         case let .setItems(items):
-            print(items)
             var newState = state
             newState.items = items
             return newState

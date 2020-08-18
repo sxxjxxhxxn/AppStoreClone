@@ -193,9 +193,9 @@
 		0FBFACC624EB6EA000C5BEEA /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */,
 				0FBFACC724EB6EBA00C5BEEA /* SearchTableViewCell.swift */,
 				0FBFACC824EB6EBA00C5BEEA /* SearchTableViewCell.xib */,
-				0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";

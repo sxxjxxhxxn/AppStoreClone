@@ -15,7 +15,7 @@ class SearchViewController: UIViewController, View {
     @IBOutlet weak var tableView: UITableView!
     
     var disposeBag = DisposeBag()
-
+    private var searchController = UISearchController(searchResultsController: nil)
     private var query: String = ""
 
     override func viewDidLoad() {
@@ -23,6 +23,9 @@ class SearchViewController: UIViewController, View {
         guard let reactor = self.reactor else { return }
         
         title = reactor.initialState.title
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
         bind(reactor: reactor)
     }
     
@@ -32,11 +35,8 @@ class SearchViewController: UIViewController, View {
         setupTableView()
         bindTableView(reactor)
         
-        query = "Ha"
-        Observable.just(Void())
-            .map { Reactor.Action.search(query: self.query) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        setupSearchController()
+        bindSearchController(reactor)
     }
 
 }
@@ -57,8 +57,8 @@ extension SearchViewController {
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state
             .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, row, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self, at: IndexPath.init(row: row, section: 0))
+            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
                 cell.bind(reactor: itemReactor)
                 return cell
             }
@@ -66,7 +66,7 @@ extension SearchViewController {
         
         tableView.rx
             .contentOffset
-            .filter { $0.y != .zero }
+            .filter { return $0.y > .zero }
             .flatMap { [weak self] contentOffset in
                 self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
             }
@@ -77,6 +77,53 @@ extension SearchViewController {
     
     func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
         return (tableView.contentSize.height - tableView.frame.size.height) < (contentOffset.y + tableView.estimatedRowHeight)
+    }
+
+}
+
+// MARK: - Search Controller
+
+extension SearchViewController {
+    
+    private func setupSearchController() {
+        searchController.searchBar.placeholder = "Search Apps"
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.barStyle = .default
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            navigationItem.titleView = searchController.searchBar
+        }
+        definesPresentationContext = true
+    }
+    
+    private func bindSearchController(_ reactor: SearchReactor) {
+        searchController.searchBar.rx
+            .searchButtonClicked
+            .filter { [weak self] in
+                self?.query = self?.searchController.searchBar.text ?? ""
+                return !(self?.query.isEmpty ?? true)
+            }
+            .map { [weak self] in
+                self?.searchController.isActive = false
+                return Reactor.Action.search(query: self?.query ?? "")
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        searchController.rx
+            .willPresent
+            .map { Reactor.Action.openQueryList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        searchController.rx
+            .willDismiss
+            .map { Reactor.Action.closeQueryList }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
 }

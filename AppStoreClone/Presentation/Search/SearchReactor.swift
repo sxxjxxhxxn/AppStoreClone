@@ -16,17 +16,21 @@ final class SearchReactor: Reactor {
     enum Action {
         case search(query: String)
         case loadMore(query: String)
+        case openQueryList
+        case closeQueryList
     }
     
     enum Mutation {
         case setItems([SearchItemReactor])
         case appendItems([SearchItemReactor])
+        case setQueryListVisibility(Bool)
     }
     
     struct State {
         let title = "검색"
         var items: [SearchItemReactor] = []
         var numberOfItems = 20
+        var queryListVisibility: Bool = false
     }
     
     init(service: AppStoreServiceType) {
@@ -54,6 +58,12 @@ final class SearchReactor: Reactor {
                 }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
+        case .openQueryList:
+            print("openQueryList")
+            return Observable.just(Mutation.setQueryListVisibility(true))
+        case .closeQueryList:
+            print("closeQueryList")
+            return Observable.just(Mutation.setQueryListVisibility(false))
         }
     }
 
@@ -71,6 +81,10 @@ final class SearchReactor: Reactor {
             var newState = state
             newState.items += items
             newState.numberOfItems += items.count
+            return newState
+        case let .setQueryListVisibility(visibility):
+            var newState = state
+            newState.queryListVisibility = visibility
             return newState
         }
     }

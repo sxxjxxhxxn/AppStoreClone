@@ -16,7 +16,7 @@ class SearchViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     private var searchController = UISearchController(searchResultsController: nil)
-    private var query: String = ""
+    private var keyword: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ extension SearchViewController {
             .flatMap { [weak self] contentOffset in
                 self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
             }
-            .map { Reactor.Action.loadMore(query: self.query) }
+            .map { Reactor.Action.loadMore(keyword: self.keyword) }
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
     }
@@ -103,25 +103,25 @@ extension SearchViewController {
         searchController.searchBar.rx
             .searchButtonClicked
             .filter { [weak self] in
-                self?.query = self?.searchController.searchBar.text ?? ""
-                return !(self?.query.isEmpty ?? true)
+                self?.keyword = self?.searchController.searchBar.text ?? ""
+                return !(self?.keyword.isEmpty ?? true)
             }
             .map { [weak self] in
                 self?.searchController.isActive = false
-                return Reactor.Action.search(query: self?.query ?? "")
+                return Reactor.Action.search(keyword: self?.keyword ?? "")
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willPresent
-            .map { Reactor.Action.openQueryList }
+            .map { Reactor.Action.openSearchList }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willDismiss
-            .map { Reactor.Action.closeQueryList }
+            .map { Reactor.Action.closeSearchList }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

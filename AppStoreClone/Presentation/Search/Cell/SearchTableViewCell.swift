@@ -17,8 +17,6 @@ class SearchTableViewCell: UITableViewCell, View {
     func bind(reactor: SearchItemReactor) {
         let appItem = reactor.currentState
         label.text = appItem.trackName
-        
-        layout()
     }
     
     func layout() {
@@ -27,13 +25,11 @@ class SearchTableViewCell: UITableViewCell, View {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        layout()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }

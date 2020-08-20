@@ -12,22 +12,32 @@ import RxSwift
 import RxCocoa
 
 class SearchViewController: UIViewController, View {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            setupTableView()
+        }
+    }
     @IBOutlet weak var queryListContainer: UIView!
     
     var disposeBag = DisposeBag()
-    private var searchController = UISearchController(searchResultsController: nil)
-    private var query: String = ""
+    private var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search Apps"
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.barStyle = .default
+        return searchController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let reactor = self.reactor else { return }
         
         queryListContainer.isHidden = true
-        title = reactor.initialState.title
+        title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
+        setupSearchController()
         
         bind(reactor: reactor)
     }
@@ -35,9 +45,6 @@ class SearchViewController: UIViewController, View {
     func bind(reactor: SearchReactor) {
         guard tableView != nil else { return }
         guard queryListContainer != nil else { return }
-        
-        setupTableView()
-        setupSearchController()
         
         bindTableView(reactor)
         bindSearchController(reactor)
@@ -48,16 +55,10 @@ class SearchViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         reactor.selectedKeyword
-            .bind { self.searchSelectedKeyword(keyword: $0) }
-            .disposed(by: disposeBag)
-    }
-    
-    private func searchSelectedKeyword(keyword: String) {
-        guard let reactor = reactor else { return }
-        
-        searchController.isActive = false
-        Observable.just(Void())
-            .map { Reactor.Action.search(query: keyword) }
+            .map { [weak self] in
+                self?.searchController.isActive = false
+                return Reactor.Action.search(keyword: $0)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -83,7 +84,7 @@ extension SearchViewController {
             .flatMap { [weak self] contentOffset in
                 self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
             }
-            .map { Reactor.Action.loadMore(query: self.query) }
+            .map { Reactor.Action.loadMore }
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
         
@@ -108,10 +109,6 @@ extension SearchViewController {
 extension SearchViewController {
     
     private func setupSearchController() {
-        searchController.searchBar.placeholder = "Search Apps"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.barStyle = .default
-        
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             navigationItem.hidesSearchBarWhenScrolling = false
@@ -125,12 +122,12 @@ extension SearchViewController {
         searchController.searchBar.rx
             .searchButtonClicked
             .filter { [weak self] in
-                self?.query = self?.searchController.searchBar.text ?? ""
-                return !(self?.query.isEmpty ?? true)
+                self?.searchController.searchBar.text?.isNotEmpty ?? true
             }
             .map { [weak self] in
+                let searchAction = Reactor.Action.search(keyword: self?.searchController.searchBar.text ?? "")
                 self?.searchController.isActive = false
-                return Reactor.Action.search(query: self?.query ?? "")
+                return searchAction
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

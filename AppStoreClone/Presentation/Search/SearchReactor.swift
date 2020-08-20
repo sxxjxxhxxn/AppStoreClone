@@ -24,8 +24,8 @@ final class SearchReactor: Reactor {
     var selectedKeyword: PublishSubject<String>
     
     enum Action {
-        case search(query: String)
-        case loadMore(query: String)
+        case search(keyword: String)
+        case loadMore
         case openQueryList
         case closeQueryList
     }
@@ -38,10 +38,8 @@ final class SearchReactor: Reactor {
     }
     
     struct State {
-        let title = "검색"
         var isFetching: Bool = false
         var items: [SearchItemReactor] = []
-        var numberOfItems = 20
         var queryListVisibility: Bool = false
     }
     
@@ -61,23 +59,14 @@ final class SearchReactor: Reactor {
             return Observable.concat([
                 Observable.just(Mutation.setFetching(true)),
 
-                service.appItems(keyword)
+                service.loadItems(keyword)
                     .map { $0.map { SearchItemReactor(appItem: $0) } }
                     .map { Mutation.setItems($0) },
                     
                 Observable.just(Mutation.setFetching(false))
             ])
-        case .loadMore(let keyword):
-            return service.appItems(keyword, self.currentState.numberOfItems + 20)
-                .map { (appItems) -> [AppItem] in
-                    var items = appItems
-                    if items.count > self.currentState.numberOfItems {
-                        items.removeSubrange(0 ..< self.currentState.numberOfItems)
-                        return items
-                    } else {
-                        return []
-                    }
-                }
+        case .loadMore:
+            return service.loadMoreItems()
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
         case .openQueryList:
@@ -90,29 +79,21 @@ final class SearchReactor: Reactor {
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
         switch mutation {
         case let .setItems(items):
-            var newState = state
             newState.items = items
-            newState.numberOfItems = items.count
-            return newState
         case let .appendItems(items):
-            guard !items.isEmpty else {
+            guard items.isNotEmpty else {
                 return state
             }
-            var newState = state
             newState.items += items
-            newState.numberOfItems += items.count
-            return newState
         case let .setFetching(isFetching):
-            var newState = state
             newState.isFetching = isFetching
-            return newState
         case let .setQueryListVisibility(visibility):
-            var newState = state
             newState.queryListVisibility = visibility
-            return newState
         }
+        return newState
     }
     
     func didSelect(keyword: AppQuery) {

@@ -35,14 +35,15 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - App Query List
-    func makeQueryListViewController() -> UIViewController {
+    func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController {
         let queryListVC = QueryListViewController.instantiate()
-        queryListVC.reactor = makeQueryListReactor()
+        queryListVC.reactor = makeQueryListReactor(didSelect: didSelect)
         return queryListVC
     }
 
-    func makeQueryListReactor() -> QueryListReactor {
-        return QueryListReactor(storage: dependencies.appQueryStorage)
+    func makeQueryListReactor(didSelect: @escaping QueryListReactorDidSelectClosure) -> QueryListReactor {
+        return QueryListReactor(storage: dependencies.appQueryStorage,
+                                didSelect: didSelect)
     }
 
     // MARK: - Flow Coordinators

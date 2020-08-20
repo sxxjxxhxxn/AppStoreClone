@@ -16,7 +16,7 @@ class SearchViewController: UIViewController, View {
     @IBOutlet weak var queryListContainer: UIView!
     
     var disposeBag = DisposeBag()
-    private var searchController = UISearchController(searchResultsController: nil)
+     var searchController = UISearchController(searchResultsController: nil)
     private var query: String = ""
 
     override func viewDidLoad() {
@@ -43,9 +43,19 @@ class SearchViewController: UIViewController, View {
         bindSearchController(reactor)
         
         reactor.state
-            .map { !$0.queryListVisibility }
+            .map {
+                !$0.queryListVisibility
+            }
             .bind(to: queryListContainer.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        reactor.selectedKeyword
+            .bind { self.closeSearchController(keyword: $0) }
+            .disposed(by: disposeBag)
+    }
+    
+    private func closeSearchController(keyword: String) {
+        searchController.isActive = false
     }
 
 }
@@ -120,7 +130,7 @@ extension SearchViewController {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+            
         searchController.rx
             .willPresent
             .map { Reactor.Action.openQueryList }

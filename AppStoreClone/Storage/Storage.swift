@@ -28,7 +28,6 @@ final class Storage {
     }
 
     func persist(appQuries: [AppQuery]) {
-        print("persist")
         if let encoded = try? JSONEncoder().encode(appQuries) {
             userDefaults.set(encoded, forKey: recentsAppQueriesKey)
         }

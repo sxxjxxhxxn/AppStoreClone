@@ -53,6 +53,12 @@ extension QueryListViewController {
                 return cell
             }
             .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(QueryItemReactor.self)
+            .map { Reactor.Action.select(keyword: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
 }

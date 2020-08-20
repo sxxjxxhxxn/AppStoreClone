@@ -11,7 +11,7 @@ import ReactorKit
 
 struct SearchReactorClosures {
     let showAppDetails: (AppItem) -> Void
-    let openAppQueryList: () -> Void
+    let openAppQueryList: (@escaping (AppQuery) -> Void) -> Void
     let closeAppQueryList: () -> Void
 }
 
@@ -20,6 +20,8 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: AppQueryStorageType
     private let closures: SearchReactorClosures?
+    
+    var selectedKeyword: BehaviorSubject<String> = BehaviorSubject.init(value: "")
     
     enum Action {
         case search(query: String)
@@ -53,21 +55,19 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .search(var query):
-            storage.saveQuery(query: AppQuery(query: query))
-            query += "&limit=20"
+        case .search(let keyword):
+            storage.saveQuery(query: AppQuery(query: keyword))
             return Observable.concat([
                 Observable.just(Mutation.setFetching(true)),
 
-                service.appItems(query)
+                service.appItems(keyword)
                     .map { $0.map { SearchItemReactor(appItem: $0) } }
                     .map { Mutation.setItems($0) },
                     
                 Observable.just(Mutation.setFetching(false))
             ])
-        case .loadMore(var query):
-            query += "&limit=\(self.currentState.numberOfItems + 20)"
-            return service.appItems(query)
+        case .loadMore(let keyword):
+            return service.appItems(keyword, self.currentState.numberOfItems + 20)
                 .map { (appItems) -> [AppItem] in
                     var items = appItems
                     if items.count > self.currentState.numberOfItems {
@@ -80,17 +80,11 @@ final class SearchReactor: Reactor {
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
         case .openQueryList:
-            closures?.openAppQueryList()
-//            return Observable<Bool>
-//                .create { (observer) -> Disposable in
-//                    observer.onNext(true)
-//                    return Disposables.create()
-//                }
-//                .map { Mutation.setFetching($0) }
-            return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(true)).asObservable()
+            closures?.openAppQueryList(didSelect(keyword:))
+            return .just(Mutation.setQueryListVisibility(true))
         case .closeQueryList:
             closures?.closeAppQueryList()
-            return BehaviorSubject<Mutation>.init(value: Mutation.setQueryListVisibility(false)).asObservable()
+            return .just(Mutation.setQueryListVisibility(false))
         }
     }
 
@@ -120,17 +114,9 @@ final class SearchReactor: Reactor {
         }
     }
     
-    //    private func updateQueries() {
-    //        let request = FetchRecentQueriesUseCase.RequestValue(maxCount: numberOfQueriesToShow)
-    //        let completion: (FetchRecentQueriesUseCase.ResultValue) -> Void = { result in
-    //            switch result {
-    //            case .success(let items):
-    //                self.items.value = items.map { $0.query }.map(QueryListItemReactor.init)
-    //            case .failure: break
-    //            }
-    //        }
-    //        let useCase = fetchRecentQueriesUseCaseFactory(request, completion)
-    //        useCase.start()
-    //    }
+    func didSelect(keyword: AppQuery) {
+        print(keyword)
+        selectedKeyword.onNext(keyword.query)
+    }
     
 }

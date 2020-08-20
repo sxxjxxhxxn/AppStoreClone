@@ -10,7 +10,13 @@ import Foundation
 import RxSwift
 
 public protocol AppStoreServiceType {
-    func appItems(_ path: String) -> Observable<[AppItem]>
+    func appItems(_ keyword: String, _ limit: Int) -> Observable<[AppItem]>
+}
+
+extension AppStoreServiceType {
+    func appItems(_ keyword: String, _ limit: Int = 20) -> Observable<[AppItem]> {
+        appItems(keyword, limit)
+    }
 }
 
 final class AppStoreService: AppStoreServiceType {
@@ -21,8 +27,8 @@ final class AppStoreService: AppStoreServiceType {
         self.network = network
     }
     
-    func appItems(_ path: String) -> Observable<[AppItem]> {
-        network.getItem(path)
+    func appItems(_ keyword: String, _ limit: Int) -> Observable<[AppItem]> {
+        network.getItem("\(keyword)&limit=\(limit)")
             .map { (response) -> [AppItem] in
                 print("응답: \(response?.resultCount ?? -1)개")
                 return response?.results ?? []

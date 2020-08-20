@@ -10,7 +10,7 @@ import UIKit
 
 protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
-    func makeQueryListViewController() -> UIViewController
+    func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController
     //    func makeAppDetailsViewController
 }
 
@@ -40,17 +40,19 @@ class SearchFlowCoordinator {
     private func showAppDetails(appItem: AppItem) {
     }
 
-    private func openAppQueryList() {
+    private func openAppQueryList(_ didSelect: @escaping (AppQuery) -> Void) {
         guard let searchViewController = searchVC, queryListVC == nil,
             let container = searchViewController.queryListContainer else { return }
 
-        let vc = dependencies.makeQueryListViewController()
+        let vc = dependencies.makeQueryListViewController(didSelect: didSelect)
         searchViewController.add(child: vc, container: container)
         queryListVC = vc
     }
 
     private func closeAppQueryList() {
+        print("closeAppQueryList")
         queryListVC?.remove()
         queryListVC = nil
+        searchVC?.queryListContainer.isHidden = true
     }
 }

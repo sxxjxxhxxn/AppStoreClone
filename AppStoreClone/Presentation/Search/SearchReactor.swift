@@ -21,7 +21,7 @@ final class SearchReactor: Reactor {
     private let storage: AppQueryStorageType
     private let closures: SearchReactorClosures?
     
-    var selectedKeyword: BehaviorSubject<String> = BehaviorSubject.init(value: "")
+    var selectedKeyword: PublishSubject<String>
     
     enum Action {
         case search(query: String)
@@ -51,6 +51,7 @@ final class SearchReactor: Reactor {
         self.service = service
         self.storage = storage
         self.closures = closures
+        selectedKeyword = PublishSubject.init()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -115,7 +116,6 @@ final class SearchReactor: Reactor {
     }
     
     func didSelect(keyword: AppQuery) {
-        print(keyword)
         selectedKeyword.onNext(keyword.query)
     }
     

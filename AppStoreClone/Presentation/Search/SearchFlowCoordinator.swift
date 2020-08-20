@@ -50,9 +50,7 @@ class SearchFlowCoordinator {
     }
 
     private func closeAppQueryList() {
-        print("closeAppQueryList")
         queryListVC?.remove()
         queryListVC = nil
-        searchVC?.queryListContainer.isHidden = true
     }
 }

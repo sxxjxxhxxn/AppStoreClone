@@ -10,6 +10,8 @@ import UIKit
 import ReactorKit
 import RxSwift
 import RxCocoa
+import Reachability
+import RxReachability
 
 class SearchViewController: UIViewController, View {
     @IBOutlet weak var tableView: UITableView! {
@@ -33,6 +35,7 @@ class SearchViewController: UIViewController, View {
         spinner.style = .whiteLarge
         return spinner
     }()
+    private var reachability: Reachability? = Reachability()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +48,14 @@ class SearchViewController: UIViewController, View {
         }
         setupSearchController()
         view.addSubview(spinner)
+        try? reachability?.startNotifier()
         
         bind(reactor: reactor)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability?.stopNotifier()
     }
     
     func bind(reactor: SearchReactor) {
@@ -72,6 +81,12 @@ class SearchViewController: UIViewController, View {
         reactor.state
             .map { $0.isFetching }
             .bind(to: spinner.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        reachability?.rx
+            .isDisconnected
+            .map { Reactor.Action.disconnected }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 

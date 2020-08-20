@@ -31,7 +31,8 @@ class SearchFlowCoordinator {
     func start() {
         let closures = SearchReactorClosures(showAppDetails: showAppDetails,
                                              openAppQueryList: openAppQueryList,
-                                             closeAppQueryList: closeAppQueryList)
+                                             closeAppQueryList: closeAppQueryList,
+                                             alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
@@ -52,5 +53,14 @@ class SearchFlowCoordinator {
     private func closeAppQueryList() {
         queryListVC?.remove()
         queryListVC = nil
+    }
+    
+    private func alertDisconnected() {
+        guard let searchViewController = searchVC else { return }
+        
+        let alert: UIAlertController = UIAlertController(title: "Network error",
+                                                         message: "Disconnected",
+                                                         preferredStyle: .alert)
+        searchViewController.present(alert, animated: true, completion: nil)
     }
 }

@@ -12,6 +12,7 @@ target 'AppStoreClone' do
 	pod 'RxAlamofire'
 	pod 'ReactorKit'
 	pod 'SwiftLint'
+	pod 'RxReachability'
 
   target 'AppStoreCloneTests' do
     inherit! :search_paths

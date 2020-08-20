@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.2.2)
+  - ReachabilitySwift (4.3.1)
   - ReactorKit (2.1.0):
     - RxSwift (~> 5.0)
     - WeakMapTable (~> 1.1)
@@ -10,6 +11,10 @@ PODS:
     - RxSwift (~> 5.1)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxReachability (1.0.0):
+    - ReachabilitySwift (~> 4.3.1)
+    - RxCocoa (~> 5)
     - RxSwift (~> 5)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
@@ -22,15 +27,18 @@ DEPENDENCIES:
   - ReactorKit
   - RxAlamofire
   - RxCocoa
+  - RxReachability
   - RxSwift
   - SwiftLint
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - ReachabilitySwift
     - ReactorKit
     - RxAlamofire
     - RxCocoa
+    - RxReachability
     - RxRelay
     - RxSwift
     - SwiftLint
@@ -38,14 +46,16 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   ReactorKit: 12a93358c554bb3f167b16b14c40374fa9cd5acd
   RxAlamofire: f34ddbab56fa2a36f99737f4d4ecc22288a1384f
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxReachability: 21d3e96f39bc166a21c357e923f47dec148ca97b
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
 
-PODFILE CHECKSUM: 109e4ee7e1696de88a10124744688c35c36b33dc
+PODFILE CHECKSUM: 2c9d806135012a6c2e4d1792e7fcaa117c18f2f9
 
 COCOAPODS: 1.9.3

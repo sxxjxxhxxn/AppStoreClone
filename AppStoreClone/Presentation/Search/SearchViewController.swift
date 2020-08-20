@@ -27,6 +27,12 @@ class SearchViewController: UIViewController, View {
         searchController.searchBar.barStyle = .default
         return searchController
     }()
+    private var spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds)
+        spinner.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        spinner.style = .whiteLarge
+        return spinner
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +44,7 @@ class SearchViewController: UIViewController, View {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
         setupSearchController()
+        view.addSubview(spinner)
         
         bind(reactor: reactor)
     }
@@ -60,6 +67,11 @@ class SearchViewController: UIViewController, View {
                 return Reactor.Action.search(keyword: $0)
             }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isFetching }
+            .bind(to: spinner.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 

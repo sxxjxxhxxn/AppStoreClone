@@ -15,7 +15,7 @@ final class SearchReactor: Reactor {
     
     enum Action {
         case search(keyword: String)
-        case loadMore(keyword: String)
+        case loadMore
         case openSearchList
         case closeSearchList
     }
@@ -27,9 +27,7 @@ final class SearchReactor: Reactor {
     }
     
     struct State {
-        let title = "검색"
         var items: [SearchItemReactor] = []
-        var numberOfItems = 20
         var listVisibility: Bool = false
     }
     
@@ -40,20 +38,12 @@ final class SearchReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(let keyword):
-            return service.appItems(keyword)
-                .map { $0.map { SearchItemReactor(appItem: $0) } }
-                .map { Mutation.setItems($0) }
-        case .loadMore(let keyword):
-            return service.appItems(keyword, self.currentState.numberOfItems + 20)
-                .map { (appItems) -> [AppItem] in
-                    var items = appItems
-                    if items.count > self.currentState.numberOfItems {
-                        items.removeSubrange(0 ..< self.currentState.numberOfItems)
-                        return items
-                    } else {
-                        return []
-                    }
-                }
+            return service.loadItems(keyword)
+                    .map { $0.map { SearchItemReactor(appItem: $0) } }
+                    .map { Mutation.setItems($0) }
+        case .loadMore:
+            return service.loadMoreItems()
+                .filter { $0.isNotEmpty }
                 .map { $0.map { SearchItemReactor(appItem: $0) } }
                 .map { Mutation.appendItems($0) }
         case .openSearchList:
@@ -66,25 +56,19 @@ final class SearchReactor: Reactor {
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
         switch mutation {
         case let .setItems(items):
-            var newState = state
             newState.items = items
-            newState.numberOfItems = items.count
-            return newState
         case let .appendItems(items):
-            guard !items.isEmpty else {
-                return state
+            guard items.isNotEmpty else {
+                return newState
             }
-            var newState = state
             newState.items += items
-            newState.numberOfItems += items.count
-            return newState
         case let .setListVisibility(visibility):
-            var newState = state
             newState.listVisibility = visibility
-            return newState
         }
+        return newState
     }
     
 }

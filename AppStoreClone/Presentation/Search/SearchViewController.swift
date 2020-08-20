@@ -15,27 +15,32 @@ class SearchViewController: UIViewController, View {
     @IBOutlet weak var tableView: UITableView!
     
     var disposeBag = DisposeBag()
-    private var searchController = UISearchController(searchResultsController: nil)
-    private var keyword: String = ""
+    private var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search Apps"
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.barStyle = .default
+        return searchController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let reactor = self.reactor else { return }
         
-        title = reactor.initialState.title
+        title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
+        setupTableView()
+        setupSearchController()
+        
         bind(reactor: reactor)
     }
     
     func bind(reactor: SearchReactor) {
         guard tableView != nil else { return }
         
-        setupTableView()
         bindTableView(reactor)
-        
-        setupSearchController()
         bindSearchController(reactor)
     }
 
@@ -70,9 +75,9 @@ extension SearchViewController {
             .flatMap { [weak self] contentOffset in
                 self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
             }
-            .map { Reactor.Action.loadMore(keyword: self.keyword) }
-                .bind(to: reactor.action)
-                .disposed(by: disposeBag)
+            .map { Reactor.Action.loadMore }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
@@ -86,10 +91,6 @@ extension SearchViewController {
 extension SearchViewController {
     
     private func setupSearchController() {
-        searchController.searchBar.placeholder = "Search Apps"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.barStyle = .default
-        
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
             navigationItem.hidesSearchBarWhenScrolling = false
@@ -103,12 +104,12 @@ extension SearchViewController {
         searchController.searchBar.rx
             .searchButtonClicked
             .filter { [weak self] in
-                self?.keyword = self?.searchController.searchBar.text ?? ""
-                return !(self?.keyword.isEmpty ?? true)
+                self?.searchController.searchBar.text?.isNotEmpty ?? true
             }
             .map { [weak self] in
+                let searchAction = Reactor.Action.search(keyword: self?.searchController.searchBar.text ?? "")
                 self?.searchController.isActive = false
-                return Reactor.Action.search(keyword: self?.keyword ?? "")
+                return searchAction
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

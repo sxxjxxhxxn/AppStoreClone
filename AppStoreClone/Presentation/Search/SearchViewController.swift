@@ -10,17 +10,15 @@ import UIKit
 import ReactorKit
 import RxSwift
 import RxCocoa
+import RxSwiftExt
 import Reachability
 import RxReachability
 
-class SearchViewController: UIViewController, View {
-    @IBOutlet weak var tableView: UITableView! {
-        didSet {
-            setupTableView()
-        }
-    }
+class SearchViewController: UIViewController, View, BaseViewController {
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var queryListContainer: UIView!
     
+    var _reactor: SearchReactor?
     var disposeBag = DisposeBag()
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -39,18 +37,17 @@ class SearchViewController: UIViewController, View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let reactor = self.reactor else { return }
+        setReactor()
         
         queryListContainer.isHidden = true
         title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
+        setupTableView()
         setupSearchController()
         view.addSubview(spinner)
         try? reachability?.startNotifier()
-        
-        bind(reactor: reactor)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,14 +56,11 @@ class SearchViewController: UIViewController, View {
     }
     
     func bind(reactor: SearchReactor) {
-        guard tableView != nil else { return }
-        guard queryListContainer != nil else { return }
-        
         bindTableView(reactor)
         bindSearchController(reactor)
         
         reactor.state
-            .map { !$0.queryListVisibility }
+            .map { !$0.listVisibility }
             .bind(to: queryListContainer.rx.isHidden)
             .disposed(by: disposeBag)
         
@@ -100,21 +94,9 @@ extension SearchViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        
-        let searchTableViewCellNib = UINib(nibName: "SearchTableViewCell", bundle: nil)
-        tableView.register(searchTableViewCellNib, forCellReuseIdentifier: SearchTableViewCell.reuseID)
     }
     
     private func bindTableView(_ reactor: SearchReactor) {
-        tableView.rx
-            .contentOffset
-            .flatMap { [weak self] contentOffset in
-                self?.isScrolledToBottom(contentOffset) ?? false ? Observable.just(Void()) : Observable.empty()
-            }
-            .map { Reactor.Action.loadMore }
-                .bind(to: reactor.action)
-                .disposed(by: disposeBag)
-        
         reactor.state
             .map { $0.items }
             .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
@@ -123,10 +105,12 @@ extension SearchViewController {
                 return cell
             }
             .disposed(by: disposeBag)
-    }
-    
-    func isScrolledToBottom(_ contentOffset: CGPoint) -> Bool {
-        return (tableView.contentSize.height - tableView.frame.size.height) == contentOffset.y
+        
+        tableView.rx
+            .reachedBottom()
+            .map { Reactor.Action.loadMore }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
 }
@@ -161,13 +145,13 @@ extension SearchViewController {
             
         searchController.rx
             .willPresent
-            .map { Reactor.Action.openQueryList }
+            .map { Reactor.Action.openSearchList }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willDismiss
-            .map { Reactor.Action.closeQueryList }
+            .map { Reactor.Action.closeSearchList }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

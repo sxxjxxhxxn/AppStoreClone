@@ -9,22 +9,18 @@
 import UIKit
 import ReactorKit
 
-class QueryListViewController: UIViewController, View {
+class QueryListViewController: UIViewController, View, BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     
+    var _reactor: QueryListReactor?
     var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let reactor = self.reactor else { return }
-
-        bind(reactor: reactor)
+        setReactor()
     }
 
     func bind(reactor: QueryListReactor) {
-        guard tableView != nil else { return }
-        
-        setupTableView()
         bindTableView(reactor)
         
         Observable.just(Void())
@@ -38,11 +34,6 @@ class QueryListViewController: UIViewController, View {
 // MARK: - Table View
 
 extension QueryListViewController {
-    
-    private func setupTableView() {   
-        let queryListTableViewCellNib = UINib(nibName: "QueryListTableViewCell", bundle: nil)
-        tableView.register(queryListTableViewCellNib, forCellReuseIdentifier: QueryListTableViewCell.reuseID)
-    }
     
     private func bindTableView(_ reactor: QueryListReactor) {
         reactor.state

@@ -27,22 +27,22 @@ final class SearchReactor: Reactor {
     enum Action {
         case search(keyword: String)
         case loadMore
-        case openQueryList
-        case closeQueryList
+        case openSearchList
+        case closeSearchList
         case disconnected
     }
     
     enum Mutation {
-        case setFetching(Bool)
+        case clearItems
         case setItems([SearchItemReactor])
-        case appendItems([SearchItemReactor])
-        case setQueryListVisibility(Bool)
+        case setListVisibility(Bool)
+        case setFetching(Bool)
     }
     
     struct State {
-        var isFetching: Bool = false
         var items: [SearchItemReactor] = []
-        var queryListVisibility: Bool = false
+        var listVisibility: Bool = false
+        var isFetching: Bool = false
     }
     
     init(service: AppStoreServiceType,
@@ -58,25 +58,28 @@ final class SearchReactor: Reactor {
         switch action {
         case .search(let keyword):
             storage.saveQuery(query: AppQuery(query: keyword))
-            return Observable.concat([
-                Observable.just(Mutation.setFetching(true)),
+            return .concat([
+                .just(.clearItems),
+                
+                .just(.setFetching(true)),
 
                 service.loadItems(keyword)
-                    .map { $0.map { SearchItemReactor(appItem: $0) } }
-                    .map { Mutation.setItems($0) },
+                    .map { $0.map(SearchItemReactor.init) }
+                    .map { .setItems($0) },
                     
-                Observable.just(Mutation.setFetching(false))
+                .just(.setFetching(false))
             ])
         case .loadMore:
             return service.loadMoreItems()
-                .map { $0.map { SearchItemReactor(appItem: $0) } }
-                .map { Mutation.appendItems($0) }
-        case .openQueryList:
+                .filter { $0.isNotEmpty }
+                .map { $0.map(SearchItemReactor.init) }
+                .map { .setItems($0) }
+        case .openSearchList:
             closures?.openAppQueryList(didSelect(keyword:))
-            return .just(Mutation.setQueryListVisibility(true))
-        case .closeQueryList:
+            return .just(.setListVisibility(true))
+        case .closeSearchList:
             closures?.closeAppQueryList()
-            return .just(Mutation.setQueryListVisibility(false))
+            return .just(.setListVisibility(false))
         case .disconnected:
             closures?.alertDisconnected()
             return .empty()
@@ -86,17 +89,14 @@ final class SearchReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
+        case .clearItems:
+            newState.items.removeAll()
         case let .setItems(items):
-            newState.items = items
-        case let .appendItems(items):
-            guard items.isNotEmpty else {
-                return state
-            }
             newState.items += items
         case let .setFetching(isFetching):
             newState.isFetching = isFetching
-        case let .setQueryListVisibility(visibility):
-            newState.queryListVisibility = visibility
+        case let .setListVisibility(visibility):
+            newState.listVisibility = visibility
         }
         return newState
     }

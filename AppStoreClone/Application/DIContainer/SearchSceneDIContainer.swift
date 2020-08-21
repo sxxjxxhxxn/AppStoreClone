@@ -24,7 +24,7 @@ final class SearchSceneDIContainer {
     // MARK: - Search List
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController {
         let searchVC = SearchViewController.instantiate()
-        searchVC.reactor = makeSearchReactor(closures: closures)
+        searchVC._reactor = makeSearchReactor(closures: closures)
         return searchVC
     }
     
@@ -37,7 +37,7 @@ final class SearchSceneDIContainer {
     // MARK: - App Query List
     func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController {
         let queryListVC = QueryListViewController.instantiate()
-        queryListVC.reactor = makeQueryListReactor(didSelect: didSelect)
+        queryListVC._reactor = makeQueryListReactor(didSelect: didSelect)
         return queryListVC
     }
 

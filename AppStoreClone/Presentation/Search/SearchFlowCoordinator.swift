@@ -59,6 +59,9 @@ class SearchFlowCoordinator {
         let alert: UIAlertController = UIAlertController(title: "Network error",
                                                          message: "Disconnected",
                                                          preferredStyle: .alert)
+        let alertAction: UIAlertAction = UIAlertAction(title: "확인",
+                                                       style: .default)
+        alert.addAction(alertAction)
         searchViewController.present(alert, animated: true, completion: nil)
     }
     

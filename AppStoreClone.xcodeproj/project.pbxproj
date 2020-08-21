@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0F285F9A24E37C9F008E956E /* SearchItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F285F9924E37C9F008E956E /* SearchItemReactor.swift */; };
 		0F285F9D24E37CFE008E956E /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F285F9B24E37CFE008E956E /* SearchTableViewCell.swift */; };
-		0F6F935324EF7799001BBEAC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6F935224EF7799001BBEAC /* BaseViewController.swift */; };
 		0F6F935624EF7E10001BBEAC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6F935524EF7E10001BBEAC /* DetailViewController.swift */; };
 		0F6F935824EF7E1D001BBEAC /* DetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F6F935724EF7E1D001BBEAC /* DetailViewController.storyboard */; };
 		0F6F935A24EF8D3F001BBEAC /* DetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6F935924EF8D3F001BBEAC /* DetailReactor.swift */; };
@@ -56,7 +55,6 @@
 /* Begin PBXFileReference section */
 		0F285F9924E37C9F008E956E /* SearchItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemReactor.swift; sourceTree = "<group>"; };
 		0F285F9B24E37CFE008E956E /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
-		0F6F935224EF7799001BBEAC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0F6F935524EF7E10001BBEAC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0F6F935724EF7E1D001BBEAC /* DetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailViewController.storyboard; sourceTree = "<group>"; };
 		0F6F935924EF8D3F001BBEAC /* DetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReactor.swift; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 				0F79815724E2457B006F6406 /* Reusable.swift */,
 				0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */,
 				0FBFACD624EE675C00C5BEEA /* NotEmpty.swift */,
-				0F6F935224EF7799001BBEAC /* BaseViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -502,7 +499,6 @@
 				0FBFACC224E94DAC00C5BEEA /* QueryListTableViewCell.swift in Sources */,
 				0FBFAC9E24E5372300C5BEEA /* AppQuery.swift in Sources */,
 				0F285F9D24E37CFE008E956E /* SearchTableViewCell.swift in Sources */,
-				0F6F935324EF7799001BBEAC /* BaseViewController.swift in Sources */,
 				0FBFACA824E626E700C5BEEA /* SearchFlowCoordinator.swift in Sources */,
 				0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */,
 				0F79815824E2457B006F6406 /* Reusable.swift in Sources */,

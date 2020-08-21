@@ -21,7 +21,6 @@ class SearchFlowCoordinator {
 
     private weak var searchVC: SearchViewController?
     private weak var queryListVC: UIViewController?
-    private weak var detailVC: UIViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SearchFlowCoordinatorDependencies) {
@@ -54,20 +53,17 @@ class SearchFlowCoordinator {
     }
     
     private func alertDisconnected() {
-        guard let searchViewController = searchVC else { return }
-        
         let alert: UIAlertController = UIAlertController(title: "Network error",
                                                          message: "Disconnected",
                                                          preferredStyle: .alert)
         let alertAction: UIAlertAction = UIAlertAction(title: "확인",
                                                        style: .default)
         alert.addAction(alertAction)
-        searchViewController.present(alert, animated: true, completion: nil)
+        navigationController.pushViewController(alert, animated: true)
     }
     
     private func showDetail(appItem: AppItem) {
-        let vc = dependencies.makeDetailViewController(appItem: appItem)
-        navigationController.pushViewController(vc, animated: true)
-        detailVC = vc
+        let detailVC = dependencies.makeDetailViewController(appItem: appItem)
+        navigationController.pushViewController(detailVC, animated: true)
     }
 }

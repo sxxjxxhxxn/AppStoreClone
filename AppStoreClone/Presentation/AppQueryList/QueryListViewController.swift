@@ -9,15 +9,13 @@
 import UIKit
 import ReactorKit
 
-class QueryListViewController: UIViewController, View, BaseViewController {
+class QueryListViewController: UIViewController, StoryboardView {
     @IBOutlet weak var tableView: UITableView!
     
-    var _reactor: QueryListReactor?
     var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setReactor()
     }
 
     func bind(reactor: QueryListReactor) {

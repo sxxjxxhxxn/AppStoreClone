@@ -14,11 +14,10 @@ import RxSwiftExt
 import Reachability
 import RxReachability
 
-class SearchViewController: UIViewController, View, BaseViewController {
+class SearchViewController: UIViewController, StoryboardView {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var queryListContainer: UIView!
     
-    var _reactor: SearchReactor?
     var disposeBag = DisposeBag()
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -37,7 +36,6 @@ class SearchViewController: UIViewController, View, BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setReactor()
         
         queryListContainer.isHidden = true
         title = "검색"

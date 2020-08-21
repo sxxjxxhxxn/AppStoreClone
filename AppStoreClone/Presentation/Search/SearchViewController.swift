@@ -111,6 +111,19 @@ extension SearchViewController {
             .map { Reactor.Action.loadMore }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(SearchItemReactor.self)
+            .map { $0.initialState }
+            .map { Reactor.Action.showDetail(appItem: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .itemSelected
+            .map { [weak self] in self?.tableView.deselectRow(at: $0, animated: true) }
+            .subscribe()
+            .disposed(by: disposeBag)
     }
     
 }

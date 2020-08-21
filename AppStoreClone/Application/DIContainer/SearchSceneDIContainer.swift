@@ -45,6 +45,17 @@ final class SearchSceneDIContainer {
         return QueryListReactor(storage: dependencies.appQueryStorage,
                                 didSelect: didSelect)
     }
+    
+    // MARK: - Detail Page
+    func makeDetailViewController(appItem: AppItem) -> UIViewController {
+        let detailVC = DetailViewController.instantiate()
+        detailVC._reactor = makeDetailReactor(appItem: appItem)
+        return detailVC
+    }
+    
+    func makeDetailReactor(appItem: AppItem) -> DetailReactor {
+        return DetailReactor(appItem: appItem)
+    }
 
     // MARK: - Flow Coordinators
     func makeSearchFlowCoordinator(navigationController: UINavigationController) -> SearchFlowCoordinator {

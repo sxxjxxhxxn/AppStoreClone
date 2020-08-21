@@ -11,7 +11,7 @@ import UIKit
 protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
     func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController
-    //    func makeAppDetailsViewController
+    func makeDetailViewController(appItem: AppItem) -> UIViewController
 }
 
 class SearchFlowCoordinator {
@@ -21,6 +21,7 @@ class SearchFlowCoordinator {
 
     private weak var searchVC: SearchViewController?
     private weak var queryListVC: UIViewController?
+    private weak var detailVC: UIViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SearchFlowCoordinatorDependencies) {
@@ -29,16 +30,13 @@ class SearchFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(showAppDetails: showAppDetails,
+        let closures = SearchReactorClosures(showDetail: showDetail,
                                              openAppQueryList: openAppQueryList,
                                              closeAppQueryList: closeAppQueryList,
                                              alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
-    }
-
-    private func showAppDetails(appItem: AppItem) {
     }
 
     private func openAppQueryList(_ didSelect: @escaping (AppQuery) -> Void) {
@@ -62,5 +60,13 @@ class SearchFlowCoordinator {
                                                          message: "Disconnected",
                                                          preferredStyle: .alert)
         searchViewController.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showDetail(appItem: AppItem) {
+        guard let searchViewController = searchVC, queryListVC == nil else { return }
+        
+        let vc = dependencies.makeDetailViewController(appItem: appItem)
+        searchViewController.navigationController?.pushViewController(vc, animated: true)
+        detailVC = vc
     }
 }

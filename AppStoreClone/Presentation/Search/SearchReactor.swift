@@ -10,7 +10,7 @@ import Foundation
 import ReactorKit
 
 struct SearchReactorClosures {
-    let showAppDetails: (AppItem) -> Void
+    let showDetail: (AppItem) -> Void
     let openAppQueryList: (@escaping (AppQuery) -> Void) -> Void
     let closeAppQueryList: () -> Void
     let alertDisconnected: () -> Void
@@ -30,6 +30,7 @@ final class SearchReactor: Reactor {
         case openSearchList
         case closeSearchList
         case disconnected
+        case showDetail(appItem: AppItem)
     }
     
     enum Mutation {
@@ -82,6 +83,9 @@ final class SearchReactor: Reactor {
             return .just(.setListVisibility(false))
         case .disconnected:
             closures?.alertDisconnected()
+            return .empty()
+        case .showDetail(let appItem):
+            closures?.showDetail(appItem)
             return .empty()
         }
     }

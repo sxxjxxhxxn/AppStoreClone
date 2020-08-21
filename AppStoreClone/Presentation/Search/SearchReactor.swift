@@ -21,8 +21,8 @@ final class SearchReactor: Reactor {
     }
     
     enum Mutation {
+        case clearItems
         case setItems([SearchItemReactor])
-        case appendItems([SearchItemReactor])
         case setListVisibility(Bool)
     }
     
@@ -38,14 +38,18 @@ final class SearchReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(let keyword):
-            return service.loadItems(keyword)
-                    .map { $0.map { SearchItemReactor(appItem: $0) } }
+            return .concat([
+                .just(Mutation.clearItems),
+                
+                service.loadItems(keyword)
+                    .map { $0.map(SearchItemReactor.init) }
                     .map { Mutation.setItems($0) }
+            ])
         case .loadMore:
             return service.loadMoreItems()
                 .filter { $0.isNotEmpty }
-                .map { $0.map { SearchItemReactor(appItem: $0) } }
-                .map { Mutation.appendItems($0) }
+                .map { $0.map(SearchItemReactor.init) }
+                .map { Mutation.setItems($0) }
         case .openSearchList:
             print("openSearchList")
             return Observable.just(Mutation.setListVisibility(true))
@@ -58,12 +62,9 @@ final class SearchReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
+        case .clearItems:
+            newState.items.removeAll()
         case let .setItems(items):
-            newState.items = items
-        case let .appendItems(items):
-            guard items.isNotEmpty else {
-                return newState
-            }
             newState.items += items
         case let .setListVisibility(visibility):
             newState.listVisibility = visibility

@@ -14,6 +14,14 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
+  - RxSwiftExt (5.2.0):
+    - RxSwiftExt/Core (= 5.2.0)
+    - RxSwiftExt/RxCocoa (= 5.2.0)
+  - RxSwiftExt/Core (5.2.0):
+    - RxSwift (~> 5.0)
+  - RxSwiftExt/RxCocoa (5.2.0):
+    - RxCocoa (~> 5.0)
+    - RxSwiftExt/Core
   - SwiftLint (0.39.2)
   - WeakMapTable (1.1.0)
 
@@ -23,6 +31,7 @@ DEPENDENCIES:
   - RxAlamofire
   - RxCocoa
   - RxSwift
+  - RxSwiftExt
   - SwiftLint
 
 SPEC REPOS:
@@ -33,6 +42,7 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - RxSwiftExt
     - SwiftLint
     - WeakMapTable
 
@@ -43,9 +53,10 @@ SPEC CHECKSUMS:
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
 
-PODFILE CHECKSUM: 109e4ee7e1696de88a10124744688c35c36b33dc
+PODFILE CHECKSUM: 90c08ec2909d1f30d57f52172603146235db06c2
 
 COCOAPODS: 1.9.3

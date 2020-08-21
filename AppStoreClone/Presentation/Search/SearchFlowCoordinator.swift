@@ -66,10 +66,8 @@ class SearchFlowCoordinator {
     }
     
     private func showDetail(appItem: AppItem) {
-        guard let searchViewController = searchVC, queryListVC == nil else { return }
-        
         let vc = dependencies.makeDetailViewController(appItem: appItem)
-        searchViewController.navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
         detailVC = vc
     }
 }

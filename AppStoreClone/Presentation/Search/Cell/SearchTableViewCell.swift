@@ -20,7 +20,7 @@ class SearchTableViewCell: UITableViewCell, View {
     }
     
     func layout() {
-        //셀 UI 작업 후 작성
+        // TODO: 셀 UI 설정
     }
 
     override func awakeFromNib() {

@@ -40,7 +40,6 @@ final class SearchReactor: Reactor {
         case .search(let keyword):
             return .concat([
                 .just(Mutation.clearItems),
-                
                 service.loadItems(keyword)
                     .map { $0.map(SearchItemReactor.init) }
                     .map { Mutation.setItems($0) }

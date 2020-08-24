@@ -10,8 +10,8 @@ import UIKit
 
 protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
-    func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController
-    func makeDetailViewController(appItem: AppItem) -> UIViewController
+    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> UIViewController
+    func makeDetailViewController(appItem: AppItem) -> DetailViewController
 }
 
 class SearchFlowCoordinator {
@@ -20,7 +20,7 @@ class SearchFlowCoordinator {
     private let dependencies: SearchFlowCoordinatorDependencies
 
     private weak var searchVC: SearchViewController?
-    private weak var queryListVC: UIViewController?
+    private weak var keywordListVC: UIViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SearchFlowCoordinatorDependencies) {
@@ -30,26 +30,26 @@ class SearchFlowCoordinator {
     
     func start() {
         let closures = SearchReactorClosures(showDetail: showDetail,
-                                             openAppQueryList: openAppQueryList,
-                                             closeAppQueryList: closeAppQueryList,
+                                             openKeywordList: openKeywordList,
+                                             closeKeywordList: closeKeywordList,
                                              alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
     }
 
-    private func openAppQueryList(_ didSelect: @escaping (AppQuery) -> Void) {
-        guard let searchViewController = searchVC, queryListVC == nil,
-            let container = searchViewController.queryListContainer else { return }
+    private func openKeywordList(_ didSelect: @escaping (Keyword) -> Void) {
+        guard let searchViewController = searchVC, keywordListVC == nil,
+            let container = searchViewController.keywordListContainer else { return }
 
-        let vc = dependencies.makeQueryListViewController(didSelect: didSelect)
+        let vc = dependencies.makeKeywordListViewController(didSelect: didSelect)
         searchViewController.add(child: vc, container: container)
-        queryListVC = vc
+        keywordListVC = vc
     }
 
-    private func closeAppQueryList() {
-        queryListVC?.remove()
-        queryListVC = nil
+    private func closeKeywordList() {
+        keywordListVC?.remove()
+        keywordListVC = nil
     }
     
     private func alertDisconnected() {

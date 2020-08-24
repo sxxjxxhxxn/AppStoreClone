@@ -9,14 +9,14 @@
 import UIKit
 import ReactorKit
 
-class QueryListTableViewCell: UITableViewCell, View {
+class KeywordListTableViewCell: UITableViewCell, View {
     @IBOutlet weak var label: UILabel!
 
     var disposeBag: DisposeBag = DisposeBag()
     
-    func bind(reactor: QueryItemReactor) {
-        let appQuery = reactor.currentState
-        label.text = appQuery.query
+    func bind(reactor: KeywordItemReactor) {
+        let appQuery = reactor.initialState
+        label.text = appQuery.keyword
     }
     
     override func awakeFromNib() {

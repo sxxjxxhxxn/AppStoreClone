@@ -8,6 +8,10 @@
 
 import Foundation
 
-struct AppQuery: Equatable, Codable {
-    let query: String
+struct Keyword: Equatable, Codable {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
 }

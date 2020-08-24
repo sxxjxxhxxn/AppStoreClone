@@ -11,15 +11,15 @@ import ReactorKit
 
 struct SearchReactorClosures {
     let showDetail: (AppItem) -> Void
-    let openAppQueryList: (@escaping (AppQuery) -> Void) -> Void
-    let closeAppQueryList: () -> Void
+    let openKeywordList: (@escaping (Keyword) -> Void) -> Void
+    let closeKeywordList: () -> Void
     let alertDisconnected: () -> Void
 }
 
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
-    private let storage: AppQueryStorageType
+    private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
     
     var selectedKeyword: PublishSubject<String>
@@ -47,7 +47,7 @@ final class SearchReactor: Reactor {
     }
     
     init(service: AppStoreServiceType,
-         storage: AppQueryStorageType,
+         storage: KeywordStorageType,
          closures: SearchReactorClosures? = nil) {
         self.service = service
         self.storage = storage
@@ -58,16 +58,13 @@ final class SearchReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(let keyword):
-            storage.saveQuery(query: AppQuery(query: keyword))
+            storage.saveKeyword(keyword: Keyword(keyword))
             return .concat([
                 .just(.clearItems),
-                
                 .just(.setFetching(true)),
-
                 service.loadItems(keyword)
                     .map { $0.map(SearchItemReactor.init) }
                     .map { .setItems($0) },
-                    
                 .just(.setFetching(false))
             ])
         case .loadMore:
@@ -76,10 +73,10 @@ final class SearchReactor: Reactor {
                 .map { $0.map(SearchItemReactor.init) }
                 .map { .setItems($0) }
         case .openSearchList:
-            closures?.openAppQueryList(didSelect(keyword:))
+            closures?.openKeywordList(didSelect(keyword:))
             return .just(.setListVisibility(true))
         case .closeSearchList:
-            closures?.closeAppQueryList()
+            closures?.closeKeywordList()
             return .just(.setListVisibility(false))
         case .disconnected:
             closures?.alertDisconnected()
@@ -105,8 +102,8 @@ final class SearchReactor: Reactor {
         return newState
     }
     
-    func didSelect(keyword: AppQuery) {
-        selectedKeyword.onNext(keyword.query)
+    func didSelect(keyword: Keyword) {
+        selectedKeyword.onNext(keyword.text)
     }
     
 }

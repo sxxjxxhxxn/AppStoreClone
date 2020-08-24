@@ -16,7 +16,7 @@ import RxReachability
 
 class SearchViewController: UIViewController, StoryboardView {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var queryListContainer: UIView!
+    @IBOutlet weak var keywordListContainer: UIView!
     
     var disposeBag = DisposeBag()
     private var searchController: UISearchController = {
@@ -37,7 +37,7 @@ class SearchViewController: UIViewController, StoryboardView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        queryListContainer.isHidden = true
+        keywordListContainer.isHidden = true
         title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -59,7 +59,7 @@ class SearchViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { !$0.listVisibility }
-            .bind(to: queryListContainer.rx.isHidden)
+            .bind(to: keywordListContainer.rx.isHidden)
             .disposed(by: disposeBag)
         
         reactor.selectedKeyword

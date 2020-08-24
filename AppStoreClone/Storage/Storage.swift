@@ -11,29 +11,29 @@ import RxSwift
 
 final class Storage {
     
-    private let recentsAppQueriesKey = "recentsAppQueries"
+    private let recentKeywordsKey = "recentKeywords"
     private var userDefaults: UserDefaults
     
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.userDefaults = userDefaults
     }
 
-    func fetchMoviesQuries() -> [AppQuery] {
-        if let queriesData = userDefaults.object(forKey: recentsAppQueriesKey) as? Data {
-            if let queries = try? JSONDecoder().decode([AppQuery].self, from: queriesData) {
-                return queries
+    func fetchRecentKeywords() -> [Keyword] {
+        if let keywordsData = userDefaults.object(forKey: recentKeywordsKey) as? Data {
+            if let keywords = try? JSONDecoder().decode([Keyword].self, from: keywordsData) {
+                return keywords
             }
         }
         return []
     }
 
-    func persist(appQuries: [AppQuery]) {
-        if let encoded = try? JSONEncoder().encode(appQuries) {
-            userDefaults.set(encoded, forKey: recentsAppQueriesKey)
+    func persist(keywords: [Keyword]) {
+        if let encoded = try? JSONEncoder().encode(keywords) {
+            userDefaults.set(encoded, forKey: recentKeywordsKey)
         }
     }
 
-    func removeOldQueries(_ queries: [AppQuery], _ maxStorageLimit: Int) -> [AppQuery] {
-        return queries.count <= maxStorageLimit ? queries : Array(queries[0..<maxStorageLimit])
+    func removeOldKeywords(_ keywords: [Keyword], _ maxStorageLimit: Int) -> [Keyword] {
+        return keywords.count <= maxStorageLimit ? keywords : Array(keywords[0..<maxStorageLimit])
     }
 }

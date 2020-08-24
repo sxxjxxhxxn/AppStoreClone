@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Query List View Controller-->
+        <!--Keyword List View Controller-->
         <scene sceneID="iZx-Jr-uCa">
             <objects>
-                <viewController storyboardIdentifier="QueryListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kra-Bo-7c5" customClass="QueryListViewController" customModule="AppStoreClone" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="KeywordListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kra-Bo-7c5" customClass="KeywordListViewController" customModule="AppStoreClone" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HJL-uD-ff2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QueryListTableViewCell" id="2lV-do-gWm" customClass="QueryListTableViewCell" customModule="AppStoreClone" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="KeywordListTableViewCell" id="2lV-do-gWm" customClass="KeywordListTableViewCell" customModule="AppStoreClone" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2lV-do-gWm" id="gh0-xd-B22">

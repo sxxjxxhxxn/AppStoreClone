@@ -9,7 +9,7 @@
 import UIKit
 import ReactorKit
 
-class QueryListViewController: UIViewController, StoryboardView {
+class KeywordListViewController: UIViewController, StoryboardView {
     @IBOutlet weak var tableView: UITableView!
     
     var disposeBag = DisposeBag()
@@ -18,11 +18,11 @@ class QueryListViewController: UIViewController, StoryboardView {
         super.viewDidLoad()
     }
 
-    func bind(reactor: QueryListReactor) {
+    func bind(reactor: KeywordListReactor) {
         bindTableView(reactor)
         
         Observable.just(Void())
-            .map { Reactor.Action.loadQueries }
+            .map { Reactor.Action.loadKeywords }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -31,20 +31,20 @@ class QueryListViewController: UIViewController, StoryboardView {
 
 // MARK: - Table View
 
-extension QueryListViewController {
+extension KeywordListViewController {
     
-    private func bindTableView(_ reactor: QueryListReactor) {
+    private func bindTableView(_ reactor: KeywordListReactor) {
         reactor.state
-            .map { $0.queries }
+            .map { $0.keywords }
             .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(of: QueryListTableViewCell.self)
+                let cell = tableView.dequeueReusableCell(of: KeywordListTableViewCell.self)
                 cell.bind(reactor: itemReactor)
                 return cell
             }
             .disposed(by: disposeBag)
         
         tableView.rx
-            .modelSelected(QueryItemReactor.self)
+            .modelSelected(KeywordItemReactor.self)
             .map { Reactor.Action.select(keyword: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

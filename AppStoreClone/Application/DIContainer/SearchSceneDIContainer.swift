@@ -12,7 +12,7 @@ final class SearchSceneDIContainer {
     
     struct Dependencies {
         let appStoreService: AppStoreServiceType
-        let appQueryStorage: AppQueryStorageType
+        let keywordStorage: KeywordStorageType
     }
     
     private let dependencies: Dependencies
@@ -30,24 +30,24 @@ final class SearchSceneDIContainer {
     
     func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
-                             storage: dependencies.appQueryStorage,
+                             storage: dependencies.keywordStorage,
                              closures: closures)
     }
     
-    // MARK: - App Query List
-    func makeQueryListViewController(didSelect: @escaping QueryListReactorDidSelectClosure) -> UIViewController {
-        let queryListVC = QueryListViewController.instantiate()
-        queryListVC.reactor = makeQueryListReactor(didSelect: didSelect)
-        return queryListVC
+    // MARK: - Keyword List
+    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> UIViewController {
+        let keywordListVC = KeywordListViewController.instantiate()
+        keywordListVC.reactor = makeKeywordListReactor(didSelect: didSelect)
+        return keywordListVC
     }
 
-    func makeQueryListReactor(didSelect: @escaping QueryListReactorDidSelectClosure) -> QueryListReactor {
-        return QueryListReactor(storage: dependencies.appQueryStorage,
-                                didSelect: didSelect)
+    func makeKeywordListReactor(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListReactor {
+        return KeywordListReactor(storage: dependencies.keywordStorage,
+                                  didSelect: didSelect)
     }
     
     // MARK: - Detail Page
-    func makeDetailViewController(appItem: AppItem) -> UIViewController {
+    func makeDetailViewController(appItem: AppItem) -> DetailViewController {
         let detailVC = DetailViewController.instantiate()
         detailVC.reactor = makeDetailReactor(appItem: appItem)
         return detailVC

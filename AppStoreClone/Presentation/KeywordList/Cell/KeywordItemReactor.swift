@@ -9,12 +9,12 @@
 import Foundation
 import ReactorKit
 
-class QueryItemReactor: Reactor {
+class KeywordItemReactor: Reactor {
     typealias Action = NoAction
     
-    let initialState: AppQuery
+    let initialState: Keyword
     
-    init(appQuery: AppQuery) {
-        self.initialState = appQuery
+    init(keyword: Keyword) {
+        self.initialState = keyword
     }
 }

@@ -21,8 +21,8 @@ final class Network<T: Decodable> {
         self.scheduler = ConcurrentDispatchQueueScheduler(qos: DispatchQoS(qosClass: DispatchQoS.QoSClass.background, relativePriority: 1))
     }
 
-    func getItem(_ query: String) -> Observable<T?> {
-        let absolutePath = endPoint + query
+    func getItem(_ keyword: String) -> Observable<T?> {
+        let absolutePath = endPoint + keyword
         return RxAlamofire
             .data(.get, absolutePath)
             .catchErrorJustReturn(Data())

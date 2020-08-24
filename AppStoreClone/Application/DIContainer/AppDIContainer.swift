@@ -17,15 +17,15 @@ final class AppDIContainer {
     }()
     
     // MARK: - Storage
-    lazy var appQueryStorage: AppQueryStorageType = {
+    lazy var keywordStorage: KeywordStorageType = {
         let storage = Storage()
-        return StorageProvider().makeAppQueryStorage(maxStorageLimit: 10)
+        return StorageProvider().makeKeywordStorage(maxStorageLimit: 10)
     }()
     
     // MARK: - DIContainers of scenes
     func makeSearchSceneDIContainer() -> SearchSceneDIContainer {
         let dependencies = SearchSceneDIContainer.Dependencies(appStoreService: appStoreService,
-                                                               appQueryStorage: appQueryStorage)
+                                                               keywordStorage: keywordStorage)
         return SearchSceneDIContainer(dependencies: dependencies)
     }
 }

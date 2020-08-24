@@ -9,12 +9,12 @@
 import Foundation
 import RxSwift
 
-protocol AppQueryStorageType {
-    func fetchQueries() -> Observable<[Keyword]>
-    func saveQuery(keyword: Keyword)
+protocol KeywordStorageType {
+    func fetchKeywords() -> Observable<[Keyword]>
+    func saveKeyword(keyword: Keyword)
 }
 
-final class KeywordStorage: AppQueryStorageType {
+final class KeywordStorage: KeywordStorageType {
     
     private let maxStorageLimit: Int
     private let storage: Storage
@@ -24,23 +24,23 @@ final class KeywordStorage: AppQueryStorageType {
         self.storage = storage
     }
     
-    func fetchQueries() -> Observable<[Keyword]> {
+    func fetchKeywords() -> Observable<[Keyword]> {
         return BehaviorSubject.init(value: storage.fetchRecentKeywords()).asObservable()
     }
     
-    func saveQuery(keyword: Keyword) {
+    func saveKeyword(keyword: Keyword) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
             var keywords = self.storage.fetchRecentKeywords()
             keywords = keywords.filter { $0 != keyword }
             keywords.insert(keyword, at: 0)
-            self.storage.persist(appQuries: self.storage.removeOldKeywords(keywords, self.maxStorageLimit))
+            self.storage.persist(keywords: self.storage.removeOldKeywords(keywords, self.maxStorageLimit))
         }
     }
 }
 
 final class StorageProvider {
-    public func makeAppQueryStorage(maxStorageLimit: Int) -> AppQueryStorageType {
+    public func makeKeywordStorage(maxStorageLimit: Int) -> KeywordStorageType {
         return KeywordStorage(maxStorageLimit: maxStorageLimit, storage: Storage())
     }
 }

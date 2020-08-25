@@ -10,6 +10,7 @@ import UIKit
 
 protocol SceneFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
+    func makeKeywordListViewController() -> KeywordListViewController
 }
 
 class SceneFlowCoordinator {
@@ -18,7 +19,7 @@ class SceneFlowCoordinator {
     private let dependencies: SceneFlowCoordinatorDependencies
 
     private weak var searchVC: SearchViewController?
-    private weak var keywordListVC: UIViewController?
+    private weak var keywordListVC: KeywordListViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SceneFlowCoordinatorDependencies) {
@@ -35,11 +36,16 @@ class SceneFlowCoordinator {
     }
 
     private func openKeywordList() {
-        // TODO: open KeywordListVC
+        guard let searchViewController = searchVC, keywordListVC == nil else { return }
+
+        let vc = dependencies.makeKeywordListViewController()
+        searchViewController.add(child: vc, container: searchViewController.keywordListContainer)
+        keywordListVC = vc
     }
 
     private func closeKeywordList() {
-        // TODO: close KeywordListVC
+        keywordListVC?.remove()
+        keywordListVC = nil
     }
     
 }

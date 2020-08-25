@@ -23,20 +23,25 @@ class SearchViewController: UIViewController, View {
         $0.estimatedRowHeight = 100
         $0.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
-    private var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search Apps"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.barStyle = .default
-        return searchController
-    }()
+    private var searchController = UISearchController(searchResultsController: nil).then {
+        $0.searchBar.placeholder = "Search Apps"
+        $0.obscuresBackgroundDuringPresentation = false
+        $0.searchBar.barStyle = .default
+    }
+    var keywordListContainer = UIView().then {
+        $0.isHidden = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
+        view.addSubview(keywordListContainer)
         
         setupSearchController()
         tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         
@@ -49,6 +54,11 @@ class SearchViewController: UIViewController, View {
     func bind(reactor: SearchReactor) {
         bindTableView(reactor)
         bindSearchController(reactor)
+        
+        reactor.state
+            .map { !$0.listVisibility }
+            .bind(to: keywordListContainer.rx.isHidden)
+            .disposed(by: disposeBag)
     }
 
 }

@@ -32,6 +32,17 @@ final class SceneDIContainer {
                              closures: closures)
     }
     
+    // MARK: - Keyword List
+    func makeKeywordListViewController() -> KeywordListViewController {
+        let keywordListVC = KeywordListViewController.init()
+        keywordListVC.reactor = makeKeywordListReactor()
+        return keywordListVC
+    }
+
+    func makeKeywordListReactor() -> KeywordListReactor {
+        return KeywordListReactor()
+    }
+    
     // MARK: - Flow Coordinators
     func makeSearchFlowCoordinator(navigationController: UINavigationController) -> SceneFlowCoordinator {
         return SceneFlowCoordinator(navigationController: navigationController,

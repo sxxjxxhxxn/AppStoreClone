@@ -22,6 +22,12 @@
 		0FAC4A6A24F504480046825F /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A6924F504480046825F /* AppDIContainer.swift */; };
 		0FAC4A6C24F504990046825F /* SceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A6B24F504990046825F /* SceneDIContainer.swift */; };
 		0FAC4A6E24F505C20046825F /* SceneFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A6D24F505C20046825F /* SceneFlowCoordinator.swift */; };
+		0FAC4A7124F50A820046825F /* KeywordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7024F50A820046825F /* KeywordListViewController.swift */; };
+		0FAC4A7324F50AC70046825F /* KeywordListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7224F50AC70046825F /* KeywordListReactor.swift */; };
+		0FAC4A7524F50ADF0046825F /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7424F50ADF0046825F /* Keyword.swift */; };
+		0FAC4A7824F50B2D0046825F /* KeywordItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7724F50B2D0046825F /* KeywordItemReactor.swift */; };
+		0FAC4A7A24F50B470046825F /* KeywordListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7924F50B470046825F /* KeywordListTableViewCell.swift */; };
+		0FAC4A7C24F50CBA0046825F /* UIViewController+AddChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7B24F50CBA0046825F /* UIViewController+AddChild.swift */; };
 		0FBFACC924EB6EBA00C5BEEA /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACC724EB6EBA00C5BEEA /* SearchTableViewCell.swift */; };
 		0FBFACCC24EB6F3E00C5BEEA /* SearchItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */; };
 		0FBFACD224EE1DE200C5BEEA /* NotEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACD124EE1DE200C5BEEA /* NotEmpty.swift */; };
@@ -60,6 +66,12 @@
 		0FAC4A6924F504480046825F /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		0FAC4A6B24F504990046825F /* SceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDIContainer.swift; sourceTree = "<group>"; };
 		0FAC4A6D24F505C20046825F /* SceneFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneFlowCoordinator.swift; sourceTree = "<group>"; };
+		0FAC4A7024F50A820046825F /* KeywordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordListViewController.swift; sourceTree = "<group>"; };
+		0FAC4A7224F50AC70046825F /* KeywordListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordListReactor.swift; sourceTree = "<group>"; };
+		0FAC4A7424F50ADF0046825F /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
+		0FAC4A7724F50B2D0046825F /* KeywordItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordItemReactor.swift; sourceTree = "<group>"; };
+		0FAC4A7924F50B470046825F /* KeywordListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordListTableViewCell.swift; sourceTree = "<group>"; };
+		0FAC4A7B24F50CBA0046825F /* UIViewController+AddChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AddChild.swift"; sourceTree = "<group>"; };
 		0FBFACC724EB6EBA00C5BEEA /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemReactor.swift; sourceTree = "<group>"; };
 		0FBFACD124EE1DE200C5BEEA /* NotEmpty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotEmpty.swift; sourceTree = "<group>"; };
@@ -157,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				0F79814A24E11163006F6406 /* AppItemResponse.swift */,
+				0FAC4A7424F50ADF0046825F /* Keyword.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,6 +199,7 @@
 			children = (
 				0FAC4A6D24F505C20046825F /* SceneFlowCoordinator.swift */,
 				0F79814C24E13144006F6406 /* Search */,
+				0FAC4A6F24F50A420046825F /* KeywordList */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -196,6 +210,7 @@
 				0F79815724E2457B006F6406 /* Reusable.swift */,
 				0FBFACD124EE1DE200C5BEEA /* NotEmpty.swift */,
 				382B38DC24F22D67005ADD69 /* Constant.swift */,
+				0FAC4A7B24F50CBA0046825F /* UIViewController+AddChild.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -217,6 +232,25 @@
 				0FAC4A6B24F504990046825F /* SceneDIContainer.swift */,
 			);
 			path = DIContainer;
+			sourceTree = "<group>";
+		};
+		0FAC4A6F24F50A420046825F /* KeywordList */ = {
+			isa = PBXGroup;
+			children = (
+				0FAC4A7624F50B160046825F /* Cell */,
+				0FAC4A7224F50AC70046825F /* KeywordListReactor.swift */,
+				0FAC4A7024F50A820046825F /* KeywordListViewController.swift */,
+			);
+			path = KeywordList;
+			sourceTree = "<group>";
+		};
+		0FAC4A7624F50B160046825F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0FAC4A7724F50B2D0046825F /* KeywordItemReactor.swift */,
+				0FAC4A7924F50B470046825F /* KeywordListTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		0FBFACC624EB6EA000C5BEEA /* Cell */ = {
@@ -429,13 +463,19 @@
 				0FBFACCC24EB6F3E00C5BEEA /* SearchItemReactor.swift in Sources */,
 				0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */,
 				0F79815824E2457B006F6406 /* Reusable.swift in Sources */,
+				0FAC4A7324F50AC70046825F /* KeywordListReactor.swift in Sources */,
 				0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */,
 				0FAC4A6724F5041F0046825F /* AppFlowCoordinator.swift in Sources */,
+				0FAC4A7524F50ADF0046825F /* Keyword.swift in Sources */,
 				0F79814624E11008006F6406 /* Network.swift in Sources */,
 				0F79814B24E11163006F6406 /* AppItemResponse.swift in Sources */,
+				0FAC4A7C24F50CBA0046825F /* UIViewController+AddChild.swift in Sources */,
 				0FBFACC924EB6EBA00C5BEEA /* SearchTableViewCell.swift in Sources */,
 				0FBFACD224EE1DE200C5BEEA /* NotEmpty.swift in Sources */,
+				0FAC4A7124F50A820046825F /* KeywordListViewController.swift in Sources */,
+				0FAC4A7A24F50B470046825F /* KeywordListTableViewCell.swift in Sources */,
 				0FAC4A6A24F504480046825F /* AppDIContainer.swift in Sources */,
+				0FAC4A7824F50B2D0046825F /* KeywordItemReactor.swift in Sources */,
 				382B38DD24F22D67005ADD69 /* Constant.swift in Sources */,
 				0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */,
 				0F79814824E110B3006F6406 /* AppStoreService.swift in Sources */,

@@ -9,9 +9,15 @@
 import Foundation
 import ReactorKit
 
+struct SearchReactorClosures {
+    let openKeywordList: () -> Void
+    let closeKeywordList: () -> Void
+}
+
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
+    private let closures: SearchReactorClosures?
     
     enum Action {
         case search(keyword: String)
@@ -31,8 +37,10 @@ final class SearchReactor: Reactor {
         var listVisibility: Bool = false
     }
     
-    init(service: AppStoreServiceType) {
+    init(service: AppStoreServiceType,
+         closures: SearchReactorClosures? = nil) {
         self.service = service
+        self.closures = closures
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -50,11 +58,11 @@ final class SearchReactor: Reactor {
                 .map { $0.map(SearchItemReactor.init) }
                 .map { Mutation.setItems($0) }
         case .openSearchList:
-            print("openSearchList")
-            return Observable.just(Mutation.setListVisibility(true))
+            closures?.openKeywordList()
+            return .just(.setListVisibility(true))
         case .closeSearchList:
-            print("closeSearchList")
-            return Observable.just(Mutation.setListVisibility(false))
+            closures?.closeKeywordList()
+            return .just(.setListVisibility(false))
         }
     }
 

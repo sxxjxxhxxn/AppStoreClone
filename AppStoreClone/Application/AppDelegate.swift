@@ -11,23 +11,21 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    let appDIContainer = AppDIContainer()
+    var appFlowCoordinator: AppFlowCoordinator?
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.makeKeyAndVisible()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let navigationController = UINavigationController()
+
+        window?.rootViewController = navigationController
+        appFlowCoordinator = AppFlowCoordinator(navigationController: navigationController,
+                                                appDIContainer: appDIContainer)
+        appFlowCoordinator?.start()
+        window?.makeKeyAndVisible()
         
-        let iTunesSearchAPI = "https://itunes.apple.com/search?country=kr&entity=software&term="
-        let service = ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
-        let searchReactor = SearchReactor(service: service)
-        let searchVC = SearchViewController.init()
-        searchVC.reactor = searchReactor
-        
-        let navigationController = UINavigationController(rootViewController: searchVC)
-        window.rootViewController = navigationController
-        
-        self.window = window
         return true
     }
     

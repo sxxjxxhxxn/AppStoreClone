@@ -36,7 +36,7 @@ final class SearchSceneDIContainer {
     
     // MARK: - Keyword List
     func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> UIViewController {
-        let keywordListVC = KeywordListViewController.instantiate()
+        let keywordListVC = KeywordListViewController.init()
         keywordListVC.reactor = makeKeywordListReactor(didSelect: didSelect)
         return keywordListVC
     }

@@ -30,7 +30,6 @@
 		0FBFACA624E53E6E00C5BEEA /* SearchSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA524E53E6E00C5BEEA /* SearchSceneDIContainer.swift */; };
 		0FBFACA824E626E700C5BEEA /* SearchFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA724E626E700C5BEEA /* SearchFlowCoordinator.swift */; };
 		0FBFACAC24E65FB600C5BEEA /* KeywordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACAA24E65FB600C5BEEA /* KeywordListViewController.swift */; };
-		0FBFACAF24E65FE900C5BEEA /* KeywordListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBFACAE24E65FE900C5BEEA /* KeywordListViewController.storyboard */; };
 		0FBFACB124E660FE00C5BEEA /* KeywordListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB024E660FE00C5BEEA /* KeywordListReactor.swift */; };
 		0FBFACB324E6626300C5BEEA /* UIViewController+AddChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */; };
 		0FBFACBA24E6785000C5BEEA /* KeywordStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACB924E6785000C5BEEA /* KeywordStorage.swift */; };
@@ -80,7 +79,6 @@
 		0FBFACA524E53E6E00C5BEEA /* SearchSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSceneDIContainer.swift; sourceTree = "<group>"; };
 		0FBFACA724E626E700C5BEEA /* SearchFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFlowCoordinator.swift; sourceTree = "<group>"; };
 		0FBFACAA24E65FB600C5BEEA /* KeywordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordListViewController.swift; sourceTree = "<group>"; };
-		0FBFACAE24E65FE900C5BEEA /* KeywordListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = KeywordListViewController.storyboard; sourceTree = "<group>"; };
 		0FBFACB024E660FE00C5BEEA /* KeywordListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordListReactor.swift; sourceTree = "<group>"; };
 		0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AddChild.swift"; sourceTree = "<group>"; };
 		0FBFACB924E6785000C5BEEA /* KeywordStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordStorage.swift; sourceTree = "<group>"; };
@@ -273,7 +271,6 @@
 				0FBFACBB24E9339C00C5BEEA /* Cell */,
 				0FBFACB024E660FE00C5BEEA /* KeywordListReactor.swift */,
 				0FBFACAA24E65FB600C5BEEA /* KeywordListViewController.swift */,
-				0FBFACAE24E65FE900C5BEEA /* KeywordListViewController.storyboard */,
 			);
 			path = KeywordList;
 			sourceTree = "<group>";
@@ -392,7 +389,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FBFACAF24E65FE900C5BEEA /* KeywordListViewController.storyboard in Resources */,
 				0F79814224E109F1006F6406 /* .swiftlint.yml in Resources */,
 				0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */,
 				0F79812824E100F9006F6406 /* Assets.xcassets in Resources */,

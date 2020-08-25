@@ -14,6 +14,8 @@ target 'AppStoreClone' do
 	pod 'SwiftLint'
 	pod 'RxReachability'
 	pod 'RxSwiftExt'
+	pod 'SnapKit'
+	pod 'Then'
 
   target 'AppStoreCloneTests' do
     inherit! :search_paths

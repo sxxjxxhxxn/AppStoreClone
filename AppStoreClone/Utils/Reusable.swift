@@ -23,10 +23,9 @@ extension UITableViewCell: Reusable {}
 extension UIViewController: Reusable {}
 
 extension UITableView {
-    func dequeueReusableCell<T>(of cellType: T.Type = T.self, at indexPath: IndexPath) -> T where T: UITableViewCell {
-        guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID,
-                                             for: indexPath) as? T else {
-            fatalError("dequeueReusableCell fatalError - cell of \(cellType) at \(indexPath)")
+    func dequeueReusableCell<T>(of cellType: T.Type = T.self) -> T where T: UITableViewCell {
+        guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID) as? T else {
+            fatalError("dequeueReusableCell fatalError - cell of \(cellType)")
         }
         return cell
     }

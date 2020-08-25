@@ -16,20 +16,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SearchViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7m-Oo-3sH">
-                                <rect key="frame" x="124.5" y="437.5" width="165" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U5H-UK-Agq">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchTableViewCell" id="hEz-Zi-4Vc" customClass="SearchTableViewCell" customModule="AppStoreClone" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hEz-Zi-4Vc" id="QZd-Gc-ywh">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sU1-73-K4k">
+                                                    <rect key="frame" x="20" y="11.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sU1-73-K4k" firstAttribute="leading" secondItem="QZd-Gc-ywh" secondAttribute="leadingMargin" id="MpZ-eE-7Ij"/>
+                                                <constraint firstItem="sU1-73-K4k" firstAttribute="centerY" secondItem="QZd-Gc-ywh" secondAttribute="centerY" id="umR-fk-Drm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="sU1-73-K4k" id="e17-X5-kEv"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="g7m-Oo-3sH" firstAttribute="centerY" secondItem="5oN-xR-7ac" secondAttribute="centerY" id="aD4-tG-EpX"/>
-                            <constraint firstItem="g7m-Oo-3sH" firstAttribute="centerX" secondItem="5oN-xR-7ac" secondAttribute="centerX" id="fID-W1-sWV"/>
+                            <constraint firstItem="1IE-uq-1oD" firstAttribute="bottom" secondItem="U5H-UK-Agq" secondAttribute="bottom" id="7Vx-Xs-rJI"/>
+                            <constraint firstItem="U5H-UK-Agq" firstAttribute="top" secondItem="1IE-uq-1oD" secondAttribute="top" id="BIK-kS-yG9"/>
+                            <constraint firstItem="U5H-UK-Agq" firstAttribute="leading" secondItem="1IE-uq-1oD" secondAttribute="leading" id="O3i-YP-Bwk"/>
+                            <constraint firstItem="1IE-uq-1oD" firstAttribute="trailing" secondItem="U5H-UK-Agq" secondAttribute="trailing" id="ny5-sU-6u5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1IE-uq-1oD"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="U5H-UK-Agq" id="wT6-G7-cvZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzd-g7-CcB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

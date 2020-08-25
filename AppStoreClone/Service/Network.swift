@@ -25,6 +25,7 @@ final class Network<T: Decodable> {
         let absolutePath = endPoint + query
         return RxAlamofire
             .data(.get, absolutePath)
+            .catchErrorJustReturn(Data())
             .observeOn(scheduler)
             .map({ data -> T? in
                 do {

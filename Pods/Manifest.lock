@@ -22,7 +22,9 @@ PODS:
   - RxSwiftExt/RxCocoa (5.2.0):
     - RxCocoa (~> 5.0)
     - RxSwiftExt/Core
+  - SnapKit (5.0.1)
   - SwiftLint (0.39.2)
+  - Then (2.7.0)
   - WeakMapTable (1.1.0)
 
 DEPENDENCIES:
@@ -32,7 +34,9 @@ DEPENDENCIES:
   - RxCocoa
   - RxSwift
   - RxSwiftExt
+  - SnapKit
   - SwiftLint
+  - Then
 
 SPEC REPOS:
   trunk:
@@ -43,7 +47,9 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - RxSwiftExt
+    - SnapKit
     - SwiftLint
+    - Then
     - WeakMapTable
 
 SPEC CHECKSUMS:
@@ -54,9 +60,11 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
+  Then: acfe0be7e98221c6204e12f8161459606d5d822d
   WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
 
-PODFILE CHECKSUM: 90c08ec2909d1f30d57f52172603146235db06c2
+PODFILE CHECKSUM: cc6babeadc06e37a376315dbcc5e5947b76bf0d7
 
 COCOAPODS: 1.9.3

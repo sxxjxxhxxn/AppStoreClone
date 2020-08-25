@@ -12,20 +12,19 @@ import SnapKit
 import Then
 
 class KeywordListTableViewCell: UITableViewCell, View {
-//    @IBOutlet weak var label: UILabel!
-    var _label = UILabel()
 
+    var label = UILabel()
     var disposeBag: DisposeBag = DisposeBag()
     
     func bind(reactor: KeywordItemReactor) {
         let keyword = reactor.initialState
-        _label.text = keyword.text
+        label.text = keyword.text
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(_label)
-        _label.snp.makeConstraints { (make) in
+        contentView.addSubview(label)
+        label.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()
         }

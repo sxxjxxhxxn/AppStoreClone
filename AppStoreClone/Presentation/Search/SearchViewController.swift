@@ -13,44 +13,52 @@ import RxCocoa
 import RxSwiftExt
 import Reachability
 import RxReachability
+import SnapKit
+import Then
 
-class SearchViewController: UIViewController, StoryboardView {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var keywordListContainer: UIView!
-    
+class SearchViewController: UIViewController, View {
+
     var disposeBag = DisposeBag()
-    private var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search Apps"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.barStyle = .default
-        return searchController
-    }()
-    private var spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds)
-        spinner.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        spinner.style = .whiteLarge
-        return spinner
-    }()
+    var tableView = UITableView().then {
+        $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 200
+        $0.separatorStyle = UITableViewCell.SeparatorStyle.none
+    }
+    private var searchController = UISearchController(searchResultsController: nil).then {
+        $0.searchBar.placeholder = "Search Apps"
+        $0.obscuresBackgroundDuringPresentation = false
+        $0.searchBar.barStyle = .default
+    }
+    var keywordListContainer = UIView().then {
+        $0.isHidden = true
+    }
+    private var spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds).then {
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        $0.style = .whiteLarge
+    }
     private var reachability: Reachability? = Reachability()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
+        view.addSubview(keywordListContainer)
+        view.addSubview(spinner)
         
-        keywordListContainer.isHidden = true
+        setupSearchController()
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        keywordListContainer.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
         title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
-        setupTableView()
-        setupSearchController()
-        view.addSubview(spinner)
+        
         try? reachability?.startNotifier()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        reachability?.stopNotifier()
     }
     
     func bind(reactor: SearchReactor) {
@@ -87,12 +95,6 @@ class SearchViewController: UIViewController, StoryboardView {
 // MARK: - Table View
 
 extension SearchViewController {
-    
-    private func setupTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
     
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state

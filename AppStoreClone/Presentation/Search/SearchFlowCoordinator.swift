@@ -39,11 +39,10 @@ class SearchFlowCoordinator {
     }
 
     private func openKeywordList(_ didSelect: @escaping (Keyword) -> Void) {
-        guard let searchViewController = searchVC, keywordListVC == nil,
-            let container = searchViewController.keywordListContainer else { return }
+        guard let searchViewController = searchVC, keywordListVC == nil else { return }
 
         let vc = dependencies.makeKeywordListViewController(didSelect: didSelect)
-        searchViewController.add(child: vc, container: container)
+        searchViewController.add(child: vc, container: searchViewController.keywordListContainer)
         keywordListVC = vc
     }
 
@@ -59,7 +58,7 @@ class SearchFlowCoordinator {
         let alertAction: UIAlertAction = UIAlertAction(title: "확인",
                                                        style: .default)
         alert.addAction(alertAction)
-        navigationController.pushViewController(alert, animated: true)
+        navigationController.present(alert, animated: true)
     }
     
     private func showDetail(appItem: AppItem) {

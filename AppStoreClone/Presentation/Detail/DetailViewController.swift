@@ -8,14 +8,20 @@
 
 import UIKit
 import ReactorKit
+import SnapKit
 
-class DetailViewController: UIViewController, StoryboardView {
-    @IBOutlet weak var label: UILabel!
-    
+class DetailViewController: UIViewController, View {
+
     var disposeBag = DisposeBag()
-    
+    var label = UILabel()
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+        }
     }
     
     func bind(reactor: DetailReactor) {

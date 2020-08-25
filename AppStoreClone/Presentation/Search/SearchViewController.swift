@@ -11,11 +11,18 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import RxSwiftExt
+import SnapKit
+import Then
 
-class SearchViewController: UIViewController, StoryboardView {
-    @IBOutlet weak var tableView: UITableView!
+class SearchViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
+    var tableView = UITableView().then {
+        $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 100
+        $0.separatorStyle = UITableViewCell.SeparatorStyle.none
+    }
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Search Apps"
@@ -26,13 +33,17 @@ class SearchViewController: UIViewController, StoryboardView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
+        
+        setupSearchController()
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         
         title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
-        setupTableView()
-        setupSearchController()
     }
     
     func bind(reactor: SearchReactor) {
@@ -45,12 +56,6 @@ class SearchViewController: UIViewController, StoryboardView {
 // MARK: - Table View
 
 extension SearchViewController {
-    
-    private func setupTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
     
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state

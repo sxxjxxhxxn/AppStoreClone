@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let iTunesSearchAPI = "https://itunes.apple.com/search?country=kr&entity=software&term="
         let service = ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
         let searchReactor = SearchReactor(service: service)
-        let searchVC = SearchViewController.instantiate()
+        let searchVC = SearchViewController.init()
         searchVC.reactor = searchReactor
         
         let navigationController = UINavigationController(rootViewController: searchVC)

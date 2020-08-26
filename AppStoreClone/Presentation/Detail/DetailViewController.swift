@@ -13,7 +13,9 @@ import SnapKit
 class DetailViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
-    var label = UILabel()
+    var label = UILabel().then {
+        $0.numberOfLines = 0
+    }
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,7 @@ class DetailViewController: UIViewController, View {
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     

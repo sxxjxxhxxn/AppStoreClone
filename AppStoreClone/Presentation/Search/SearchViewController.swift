@@ -38,9 +38,17 @@ class SearchViewController: UIViewController, View {
         $0.style = .whiteLarge
     }
     private var reachability: Reachability? = Reachability()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "검색"
         view.addSubview(tableView)
         view.addSubview(keywordListContainer)
         view.addSubview(spinner)
@@ -51,11 +59,6 @@ class SearchViewController: UIViewController, View {
         }
         keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
-        }
-        
-        title = "검색"
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
         }
         
         try? reachability?.startNotifier()

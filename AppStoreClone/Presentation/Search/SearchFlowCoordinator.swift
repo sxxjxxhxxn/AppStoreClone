@@ -62,6 +62,9 @@ class SearchFlowCoordinator {
     }
     
     private func showDetail(appItem: AppItem) {
+        if #available(iOS 11.0, *) {
+            navigationController.navigationBar.prefersLargeTitles = false
+        }
         let detailVC = dependencies.makeDetailViewController(appItem: appItem)
         navigationController.pushViewController(detailVC, animated: true)
     }

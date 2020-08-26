@@ -12,6 +12,7 @@ public struct AppItem: Decodable {
 
     public let screenshotUrls: [String]
     public let artworkUrl100: String
+    public let artworkUrl512: String
     public let artistViewUrl: String
     public let sellerUrl: String?
     public let averageUserRating: Double
@@ -24,7 +25,7 @@ public struct AppItem: Decodable {
     public let genres: [String]
     public let price: Float?
     public let description: String
-    public let userRatingCount: Int
+    public let userRatingCount: Double
 }
 
 public struct AppItemResponse: Decodable {

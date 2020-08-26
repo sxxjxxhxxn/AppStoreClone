@@ -22,6 +22,7 @@
 		0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814D24E13175006F6406 /* SearchViewController.swift */; };
 		0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79814F24E131C9006F6406 /* SearchReactor.swift */; };
 		0F79815824E2457B006F6406 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79815724E2457B006F6406 /* Reusable.swift */; };
+		0FAC4A8024F658510046825F /* ScreenshotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAC4A7F24F658510046825F /* ScreenshotCollectionViewCell.swift */; };
 		0FBFAC9E24E5372300C5BEEA /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFAC9D24E5372300C5BEEA /* Keyword.swift */; };
 		0FBFACA124E53A7D00C5BEEA /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA024E53A7D00C5BEEA /* AppFlowCoordinator.swift */; };
 		0FBFACA424E53D8200C5BEEA /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACA324E53D8200C5BEEA /* AppDIContainer.swift */; };
@@ -69,6 +70,7 @@
 		0F79814D24E13175006F6406 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0F79814F24E131C9006F6406 /* SearchReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReactor.swift; sourceTree = "<group>"; };
 		0F79815724E2457B006F6406 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		0FAC4A7F24F658510046825F /* ScreenshotCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCollectionViewCell.swift; sourceTree = "<group>"; };
 		0FBFAC9D24E5372300C5BEEA /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
 		0FBFACA024E53A7D00C5BEEA /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
 		0FBFACA324E53D8200C5BEEA /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		0F6F935424EF7CD3001BBEAC /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				0FAC4A7F24F658510046825F /* ScreenshotCollectionViewCell.swift */,
 				0F6F935924EF8D3F001BBEAC /* DetailReactor.swift */,
 				0F6F935524EF7E10001BBEAC /* DetailViewController.swift */,
 			);
@@ -498,6 +501,7 @@
 				0FBFACAC24E65FB600C5BEEA /* KeywordListViewController.swift in Sources */,
 				0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */,
 				0FBFACA424E53D8200C5BEEA /* AppDIContainer.swift in Sources */,
+				0FAC4A8024F658510046825F /* ScreenshotCollectionViewCell.swift in Sources */,
 				0F6F935A24EF8D3F001BBEAC /* DetailReactor.swift in Sources */,
 				0F6F935624EF7E10001BBEAC /* DetailViewController.swift in Sources */,
 				0FBFACB324E6626300C5BEEA /* UIViewController+AddChild.swift in Sources */,

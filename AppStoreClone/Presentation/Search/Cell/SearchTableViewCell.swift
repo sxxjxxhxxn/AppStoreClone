@@ -11,6 +11,7 @@ import ReactorKit
 
 class SearchTableViewCell: UITableViewCell, View {
 
+    var disposeBag: DisposeBag = DisposeBag()
     var artWorkImageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
@@ -20,7 +21,6 @@ class SearchTableViewCell: UITableViewCell, View {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 15.0)
     }
-    var disposeBag: DisposeBag = DisposeBag()
     
     func bind(reactor: SearchItemReactor) {
         let appItem = reactor.currentState

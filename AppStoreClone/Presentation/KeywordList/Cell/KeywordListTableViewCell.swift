@@ -33,7 +33,7 @@ class KeywordListTableViewCell: UITableViewCell, View {
     
     func setConstraints() {
         keywordLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
         }
     }

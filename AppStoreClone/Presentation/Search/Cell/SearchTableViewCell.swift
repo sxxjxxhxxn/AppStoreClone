@@ -32,8 +32,7 @@ class SearchTableViewCell: UITableViewCell, View {
     func setConstraints() {
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
     }
     

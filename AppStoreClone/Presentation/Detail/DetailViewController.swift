@@ -31,8 +31,16 @@ class DetailViewController: UIViewController, View {
         $0.numberOfLines = 2
         $0.font = UIFont.systemFont(ofSize: 21.0)
     }
-    var genreLabel = UILabel().then {
+    var artistNameLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
+        $0.font = UIFont.systemFont(ofSize: 16.0)
+    }
+    var sellerButton = UIButton().then {
+        $0.backgroundColor = UIColor.lightGray
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle("열기", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
+        $0.layer.cornerRadius = 16
     }
     var infoStackView = UIStackView().then {
         $0.axis = .horizontal
@@ -54,8 +62,9 @@ class DetailViewController: UIViewController, View {
     }
     var userRatingSubLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
+        $0.font = UIFont.systemFont(ofSize: 14.0)
     }
-    var priceStackView = UIStackView().then {
+    var priceGenreStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
         $0.alignment = .center
@@ -64,8 +73,10 @@ class DetailViewController: UIViewController, View {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.boldSystemFont(ofSize: 21.0)
     }
-    var priceSubLabel = UILabel().then {
+    var genreLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
+        $0.font = UIFont.systemFont(ofSize: 14.0)
+        $0.adjustsFontSizeToFitWidth = true
     }
     var contentRatingStackView = UIStackView().then {
         $0.axis = .vertical
@@ -78,6 +89,7 @@ class DetailViewController: UIViewController, View {
     }
     var contentRatingSubLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
+        $0.font = UIFont.systemFont(ofSize: 14.0)
     }
     var screenshotView = UIView()
     var screenShotCollectionView = UICollectionView(frame: CGRect.zero,
@@ -90,12 +102,6 @@ class DetailViewController: UIViewController, View {
         $0.register(ScreenshotCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotCollectionViewCell.reuseID)
         $0.backgroundColor = UIColor.clear
     }
-    var artistNameLabel = UILabel().then {
-        $0.textColor = UIColor.blue
-    }
-    var artistNameSubLabel = UILabel().then {
-        $0.textColor = UIColor.darkGray
-    }
     var descriptionLabel = UILabel().then {
         $0.numberOfLines = 0
     }
@@ -107,21 +113,20 @@ class DetailViewController: UIViewController, View {
         scrollView.addSubview(contentView)
         contentView.addSubview(artWorkImageView)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(genreLabel)
+        contentView.addSubview(artistNameLabel)
+        contentView.addSubview(sellerButton)
         contentView.addSubview(infoStackView)
         contentView.addSubview(screenshotView)
         screenshotView.addSubview(screenShotCollectionView)
-        contentView.addSubview(artistNameSubLabel)
-        contentView.addSubview(artistNameLabel)
         contentView.addSubview(descriptionLabel)
         
         infoStackView.addArrangedSubview(userRatingStackView)
-        infoStackView.addArrangedSubview(priceStackView)
+        infoStackView.addArrangedSubview(priceGenreStackView)
         infoStackView.addArrangedSubview(contentRatingStackView)
         userRatingStackView.addArrangedSubview(userRatingBar)
         userRatingStackView.addArrangedSubview(userRatingSubLabel)
-        priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(priceSubLabel)
+        priceGenreStackView.addArrangedSubview(priceLabel)
+        priceGenreStackView.addArrangedSubview(genreLabel)
         contentRatingStackView.addArrangedSubview(contentRatingLabel)
         contentRatingStackView.addArrangedSubview(contentRatingSubLabel)
         
@@ -132,25 +137,21 @@ class DetailViewController: UIViewController, View {
         let appItem = reactor.initialState
         
         DispatchQueue.global(qos: .background).async {
-            if let artWorkUrl = URL(string: appItem.artworkUrl512) {
-                if let artWorkData = try? Data(contentsOf: artWorkUrl) {
-                    DispatchQueue.main.async {
-                        self.artWorkImageView.image = UIImage(data: artWorkData)
-                    }
+            if let artWorkUrl = URL(string: appItem.artworkUrl512), let artWorkData = try? Data(contentsOf: artWorkUrl) {
+                DispatchQueue.main.async {
+                    self.artWorkImageView.image = UIImage(data: artWorkData)
                 }
             }
         }
         nameLabel.text = appItem.trackName
-        genreLabel.text = appItem.genres.joined(separator: ", ")
+        artistNameLabel.text = appItem.artistName
         userRatingBar.rating = appItem.averageUserRating
         userRatingBar.text = appItem.userRatingCount == 0 ? "" : "\(round(appItem.averageUserRating*10)/10)"
         userRatingSubLabel.text = appItem.userRatingCount == 0 ? "평가 부족" : "\(round(appItem.userRatingCount/100)/10)천개의 평가"
-        priceLabel.text = "$\(appItem.price ?? 0.0)"
-        priceSubLabel.text = appItem.formattedPrice
+        priceLabel.text = appItem.formattedPrice
+        genreLabel.text = (appItem.genres.count<4 ? appItem.genres : appItem.genres.dropLast(2)).joined(separator: ", ")
         contentRatingLabel.text = appItem.trackContentRating
         contentRatingSubLabel.text = "연령"
-        artistNameSubLabel.text = "개발자"
-        artistNameLabel.text = appItem.artistName
         descriptionLabel.text = appItem.description
         
         reactor.state
@@ -159,6 +160,15 @@ class DetailViewController: UIViewController, View {
                 let cell = collectionView.dequeueReusableCell(of: ScreenshotCollectionViewCell.self)
                 cell.bind(imageUrl)
                 return cell
+            }
+            .disposed(by: disposeBag)
+        
+        sellerButton.rx
+            .tap
+            .subscribe { (_) in
+                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
+                    UIApplication.shared.open(sellerUrl)
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -181,34 +191,31 @@ class DetailViewController: UIViewController, View {
             make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(16)
         }
-        genreLabel.snp.makeConstraints { (make) in
+        artistNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
             make.leading.trailing.equalTo(nameLabel)
         }
+        sellerButton.snp.makeConstraints { (make) in
+            make.leading.equalTo(artistNameLabel)
+            make.bottom.equalTo(artWorkImageView)
+            make.size.equalTo(CGSize(width: 60, height: 30))
+        }
         infoStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(artWorkImageView.snp.bottom).offset(20)
+            make.top.equalTo(artWorkImageView.snp.bottom).offset(40)
             make.leading.equalTo(artWorkImageView.snp.leading)
-            make.trailing.equalTo(genreLabel.snp.trailing)
+            make.trailing.equalTo(artistNameLabel.snp.trailing)
         }
         screenshotView.snp.makeConstraints { (make) in
-            make.top.equalTo(infoStackView.snp.bottom).offset(10)
+            make.top.equalTo(infoStackView.snp.bottom).offset(20)
             make.leading.trailing.equalTo(infoStackView)
             make.height.equalTo(348)
         }
         screenShotCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        artistNameSubLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(screenshotView.snp.bottom).offset(20)
-            make.leading.trailing.equalTo(screenshotView)
-        }
-        artistNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(artistNameSubLabel.snp.bottom)
-            make.leading.trailing.equalTo(artistNameSubLabel)
-        }
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(artistNameLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalTo(artistNameLabel)
+            make.top.equalTo(screenshotView.snp.bottom).offset(30)
+            make.leading.trailing.equalTo(screenshotView)
             make.bottom.equalToSuperview().inset(10)
         }
     }

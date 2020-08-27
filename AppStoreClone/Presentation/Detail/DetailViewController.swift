@@ -16,8 +16,7 @@ class DetailViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
     var scrollView = UIScrollView().then {
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.showsVerticalScrollIndicator = true
+        $0.showsHorizontalScrollIndicator = false
         $0.isScrollEnabled = true
     }
     var contentView = UIView()
@@ -25,6 +24,8 @@ class DetailViewController: UIViewController, View {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 16
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderWidth = 0.5
     }
     var nameLabel = UILabel().then {
         $0.numberOfLines = 0
@@ -43,12 +44,12 @@ class DetailViewController: UIViewController, View {
     }
     var userRatingBar = CosmosView().then {
         $0.settings.textFont = UIFont.boldSystemFont(ofSize: 21)
-        $0.settings.textColor = UIColor.lightGray
+        $0.settings.textColor = UIColor.darkGray
         $0.settings.starMargin = 1
         $0.settings.starSize = 21.0
-        $0.settings.filledBorderColor = UIColor.lightGray
-        $0.settings.emptyBorderColor = UIColor.lightGray
-        $0.settings.filledColor = UIColor.lightGray
+        $0.settings.filledBorderColor = UIColor.darkGray
+        $0.settings.emptyBorderColor = UIColor.darkGray
+        $0.settings.filledColor = UIColor.darkGray
         $0.isUserInteractionEnabled = false
     }
     var userRatingSubLabel = UILabel().then {
@@ -57,10 +58,10 @@ class DetailViewController: UIViewController, View {
     var priceStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
-        $0.alignment = .trailing
+        $0.alignment = .center
     }
     var priceLabel = UILabel().then {
-        $0.textColor = UIColor.lightGray
+        $0.textColor = UIColor.darkGray
         $0.font = UIFont.boldSystemFont(ofSize: 21.0)
     }
     var priceSubLabel = UILabel().then {
@@ -72,7 +73,7 @@ class DetailViewController: UIViewController, View {
         $0.alignment = .trailing
     }
     var contentRatingLabel = UILabel().then {
-        $0.textColor = UIColor.lightGray
+        $0.textColor = UIColor.darkGray
         $0.font = UIFont.boldSystemFont(ofSize: 21.0)
     }
     var contentRatingSubLabel = UILabel().then {
@@ -149,39 +150,38 @@ class DetailViewController: UIViewController, View {
     
     func setConstraints() {
         scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(0)
+            make.edges.equalToSuperview()
         }
         contentView.snp.makeConstraints { (make) in
-            make.edges.equalTo(0)
-            make.width.equalTo(UIScreen.main.bounds.width)
-//            make.height.equalTo(UIScreen.main.bounds.height + 100)
+            make.width.equalToSuperview()
+            make.centerX.top.bottom.equalToSuperview()
         }
         artWorkImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 120, height: 120))
-            make.top.equalToSuperview().offset(10)
-            make.left.equalToSuperview().offset(16)
+            make.top.equalToSuperview().inset(10)
+            make.leading.equalToSuperview().inset(16)
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(artWorkImageView.snp.top).offset(10)
-            make.left.equalTo(artWorkImageView.snp.right).offset(10)
-            make.right.equalToSuperview().offset(-16)
+            make.top.equalTo(artWorkImageView.snp.top).inset(10)
+            make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(16)
         }
         genreLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.left.equalTo(nameLabel.snp.left)
-            make.right.equalTo(nameLabel.snp.right)
+            make.leading.equalTo(nameLabel.snp.leading)
+            make.trailing.equalTo(nameLabel.snp.trailing)
         }
         infoStackView.snp.makeConstraints { (make) in
             make.top.equalTo(artWorkImageView.snp.bottom).offset(20)
-            make.left.equalTo(artWorkImageView.snp.left)
-            make.right.equalTo(genreLabel.snp.right)
+            make.leading.equalTo(artWorkImageView.snp.leading)
+            make.trailing.equalTo(genreLabel.snp.trailing)
         }
         screenshotView.snp.makeConstraints { (make) in
             make.top.equalTo(infoStackView.snp.bottom).offset(10)
-            make.left.equalTo(infoStackView.snp.left)
-            make.right.equalTo(infoStackView.snp.right)
+            make.leading.equalTo(infoStackView.snp.leading)
+            make.trailing.equalTo(infoStackView.snp.trailing)
             make.height.equalTo(348)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
         }
         screenShotCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

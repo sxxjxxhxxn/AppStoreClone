@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0F285F9A24E37C9F008E956E /* SearchItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F285F9924E37C9F008E956E /* SearchItemReactor.swift */; };
 		0F285F9D24E37CFE008E956E /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F285F9B24E37CFE008E956E /* SearchTableViewCell.swift */; };
+		0F65AF1324F747B1002276AC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65AF1224F747B1002276AC /* Constants.swift */; };
 		0F6F935624EF7E10001BBEAC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6F935524EF7E10001BBEAC /* DetailViewController.swift */; };
 		0F6F935A24EF8D3F001BBEAC /* DetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6F935924EF8D3F001BBEAC /* DetailReactor.swift */; };
 		0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79811E24E100F8006F6406 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		0F285F9924E37C9F008E956E /* SearchItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemReactor.swift; sourceTree = "<group>"; };
 		0F285F9B24E37CFE008E956E /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		0F65AF1224F747B1002276AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0F6F935524EF7E10001BBEAC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0F6F935924EF8D3F001BBEAC /* DetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReactor.swift; sourceTree = "<group>"; };
 		0F79811B24E100F8006F6406 /* AppStoreClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppStoreClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +241,7 @@
 				0F79815724E2457B006F6406 /* Reusable.swift */,
 				0FBFACB224E6626300C5BEEA /* UIViewController+AddChild.swift */,
 				0FBFACD624EE675C00C5BEEA /* NotEmpty.swift */,
+				0F65AF1224F747B1002276AC /* Constants.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */,
 				0F79815824E2457B006F6406 /* Reusable.swift in Sources */,
 				0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */,
+				0F65AF1324F747B1002276AC /* Constants.swift in Sources */,
 				0F79814624E11008006F6406 /* Network.swift in Sources */,
 				0FBFACB124E660FE00C5BEEA /* KeywordListReactor.swift in Sources */,
 				0F79814B24E11163006F6406 /* AppItemResponse.swift in Sources */,

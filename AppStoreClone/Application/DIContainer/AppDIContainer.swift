@@ -19,7 +19,7 @@ final class AppDIContainer {
     // MARK: - Storage
     lazy var keywordStorage: KeywordStorageType = {
         let storage = Storage()
-        return StorageProvider().makeKeywordStorage(maxStorageLimit: 10)
+        return StorageProvider().makeKeywordStorage(maxStorageLimit: Constants.MAX_STORAGE_LIMIT)
     }()
     
     // MARK: - DIContainers of scenes

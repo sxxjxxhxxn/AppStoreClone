@@ -25,7 +25,7 @@ class KeywordListTableViewCell: UITableViewCell, View {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
         }
     }

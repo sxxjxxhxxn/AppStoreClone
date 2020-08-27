@@ -15,6 +15,8 @@ class SearchTableViewCell: UITableViewCell, View {
     var artWorkImageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderWidth = 0.5
     }
     var nameLabel = UILabel()
     var genreLabel = UILabel().then {
@@ -53,19 +55,17 @@ class SearchTableViewCell: UITableViewCell, View {
     func setConstraints() {
         artWorkImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 70, height: 70))
-            make.top.equalToSuperview().offset(5)
-            make.bottom.equalToSuperview().offset(-5)
-            make.left.equalToSuperview().offset(16)
+            make.top.bottom.equalToSuperview().inset(5)
+            make.leading.equalToSuperview().inset(16)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(artWorkImageView.snp.centerY).offset(-13)
-            make.left.equalTo(artWorkImageView.snp.right).offset(10)
-            make.right.equalToSuperview().offset(-16)
+            make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(16)
         }
         genreLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.left.equalTo(nameLabel.snp.left)
-            make.right.equalToSuperview().offset(-16)
+            make.leading.trailing.equalTo(nameLabel)
         }
     }
     

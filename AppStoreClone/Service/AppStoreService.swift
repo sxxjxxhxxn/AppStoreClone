@@ -18,7 +18,7 @@ final class AppStoreService: AppStoreServiceType {
 
     private let network: Network<AppItemResponse>
     var recentKeyword: String = ""
-    var limit: Int = 20
+    var limit: Int = Constants.BASIC_NUMBER_OF_ITEMS
 
     init(network: Network<AppItemResponse>) {
         self.network = network
@@ -26,7 +26,7 @@ final class AppStoreService: AppStoreServiceType {
     
     func loadItems(_ keyword: String) -> Observable<[AppItem]> {
         recentKeyword = keyword
-        limit = 20
+        limit = Constants.BASIC_NUMBER_OF_ITEMS
         return network.getItem("\(keyword)&limit=\(limit)")
             .map { [weak self] (response) -> [AppItem] in
                 self?.limit = response?.resultCount ?? 0
@@ -35,7 +35,7 @@ final class AppStoreService: AppStoreServiceType {
     }
     
     func loadMoreItems() -> Observable<[AppItem]> {
-        return network.getItem("\(recentKeyword)&limit=\(limit+20)")
+        return network.getItem("\(recentKeyword)&limit=\(limit+Constants.BASIC_NUMBER_OF_ITEMS)")
             .map { [weak self] (response) -> [AppItem] in
                 guard let self = self else { return [] }
                 guard let results = response?.results, results.count > self.limit else { return [] }

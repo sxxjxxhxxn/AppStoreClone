@@ -28,7 +28,7 @@ class DetailViewController: UIViewController, View {
         $0.layer.borderWidth = 0.5
     }
     var nameLabel = UILabel().then {
-        $0.numberOfLines = 0
+        $0.numberOfLines = 2
         $0.font = UIFont.systemFont(ofSize: 21.0)
     }
     var genreLabel = UILabel().then {
@@ -90,6 +90,15 @@ class DetailViewController: UIViewController, View {
         $0.register(ScreenshotCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotCollectionViewCell.reuseID)
         $0.backgroundColor = UIColor.clear
     }
+    var artistNameLabel = UILabel().then {
+        $0.textColor = UIColor.blue
+    }
+    var artistNameSubLabel = UILabel().then {
+        $0.textColor = UIColor.darkGray
+    }
+    var descriptionLabel = UILabel().then {
+        $0.numberOfLines = 0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +111,9 @@ class DetailViewController: UIViewController, View {
         contentView.addSubview(infoStackView)
         contentView.addSubview(screenshotView)
         screenshotView.addSubview(screenShotCollectionView)
+        contentView.addSubview(artistNameSubLabel)
+        contentView.addSubview(artistNameLabel)
+        contentView.addSubview(descriptionLabel)
         
         infoStackView.addArrangedSubview(userRatingStackView)
         infoStackView.addArrangedSubview(priceStackView)
@@ -137,6 +149,9 @@ class DetailViewController: UIViewController, View {
         priceSubLabel.text = appItem.formattedPrice
         contentRatingLabel.text = appItem.trackContentRating
         contentRatingSubLabel.text = "연령"
+        artistNameSubLabel.text = "개발자"
+        artistNameLabel.text = appItem.artistName
+        descriptionLabel.text = appItem.description
         
         reactor.state
             .map { $0.screenshotUrls }
@@ -168,8 +183,7 @@ class DetailViewController: UIViewController, View {
         }
         genreLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.leading.equalTo(nameLabel.snp.leading)
-            make.trailing.equalTo(nameLabel.snp.trailing)
+            make.leading.trailing.equalTo(nameLabel)
         }
         infoStackView.snp.makeConstraints { (make) in
             make.top.equalTo(artWorkImageView.snp.bottom).offset(20)
@@ -178,13 +192,24 @@ class DetailViewController: UIViewController, View {
         }
         screenshotView.snp.makeConstraints { (make) in
             make.top.equalTo(infoStackView.snp.bottom).offset(10)
-            make.leading.equalTo(infoStackView.snp.leading)
-            make.trailing.equalTo(infoStackView.snp.trailing)
+            make.leading.trailing.equalTo(infoStackView)
             make.height.equalTo(348)
-            make.bottom.equalToSuperview().inset(10)
         }
         screenShotCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
+        }
+        artistNameSubLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(screenshotView.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(screenshotView)
+        }
+        artistNameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(artistNameSubLabel.snp.bottom)
+            make.leading.trailing.equalTo(artistNameSubLabel)
+        }
+        descriptionLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(artistNameLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(artistNameLabel)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
 

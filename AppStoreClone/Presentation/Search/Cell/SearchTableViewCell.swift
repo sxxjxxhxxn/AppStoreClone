@@ -25,19 +25,36 @@ class SearchTableViewCell: UITableViewCell, View {
     }
     
     func bind(reactor: SearchItemReactor) {
-        let appItem = reactor.currentState
+//        let appItem = reactor.currentState
+//
+//        DispatchQueue.global(qos: .background).async {
+//            if let artWorkUrl = URL(string: appItem.artworkUrl100) {
+//                if let artWorkData = try? Data(contentsOf: artWorkUrl) {
+//                    DispatchQueue.main.async {
+//                        self.artWorkImageView.image = UIImage(data: artWorkData)
+//                    }
+//                }
+//            }
+//        }
+//        nameLabel.text = appItem.trackName
+//        genreLabel.text = appItem.genres.joined(separator: ", ")
         
-        DispatchQueue.global(qos: .background).async {
-            if let artWorkUrl = URL(string: appItem.artworkUrl100) {
-                if let artWorkData = try? Data(contentsOf: artWorkUrl) {
-                    DispatchQueue.main.async {
-                        self.artWorkImageView.image = UIImage(data: artWorkData)
+        reactor.state
+            .do(onNext: { [weak self] (appItem) in
+                DispatchQueue.global(qos: .background).async {
+                    if let artWorkUrl = URL(string: appItem.artworkUrl100) {
+                        if let artWorkData = try? Data(contentsOf: artWorkUrl) {
+                            DispatchQueue.main.async {
+                                self?.artWorkImageView.image = UIImage(data: artWorkData)
+                            }
+                        }
                     }
                 }
-            }
-        }
-        nameLabel.text = appItem.trackName
-        genreLabel.text = appItem.genres.joined(separator: ", ")
+                self?.nameLabel.text = appItem.trackName
+                self?.genreLabel.text = appItem.genres.joined(separator: ", ")
+            })
+            .subscribe()
+            .dispose()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,6 +89,7 @@ class SearchTableViewCell: UITableViewCell, View {
     override func prepareForReuse() {
         super.prepareForReuse()
         artWorkImageView.image = nil
+        disposeBag = DisposeBag()
     }
     
 }

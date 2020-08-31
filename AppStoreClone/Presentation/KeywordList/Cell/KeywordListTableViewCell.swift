@@ -10,12 +10,11 @@ import UIKit
 import RxSwift
 import ReactorKit
 import SnapKit
-import Then
 
-class KeywordListTableViewCell: UITableViewCell, View {
+final class KeywordListTableViewCell: UITableViewCell, View {
 
-    var keywordLabel = UILabel()
     var disposeBag: DisposeBag = DisposeBag()
+    private let keywordLabel = UILabel()
     
     func bind(reactor: KeywordItemReactor) {
         let keyword = reactor.initialState
@@ -34,7 +33,7 @@ class KeywordListTableViewCell: UITableViewCell, View {
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
-    func setConstraints() {
+    private func setConstraints() {
         keywordLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()

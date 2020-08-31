@@ -9,11 +9,12 @@
 import UIKit
 import RxSwift
 import ReactorKit
+import SnapKit
 
-class SearchTableViewCell: UITableViewCell, View {
+final class SearchTableViewCell: UITableViewCell, View {
     
     var disposeBag: DisposeBag = DisposeBag()
-    var nameLabel = UILabel()
+    private let nameLabel = UILabel()
     
     func bind(reactor: SearchItemReactor) {
         let appItem = reactor.currentState
@@ -32,7 +33,7 @@ class SearchTableViewCell: UITableViewCell, View {
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
-    func setConstraints() {
+    private func setConstraints() {
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(16)

@@ -15,7 +15,7 @@ import Then
 class KeywordListViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
-    var tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.register(KeywordListTableViewCell.self, forCellReuseIdentifier: KeywordListTableViewCell.reuseID)
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 100

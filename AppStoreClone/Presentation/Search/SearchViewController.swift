@@ -17,18 +17,18 @@ import Then
 class SearchViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
-    var tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 100
         $0.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
-    private var searchController = UISearchController(searchResultsController: nil).then {
+    private let searchController = UISearchController(searchResultsController: nil).then {
         $0.searchBar.placeholder = "Search Apps"
         $0.obscuresBackgroundDuringPresentation = false
         $0.searchBar.barStyle = .default
     }
-    var keywordListContainer = UIView().then {
+    let keywordListContainer = UIView().then {
         $0.isHidden = true
     }
 

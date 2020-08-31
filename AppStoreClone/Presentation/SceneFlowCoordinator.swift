@@ -13,7 +13,7 @@ protocol SceneFlowCoordinatorDependencies {
     func makeKeywordListViewController() -> KeywordListViewController
 }
 
-class SceneFlowCoordinator {
+final class SceneFlowCoordinator {
     
     private let navigationController: UINavigationController
     private let dependencies: SceneFlowCoordinatorDependencies

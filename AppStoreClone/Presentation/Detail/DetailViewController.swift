@@ -36,7 +36,7 @@ class DetailViewController: UIViewController, View {
         $0.font = UIFont.systemFont(ofSize: 16.0)
     }
     var sellerButton = UIButton().then {
-        $0.backgroundColor = UIColor.lightGray
+        $0.backgroundColor = UIColor.init(red: 0, green: 122/255, blue: 1, alpha: 1)
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("열기", for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
@@ -145,6 +145,7 @@ class DetailViewController: UIViewController, View {
         }
         nameLabel.text = appItem.trackName
         artistNameLabel.text = appItem.artistName
+        if appItem.sellerUrl == nil { sellerButton.backgroundColor = UIColor.lightGray }
         userRatingBar.rating = appItem.averageUserRating
         userRatingBar.text = appItem.userRatingCount == 0 ? "" : "\(round(appItem.averageUserRating*10)/10)"
         userRatingSubLabel.text = appItem.userRatingCount == 0 ? "평가 부족" : "\(round(appItem.userRatingCount/100)/10)천개의 평가"
@@ -165,7 +166,7 @@ class DetailViewController: UIViewController, View {
         
         sellerButton.rx
             .tap
-            .subscribe { (_) in
+            .subscribe { _ in
                 if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
                     UIApplication.shared.open(sellerUrl)
                 }

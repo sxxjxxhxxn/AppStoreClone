@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
-    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> UIViewController
+    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListViewController
     func makeDetailViewController(appItem: AppItem) -> DetailViewController
 }
 
@@ -20,7 +21,7 @@ class SearchFlowCoordinator {
     private let dependencies: SearchFlowCoordinatorDependencies
 
     private weak var searchVC: SearchViewController?
-    private weak var keywordListVC: UIViewController?
+    private weak var keywordListVC: KeywordListViewController?
 
     init(navigationController: UINavigationController,
          dependencies: SearchFlowCoordinatorDependencies) {
@@ -37,9 +38,18 @@ class SearchFlowCoordinator {
         searchVC = vc
     }
 
-    private func setKeywordListVisibility() {
+    private func setKeywordListVisibility(_ didSelect: @escaping (Keyword) -> Void) {
         guard let searchViewController = searchVC else { return }
+        if keywordListVC == nil {
+            let keywordListViewController = dependencies.makeKeywordListViewController(didSelect: didSelect)
+            searchViewController.add(child: keywordListViewController, container: searchViewController.keywordListContainer)
+            keywordListVC = keywordListViewController
+        }
+        
         searchViewController.keywordListContainer.isHidden.toggle()
+        if !searchViewController.keywordListContainer.isHidden {
+            keywordListVC?.loadKeywords()
+        }
     }
     
     private func alertDisconnected() {

@@ -17,6 +17,7 @@ class SearchTableViewCell: UITableViewCell, View {
         $0.layer.cornerRadius = 8
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.5
+        $0.image = UIImage(named: "placeholder")
     }
     var nameLabel = UILabel()
     var genreLabel = UILabel().then {

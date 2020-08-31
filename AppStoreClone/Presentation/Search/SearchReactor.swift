@@ -10,7 +10,7 @@ import Foundation
 import ReactorKit
 
 struct SearchReactorClosures {
-    let setKeywordListVisibility: () -> Void
+    let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
     let showDetail: (AppItem) -> Void
     let alertDisconnected: () -> Void
 }
@@ -69,7 +69,7 @@ final class SearchReactor: Reactor {
                 .map { $0.map(SearchItemReactor.init) }
                 .map { .setItems($0) }
         case .keywordListVisibility:
-            closures?.setKeywordListVisibility()
+            closures?.setKeywordListVisibility(didSelect(keyword:))
             return .empty()
         case .disconnected:
             closures?.alertDisconnected()

@@ -24,9 +24,7 @@ final class SearchSceneDIContainer {
     // MARK: - Search List
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController {
         let searchVC = SearchViewController.init()
-        let searchReactor = makeSearchReactor(closures: closures)
-        searchVC.add(child: makeKeywordListViewController(didSelect: searchReactor.didSelect(keyword:)), container: searchVC.keywordListContainer)
-        searchVC.reactor = searchReactor
+        searchVC.reactor = makeSearchReactor(closures: closures)
         return searchVC
     }
     
@@ -37,7 +35,7 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - Keyword List
-    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> UIViewController {
+    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListViewController {
         let keywordListVC = KeywordListViewController.init()
         keywordListVC.reactor = makeKeywordListReactor(didSelect: didSelect)
         return keywordListVC

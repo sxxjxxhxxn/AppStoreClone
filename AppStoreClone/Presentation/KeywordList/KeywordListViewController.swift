@@ -30,6 +30,10 @@ class KeywordListViewController: UIViewController, View {
 
     func bind(reactor: KeywordListReactor) {
         bindTableView(reactor)
+    }
+    
+    func loadKeywords() {
+        guard let reactor = reactor else { return }
         
         Observable.just(Void())
             .map { Reactor.Action.loadKeywords }

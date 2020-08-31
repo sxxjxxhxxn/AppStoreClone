@@ -29,26 +29,17 @@ class SearchFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(showDetail: showDetail,
-                                             openKeywordList: openKeywordList,
-                                             closeKeywordList: closeKeywordList,
+        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility,
+                                             showDetail: showDetail,
                                              alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
     }
 
-    private func openKeywordList(_ didSelect: @escaping (Keyword) -> Void) {
-        guard let searchViewController = searchVC, keywordListVC == nil else { return }
-
-        let vc = dependencies.makeKeywordListViewController(didSelect: didSelect)
-        searchViewController.add(child: vc, container: searchViewController.keywordListContainer)
-        keywordListVC = vc
-    }
-
-    private func closeKeywordList() {
-        keywordListVC?.remove()
-        keywordListVC = nil
+    private func setKeywordListVisibility() {
+        guard let searchViewController = searchVC else { return }
+        searchViewController.keywordListContainer.isHidden.toggle()
     }
     
     private func alertDisconnected() {

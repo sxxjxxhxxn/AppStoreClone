@@ -67,11 +67,12 @@ class SearchTableViewCell: UITableViewCell, View {
         }
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         artWorkImageView.image = nil
-        reactor = nil
-        disposeBag = DisposeBag()
     }
     
 }

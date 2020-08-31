@@ -68,11 +68,6 @@ class SearchViewController: UIViewController, View {
         bindTableView(reactor)
         bindSearchController(reactor)
         
-        reactor.state
-            .map { !$0.listVisibility }
-            .bind(to: keywordListContainer.rx.isHidden)
-            .disposed(by: disposeBag)
-        
         reactor.selectedKeyword
             .map { [weak self] in
                 self?.searchController.isActive = false
@@ -104,7 +99,7 @@ extension SearchViewController {
             .map { $0.items }
             .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
-                cell.bind(reactor: itemReactor)
+                cell.reactor = itemReactor
                 return cell
             }
             .disposed(by: disposeBag)
@@ -120,12 +115,6 @@ extension SearchViewController {
             .map { $0.initialState }
             .map { Reactor.Action.showDetail(appItem: $0) }
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        tableView.rx
-            .itemSelected
-            .map { [weak self] in self?.tableView.deselectRow(at: $0, animated: true) }
-            .subscribe()
             .disposed(by: disposeBag)
     }
     
@@ -161,13 +150,13 @@ extension SearchViewController {
             
         searchController.rx
             .willPresent
-            .map { Reactor.Action.openSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willDismiss
-            .map { Reactor.Action.closeSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

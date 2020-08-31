@@ -10,9 +10,8 @@ import Foundation
 import ReactorKit
 
 struct SearchReactorClosures {
+    let setKeywordListVisibility: () -> Void
     let showDetail: (AppItem) -> Void
-    let openKeywordList: (@escaping (Keyword) -> Void) -> Void
-    let closeKeywordList: () -> Void
     let alertDisconnected: () -> Void
 }
 
@@ -27,8 +26,7 @@ final class SearchReactor: Reactor {
     enum Action {
         case search(keyword: String)
         case loadMore
-        case openSearchList
-        case closeSearchList
+        case keywordListVisibility
         case disconnected
         case showDetail(appItem: AppItem)
     }
@@ -36,13 +34,11 @@ final class SearchReactor: Reactor {
     enum Mutation {
         case clearItems
         case setItems([SearchItemReactor])
-        case setListVisibility(Bool)
         case setFetching(Bool)
     }
     
     struct State {
         var items: [SearchItemReactor] = []
-        var listVisibility: Bool = false
         var isFetching: Bool = false
     }
     
@@ -72,12 +68,9 @@ final class SearchReactor: Reactor {
                 .filter { $0.isNotEmpty }
                 .map { $0.map(SearchItemReactor.init) }
                 .map { .setItems($0) }
-        case .openSearchList:
-            closures?.openKeywordList(didSelect(keyword:))
-            return .just(.setListVisibility(true))
-        case .closeSearchList:
-            closures?.closeKeywordList()
-            return .just(.setListVisibility(false))
+        case .keywordListVisibility:
+            closures?.setKeywordListVisibility()
+            return .empty()
         case .disconnected:
             closures?.alertDisconnected()
             return .empty()
@@ -96,8 +89,6 @@ final class SearchReactor: Reactor {
             newState.items += items
         case let .setFetching(isFetching):
             newState.isFetching = isFetching
-        case let .setListVisibility(visibility):
-            newState.listVisibility = visibility
         }
         return newState
     }

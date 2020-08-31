@@ -7,11 +7,11 @@
 //
 
 import Foundation
+import RxSwift
 import ReactorKit
 
 struct SearchReactorClosures {
-    let openKeywordList: () -> Void
-    let closeKeywordList: () -> Void
+    let setKeywordListVisibility: () -> Void
 }
 
 final class SearchReactor: Reactor {
@@ -22,19 +22,16 @@ final class SearchReactor: Reactor {
     enum Action {
         case search(keyword: String)
         case loadMore
-        case openSearchList
-        case closeSearchList
+        case keywordListVisibility
     }
     
     enum Mutation {
         case clearItems
         case setItems([SearchItemReactor])
-        case setListVisibility(Bool)
     }
     
     struct State {
         var items: [SearchItemReactor] = []
-        var listVisibility: Bool = false
     }
     
     init(service: AppStoreServiceType,
@@ -57,12 +54,9 @@ final class SearchReactor: Reactor {
                 .filter { $0.isNotEmpty }
                 .map { $0.map(SearchItemReactor.init) }
                 .map { Mutation.setItems($0) }
-        case .openSearchList:
-            closures?.openKeywordList()
-            return .just(.setListVisibility(true))
-        case .closeSearchList:
-            closures?.closeKeywordList()
-            return .just(.setListVisibility(false))
+        case .keywordListVisibility:
+            closures?.setKeywordListVisibility()
+            return .empty()
         }
     }
 
@@ -73,8 +67,6 @@ final class SearchReactor: Reactor {
             newState.items.removeAll()
         case let .setItems(items):
             newState.items += items
-        case let .setListVisibility(visibility):
-            newState.listVisibility = visibility
         }
         return newState
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 import ReactorKit
 
 class SearchTableViewCell: UITableViewCell, View {
@@ -28,6 +29,8 @@ class SearchTableViewCell: UITableViewCell, View {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {}
     
     func setConstraints() {
         nameLabel.snp.makeConstraints { (make) in

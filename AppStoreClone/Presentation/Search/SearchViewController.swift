@@ -54,11 +54,6 @@ class SearchViewController: UIViewController, View {
     func bind(reactor: SearchReactor) {
         bindTableView(reactor)
         bindSearchController(reactor)
-        
-        reactor.state
-            .map { !$0.listVisibility }
-            .bind(to: keywordListContainer.rx.isHidden)
-            .disposed(by: disposeBag)
     }
 
 }
@@ -116,13 +111,13 @@ extension SearchViewController {
         
         searchController.rx
             .willPresent
-            .map { Reactor.Action.openSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willDismiss
-            .map { Reactor.Action.closeSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

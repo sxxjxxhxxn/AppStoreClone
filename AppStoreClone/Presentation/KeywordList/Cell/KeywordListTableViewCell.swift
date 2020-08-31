@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 import ReactorKit
 import SnapKit
 import Then
@@ -30,6 +31,8 @@ class KeywordListTableViewCell: UITableViewCell, View {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {}
     
     func setConstraints() {
         keywordLabel.snp.makeConstraints { (make) in

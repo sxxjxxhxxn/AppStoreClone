@@ -28,24 +28,21 @@ class SceneFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(openKeywordList: openKeywordList,
-                                             closeKeywordList: closeKeywordList)
+        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
     }
 
-    private func openKeywordList() {
-        guard let searchViewController = searchVC, keywordListVC == nil else { return }
-
-        let vc = dependencies.makeKeywordListViewController()
-        searchViewController.add(child: vc, container: searchViewController.keywordListContainer)
-        keywordListVC = vc
-    }
-
-    private func closeKeywordList() {
-        keywordListVC?.remove()
-        keywordListVC = nil
+    private func setKeywordListVisibility() {
+        guard let searchViewController = searchVC else { return }
+        if keywordListVC == nil {
+            let keywordListViewController = dependencies.makeKeywordListViewController()
+            searchViewController.add(child: keywordListViewController, container: searchViewController.keywordListContainer)
+            keywordListVC = keywordListViewController
+        }
+        
+        searchViewController.keywordListContainer.isHidden.toggle()
     }
     
 }

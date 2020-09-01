@@ -12,45 +12,45 @@ import SnapKit
 import Then
 import Cosmos
 
-class DetailViewController: UIViewController, View {
+final class DetailViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
-    var scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false
         $0.isScrollEnabled = true
     }
-    var contentView = UIView()
-    var artWorkImageView = UIImageView().then {
+    private let contentView = UIView()
+    private let artWorkImageView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 16
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.5
     }
-    var nameLabel = UILabel().then {
+    private let nameLabel = UILabel().then {
         $0.numberOfLines = 2
         $0.font = UIFont.systemFont(ofSize: 21.0)
     }
-    var artistNameLabel = UILabel().then {
+    private let artistNameLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 16.0)
     }
-    var sellerButton = UIButton().then {
+    private let sellerButton = UIButton().then {
         $0.backgroundColor = UIColor.init(red: 0, green: 122/255, blue: 1, alpha: 1)
         $0.setTitleColor(.white, for: .normal)
         $0.setTitle("열기", for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         $0.layer.cornerRadius = 16
     }
-    var infoStackView = UIStackView().then {
+    private let infoStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
-    var userRatingStackView = UIStackView().then {
+    private let userRatingStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
     }
-    var userRatingBar = CosmosView().then {
+    private let userRatingBar = CosmosView().then {
         $0.settings.textFont = UIFont.boldSystemFont(ofSize: 21)
         $0.settings.textColor = UIColor.darkGray
         $0.settings.starMargin = 1
@@ -60,39 +60,39 @@ class DetailViewController: UIViewController, View {
         $0.settings.filledColor = UIColor.darkGray
         $0.isUserInteractionEnabled = false
     }
-    var userRatingSubLabel = UILabel().then {
+    private let userRatingSubLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 14.0)
     }
-    var priceGenreStackView = UIStackView().then {
+    private let priceGenreStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
         $0.alignment = .center
     }
-    var priceLabel = UILabel().then {
+    private let priceLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.boldSystemFont(ofSize: 21.0)
     }
-    var genreLabel = UILabel().then {
+    private let genreLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 14.0)
         $0.adjustsFontSizeToFitWidth = true
     }
-    var contentRatingStackView = UIStackView().then {
+    private let contentRatingStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 5
         $0.alignment = .trailing
     }
-    var contentRatingLabel = UILabel().then {
+    private let contentRatingLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.boldSystemFont(ofSize: 21.0)
     }
-    var contentRatingSubLabel = UILabel().then {
+    private let contentRatingSubLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 14.0)
     }
-    var screenshotView = UIView()
-    var screenShotCollectionView = UICollectionView(frame: CGRect.zero,
+    private let screenshotView = UIView()
+    private let screenShotCollectionView = UICollectionView(frame: CGRect.zero,
                                                     collectionViewLayout: UICollectionViewFlowLayout.init()).then {
         let layout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
@@ -102,7 +102,7 @@ class DetailViewController: UIViewController, View {
         $0.register(ScreenshotCollectionViewCell.self, forCellWithReuseIdentifier: ScreenshotCollectionViewCell.reuseID)
         $0.backgroundColor = UIColor.clear
     }
-    var descriptionLabel = UILabel().then {
+    private let descriptionLabel = UILabel().then {
         $0.numberOfLines = 0
     }
     
@@ -174,7 +174,7 @@ class DetailViewController: UIViewController, View {
             .disposed(by: disposeBag)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

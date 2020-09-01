@@ -17,8 +17,8 @@ public protocol AppStoreServiceType {
 final class AppStoreService: AppStoreServiceType {
 
     private let network: Network<AppItemResponse>
-    var recentKeyword: String = ""
-    var limit: Int = Constants.BASIC_NUMBER_OF_ITEMS
+    private var recentKeyword: String = ""
+    private var limit: Int = Constants.BASIC_NUMBER_OF_ITEMS
 
     init(network: Network<AppItemResponse>) {
         self.network = network
@@ -55,7 +55,7 @@ final class AppStoreService: AppStoreServiceType {
 }
 
 final class ServiceProvider {
-    public func makeAppStoreService(endPoint: String) -> AppStoreServiceType {
+    func makeAppStoreService(endPoint: String) -> AppStoreServiceType {
         return AppStoreService(network: Network<AppItemResponse>(endPoint))
     }
 }

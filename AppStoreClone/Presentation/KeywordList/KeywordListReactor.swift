@@ -56,7 +56,7 @@ final class KeywordListReactor: Reactor {
         return newState
     }
     
-    func didSelect(_ item: KeywordItemReactor) {
+    private func didSelect(_ item: KeywordItemReactor) {
         didSelect?(Keyword(item.initialState.text))
     }
     

@@ -9,34 +9,37 @@
 import UIKit
 import ReactorKit
 
-class SearchTableViewCell: UITableViewCell, View {
+final class SearchTableViewCell: UITableViewCell, View {
 
     var disposeBag: DisposeBag = DisposeBag()
-    var artWorkImageView = UIImageView().then {
+    private let artWorkImageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.5
         $0.image = UIImage(named: "placeholder")
     }
-    var nameLabel = UILabel()
-    var genreLabel = UILabel().then {
+    private let nameLabel = UILabel()
+    private let genreLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 15.0)
     }
     
     func bind(reactor: SearchItemReactor) {
-        let appItem = reactor.currentState
-
-        DispatchQueue.global(qos: .background).async {
-            if let artWorkUrl = URL(string: appItem.artworkUrl100), let artWorkData = try? Data(contentsOf: artWorkUrl) {
-                DispatchQueue.main.async {
-                    self.artWorkImageView.image = UIImage(data: artWorkData)
-                }
-            }
-        }
-        nameLabel.text = appItem.trackName
-        genreLabel.text = appItem.genres.joined(separator: ", ")
+        reactor.state
+            .do(onNext: { (appItem) in
+//                DispatchQueue.global(qos: .background).async {
+//                    if let artWorkUrl = URL(string: appItem.artworkUrl100), let artWorkData = try? Data(contentsOf: artWorkUrl) {
+//                        DispatchQueue.main.async {
+//                            self.artWorkImageView.image = UIImage(data: artWorkData)
+//                        }
+//                    }
+//                }
+                self.nameLabel.text = appItem.trackName
+                self.genreLabel.text = appItem.genres.joined(separator: ", ")
+            })
+            .subscribe()
+            .disposed(by: disposeBag)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -51,7 +54,7 @@ class SearchTableViewCell: UITableViewCell, View {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         artWorkImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 70, height: 70))
             make.top.bottom.equalToSuperview().inset(5)
@@ -68,12 +71,12 @@ class SearchTableViewCell: UITableViewCell, View {
         }
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-    }
+    override func setSelected(_ selected: Bool, animated: Bool) {}
     
     override func prepareForReuse() {
         super.prepareForReuse()
         artWorkImageView.image = nil
+//        disposeBag = DisposeBag()
     }
     
 }

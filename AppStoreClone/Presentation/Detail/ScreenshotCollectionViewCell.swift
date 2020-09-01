@@ -9,9 +9,9 @@
 import UIKit
 import SnapKit
 
-class ScreenshotCollectionViewCell: UICollectionViewCell {
+final class ScreenshotCollectionViewCell: UICollectionViewCell {
     
-    var imageView = UIImageView().then {
+    private let imageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 16
     }
@@ -36,7 +36,7 @@ class ScreenshotCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         imageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

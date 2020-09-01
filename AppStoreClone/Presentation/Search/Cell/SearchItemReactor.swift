@@ -9,7 +9,7 @@
 import Foundation
 import ReactorKit
 
-class SearchItemReactor: Reactor {
+final class SearchItemReactor: Reactor {
     typealias Action = NoAction
     
     let initialState: AppItem

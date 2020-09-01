@@ -25,22 +25,21 @@ final class KeywordStorage: KeywordStorageType {
     }
     
     func fetchKeywords() -> Observable<[Keyword]> {
-        return BehaviorSubject.init(value: storage.fetchRecentKeywords()).asObservable()
+        return BehaviorSubject.init(value: storage.fetch()).asObservable()
     }
     
     func saveKeyword(keyword: Keyword) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
-            var keywords = self.storage.fetchRecentKeywords()
-            keywords = keywords.filter { $0 != keyword }
+            var keywords = self.storage.fetch().filter { $0 != keyword }
             keywords.insert(keyword, at: 0)
-            self.storage.persist(keywords: self.storage.removeOldKeywords(keywords, self.maxStorageLimit))
+            self.storage.save(keywords: keywords, self.maxStorageLimit)
         }
     }
 }
 
 final class StorageProvider {
-    public func makeKeywordStorage(maxStorageLimit: Int) -> KeywordStorageType {
+    func makeKeywordStorage(maxStorageLimit: Int) -> KeywordStorageType {
         return KeywordStorage(maxStorageLimit: maxStorageLimit, storage: Storage())
     }
 }

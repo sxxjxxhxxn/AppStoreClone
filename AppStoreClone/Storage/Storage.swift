@@ -18,7 +18,7 @@ final class Storage {
         self.userDefaults = userDefaults
     }
 
-    func fetchRecentKeywords() -> [Keyword] {
+    func fetch() -> [Keyword] {
         if let keywordsData = userDefaults.object(forKey: recentKeywordsKey) as? Data {
             if let keywords = try? JSONDecoder().decode([Keyword].self, from: keywordsData) {
                 return keywords
@@ -27,13 +27,14 @@ final class Storage {
         return []
     }
 
-    func persist(keywords: [Keyword]) {
-        if let encoded = try? JSONEncoder().encode(keywords) {
+    func save(keywords: [Keyword], _ maxStorageLimit: Int) {
+        let recentKeywords = removeOldKeywords(keywords, maxStorageLimit)
+        if let encoded = try? JSONEncoder().encode(recentKeywords) {
             userDefaults.set(encoded, forKey: recentKeywordsKey)
         }
     }
 
-    func removeOldKeywords(_ keywords: [Keyword], _ maxStorageLimit: Int) -> [Keyword] {
+    private func removeOldKeywords(_ keywords: [Keyword], _ maxStorageLimit: Int) -> [Keyword] {
         return keywords.count <= maxStorageLimit ? keywords : Array(keywords[0..<maxStorageLimit])
     }
 }

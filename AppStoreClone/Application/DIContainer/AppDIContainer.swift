@@ -11,13 +11,13 @@ import Foundation
 final class AppDIContainer {
     
     // MARK: - Network
-    lazy var appStoreService: AppStoreServiceType = {
+    private lazy var appStoreService: AppStoreServiceType = {
         let iTunesSearchAPI = "https://itunes.apple.com/search?country=kr&entity=software&term="
         return ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
     }()
     
     // MARK: - Storage
-    lazy var keywordStorage: KeywordStorageType = {
+    private lazy var keywordStorage: KeywordStorageType = {
         let storage = Storage()
         return StorageProvider().makeKeywordStorage(maxStorageLimit: Constants.MAX_STORAGE_LIMIT)
     }()

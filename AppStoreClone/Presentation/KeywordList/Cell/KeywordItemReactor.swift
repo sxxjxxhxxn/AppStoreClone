@@ -9,7 +9,7 @@
 import Foundation
 import ReactorKit
 
-class KeywordItemReactor: Reactor {
+final class KeywordItemReactor: Reactor {
     typealias Action = NoAction
     
     let initialState: Keyword

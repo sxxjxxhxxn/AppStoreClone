@@ -16,28 +16,28 @@ import RxReachability
 import SnapKit
 import Then
 
-class SearchViewController: UIViewController, View {
+final class SearchViewController: UIViewController, View {
 
     var disposeBag = DisposeBag()
-    var tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 200
         $0.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
-    private var searchController = UISearchController(searchResultsController: nil).then {
+    private let searchController = UISearchController(searchResultsController: nil).then {
         $0.searchBar.placeholder = "Search Apps"
         $0.obscuresBackgroundDuringPresentation = false
         $0.searchBar.barStyle = .default
     }
-    var keywordListContainer = UIView().then {
+    let keywordListContainer = UIView().then {
         $0.isHidden = true
     }
-    private var spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds).then {
+    private let spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds).then {
         $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         $0.style = .whiteLarge
     }
-    private var reachability: Reachability? = Reachability()
+    private let reachability: Reachability? = Reachability()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -149,13 +149,8 @@ extension SearchViewController {
             .disposed(by: disposeBag)
             
         searchController.rx
-            .willPresent
-            .map { Reactor.Action.keywordListVisibility }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        searchController.rx
             .willDismiss
+            .merge(with: searchController.rx.willPresent)
             .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

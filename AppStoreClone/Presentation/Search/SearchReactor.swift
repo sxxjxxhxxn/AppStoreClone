@@ -20,8 +20,7 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
-    
-    var selectedKeyword: PublishSubject<String>
+    let selectedKeyword: PublishSubject<String>
     
     enum Action {
         case search(keyword: String)
@@ -93,7 +92,7 @@ final class SearchReactor: Reactor {
         return newState
     }
     
-    func didSelect(keyword: Keyword) {
+    private func didSelect(keyword: Keyword) {
         selectedKeyword.onNext(keyword.text)
     }
     

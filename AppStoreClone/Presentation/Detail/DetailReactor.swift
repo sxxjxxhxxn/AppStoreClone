@@ -9,7 +9,7 @@
 import Foundation
 import ReactorKit
 
-class DetailReactor: Reactor {
+final class DetailReactor: Reactor {
     let initialState: AppItem
     
     typealias Action = NoAction

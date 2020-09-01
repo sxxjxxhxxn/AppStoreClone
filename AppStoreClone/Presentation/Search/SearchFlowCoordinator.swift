@@ -15,7 +15,7 @@ protocol SearchFlowCoordinatorDependencies {
     func makeDetailViewController(appItem: AppItem) -> DetailViewController
 }
 
-class SearchFlowCoordinator {
+final class SearchFlowCoordinator {
     
     private let navigationController: UINavigationController
     private let dependencies: SearchFlowCoordinatorDependencies

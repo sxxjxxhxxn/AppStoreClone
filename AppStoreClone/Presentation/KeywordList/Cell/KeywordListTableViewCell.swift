@@ -11,10 +11,10 @@ import ReactorKit
 import SnapKit
 import Then
 
-class KeywordListTableViewCell: UITableViewCell, View {
+final class KeywordListTableViewCell: UITableViewCell, View {
 
-    var label = UILabel()
     var disposeBag: DisposeBag = DisposeBag()
+    private let label = UILabel()
     
     func bind(reactor: KeywordItemReactor) {
         let keyword = reactor.initialState

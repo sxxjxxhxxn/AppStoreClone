@@ -65,6 +65,7 @@ final class SearchReactor: Reactor {
             closures?.setKeywordListVisibility(didSelect(keyword:))
             return .empty()
         case .cancel:
+            service.cancel()
             return .just(.clearItems)
         }
     }

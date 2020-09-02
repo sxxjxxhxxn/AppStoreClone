@@ -59,6 +59,7 @@ class SearchViewController: UIViewController, View {
             .map { [weak self] in
                 self?.keywordListContainer.isHidden = true
                 self?.searchController.searchBar.text = $0
+                self?.searchController.searchBar.endEditing(true)
                 return Reactor.Action.search(keyword: $0)
             }
             .bind(to: reactor.action)
@@ -126,8 +127,8 @@ extension SearchViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        searchController.rx
-            .willPresent
+        searchController.searchBar.rx
+            .textDidBeginEditing
             .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

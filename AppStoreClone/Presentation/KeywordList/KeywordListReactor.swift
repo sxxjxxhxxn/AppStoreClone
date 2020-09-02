@@ -10,9 +10,12 @@ import Foundation
 import ReactorKit
 import RxSwift
 
+typealias KeywordListReactorDidSelectClosure = (Keyword) -> Void
+
 final class KeywordListReactor: Reactor {
     let initialState = State()
     private let storage: KeywordStorageType
+    private let didSelect: KeywordListReactorDidSelectClosure?
     
     enum Action {
         case loadKeywords
@@ -27,8 +30,10 @@ final class KeywordListReactor: Reactor {
         var keywords: [KeywordItemReactor] = []
     }
     
-    init(storage: KeywordStorageType) {
+    init(storage: KeywordStorageType,
+         didSelect: KeywordListReactorDidSelectClosure? = nil) {
         self.storage = storage
+        self.didSelect = didSelect
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -38,6 +43,7 @@ final class KeywordListReactor: Reactor {
                 .map { $0.map(KeywordItemReactor.init) }
                 .map { Mutation.setKeywords($0) }
         case .select(let keywordItemReactor):
+            didSelect(keywordItemReactor)
             return .empty()
         }
     }
@@ -49,6 +55,10 @@ final class KeywordListReactor: Reactor {
             newState.keywords = keywords
         }
         return newState
+    }
+    
+    private func didSelect(_ item: KeywordItemReactor) {
+        didSelect?(Keyword(item.initialState.text))
     }
 
 }

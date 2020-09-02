@@ -34,12 +34,7 @@ class KeywordListViewController: UIViewController, View {
     }
     
     func loadKeywords() {
-        guard let reactor = reactor else { return }
-        
-        Observable.just(Void())
-            .map { Reactor.Action.loadKeywords }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        reactor?.action.onNext(.loadKeywords)
     }
 
 }

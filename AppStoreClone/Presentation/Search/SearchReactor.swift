@@ -46,6 +46,10 @@ final class SearchReactor: Reactor {
         selectedKeyword = PublishSubject.init()
     }
     
+    deinit {
+        selectedKeyword.onCompleted()
+    }
+    
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(let keyword):

@@ -12,6 +12,7 @@ final class SceneDIContainer {
     
     struct Dependencies {
         let appStoreService: AppStoreServiceType
+        let keywordStorage: KeywordStorageType
     }
     
     private let dependencies: Dependencies
@@ -29,6 +30,7 @@ final class SceneDIContainer {
     
     func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
+                             storage: dependencies.keywordStorage,
                              closures: closures)
     }
     
@@ -40,7 +42,7 @@ final class SceneDIContainer {
     }
 
     func makeKeywordListReactor() -> KeywordListReactor {
-        return KeywordListReactor()
+        return KeywordListReactor(storage: dependencies.keywordStorage)
     }
     
     // MARK: - Flow Coordinators

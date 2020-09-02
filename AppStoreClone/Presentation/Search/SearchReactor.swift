@@ -17,6 +17,7 @@ struct SearchReactorClosures {
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
+    private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
     
     enum Action {
@@ -35,14 +36,17 @@ final class SearchReactor: Reactor {
     }
     
     init(service: AppStoreServiceType,
+         storage: KeywordStorageType,
          closures: SearchReactorClosures? = nil) {
         self.service = service
+        self.storage = storage
         self.closures = closures
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .search(let keyword):
+            storage.saveKeyword(keyword: Keyword(keyword))
             return .concat([
                 .just(Mutation.clearItems),
                 service.loadItems(keyword)

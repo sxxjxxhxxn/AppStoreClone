@@ -43,6 +43,9 @@ final class SceneFlowCoordinator {
         }
         
         searchViewController.keywordListContainer.isHidden.toggle()
+        if !searchViewController.keywordListContainer.isHidden {
+            keywordListVC?.loadKeywords()
+        }
     }
     
 }

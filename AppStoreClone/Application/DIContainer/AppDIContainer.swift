@@ -16,9 +16,16 @@ final class AppDIContainer {
         return ServiceProvider().makeAppStoreService(endPoint: iTunesSearchAPI)
     }()
     
+    // MARK: - Storage
+    private lazy var keywordStorage: KeywordStorageType = {
+        let storage = Storage()
+        return StorageProvider().makeKeywordStorage(maxStorageLimit: Constants.MAX_STORAGE_LIMIT)
+    }()
+    
     // MARK: - DIContainers of scenes
     func makeSearchSceneDIContainer() -> SceneDIContainer {
-        let dependencies = SceneDIContainer.Dependencies(appStoreService: appStoreService)
+        let dependencies = SceneDIContainer.Dependencies(appStoreService: appStoreService,
+                                                         keywordStorage: keywordStorage)
         return SceneDIContainer(dependencies: dependencies)
     }
 }

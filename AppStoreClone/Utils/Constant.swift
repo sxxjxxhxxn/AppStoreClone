@@ -8,4 +8,5 @@
 
 struct Constants {
     static let BASIC_NUMBER_OF_ITEMS = 20
+    static let MAX_STORAGE_LIMIT = 10
 }

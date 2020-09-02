@@ -6,13 +6,14 @@ target 'AppStoreClone' do
   use_frameworks!
 
   # Pods for AppStoreClone
-	pod 'RxSwift'
-	pod 'RxCocoa'
-	pod 'Alamofire'
-	pod 'RxAlamofire'
-	pod 'ReactorKit'
+	pod 'RxSwift', '= 5.1.0'
+	pod 'RxCocoa', '= 5.1.0'
+	pod 'RxAlamofire', '= 5.1.0'
+	pod 'ReactorKit', '= 2.0.0'
 	pod 'SwiftLint'
-	pod 'RxSwiftExt'
+	pod 'RxSwiftExt', '= 5.2.0'
+	pod 'SnapKit'
+	pod 'Then'
 
   target 'AppStoreCloneTests' do
     inherit! :search_paths

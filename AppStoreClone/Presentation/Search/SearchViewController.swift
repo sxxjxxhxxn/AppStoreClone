@@ -11,28 +11,44 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import RxSwiftExt
+import SnapKit
+import Then
 
-class SearchViewController: UIViewController, StoryboardView {
-    @IBOutlet weak var tableView: UITableView!
+class SearchViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
-    private var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search Apps"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.barStyle = .default
-        return searchController
-    }()
+    private let tableView = UITableView().then {
+        $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 100
+        $0.separatorStyle = UITableViewCell.SeparatorStyle.none
+    }
+    private let searchController = UISearchController(searchResultsController: nil).then {
+        $0.searchBar.placeholder = "Search Apps"
+        $0.obscuresBackgroundDuringPresentation = false
+        $0.searchBar.barStyle = .default
+    }
+    let keywordListContainer = UIView().then {
+        $0.isHidden = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
+        view.addSubview(keywordListContainer)
+        
+        setupSearchController()
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        keywordListContainer.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         
         title = "검색"
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
-        setupTableView()
-        setupSearchController()
     }
     
     func bind(reactor: SearchReactor) {
@@ -45,12 +61,6 @@ class SearchViewController: UIViewController, StoryboardView {
 // MARK: - Table View
 
 extension SearchViewController {
-    
-    private func setupTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
     
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state
@@ -101,13 +111,13 @@ extension SearchViewController {
         
         searchController.rx
             .willPresent
-            .map { Reactor.Action.openSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.rx
             .willDismiss
-            .map { Reactor.Action.closeSearchList }
+            .map { Reactor.Action.keywordListVisibility }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

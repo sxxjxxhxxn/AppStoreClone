@@ -39,9 +39,8 @@ final class KeywordListReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadKeywords:
-            return .just(
-                .setKeywords(storage.fetchKeywords()
-                .map { KeywordItemReactor(keyword: $0) }))
+            let keyword = storage.fetchKeywords().map { KeywordItemReactor(keyword: $0) }
+            return .just(.setKeywords(keyword))
         case .select(let keywordItemReactor):
             didSelect(keywordItemReactor)
             return .empty()

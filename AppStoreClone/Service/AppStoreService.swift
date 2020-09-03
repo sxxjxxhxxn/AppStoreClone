@@ -12,6 +12,7 @@ import RxSwift
 public protocol AppStoreServiceType {
     func loadItems(_ keyword: String) -> Observable<[AppItem]>
     func loadMoreItems() -> Observable<[AppItem]>
+    func cancel()
 }
 
 final class AppStoreService: AppStoreServiceType {
@@ -35,6 +36,7 @@ final class AppStoreService: AppStoreServiceType {
     }
     
     func loadMoreItems() -> Observable<[AppItem]> {
+        guard recentKeyword.isNotEmpty else { return .empty() }
         return network.getItem("\(recentKeyword)&limit=\(limit+Constants.BASIC_NUMBER_OF_ITEMS)")
             .map { [weak self] (response) -> [AppItem] in
                 guard let self = self else { return [] }
@@ -51,6 +53,10 @@ final class AppStoreService: AppStoreServiceType {
                 self.limit = appItems.count
                 return items
             }
+    }
+    
+    func cancel() {
+        recentKeyword = ""
     }
 }
 

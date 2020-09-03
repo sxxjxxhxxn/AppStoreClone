@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol KeywordStorageType {
-    func fetchKeywords() -> Observable<[Keyword]>
+    func fetchKeywords() -> [Keyword]
     func saveKeyword(keyword: Keyword)
 }
 
@@ -24,8 +24,8 @@ final class KeywordStorage: KeywordStorageType {
         self.storage = storage
     }
     
-    func fetchKeywords() -> Observable<[Keyword]> {
-        return BehaviorSubject.init(value: storage.fetch()).asObservable()
+    func fetchKeywords() -> [Keyword] {
+        storage.fetch()
     }
     
     func saveKeyword(keyword: Keyword) {

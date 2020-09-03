@@ -28,13 +28,13 @@ final class SearchTableViewCell: UITableViewCell, View {
     func bind(reactor: SearchItemReactor) {
         reactor.state
             .do(onNext: { (appItem) in
-//                DispatchQueue.global(qos: .background).async {
-//                    if let artWorkUrl = URL(string: appItem.artworkUrl100), let artWorkData = try? Data(contentsOf: artWorkUrl) {
-//                        DispatchQueue.main.async {
-//                            self.artWorkImageView.image = UIImage(data: artWorkData)
-//                        }
-//                    }
-//                }
+                DispatchQueue.global(qos: .background).async {
+                    if let artWorkUrl = URL(string: appItem.artworkUrl100), let artWorkData = try? Data(contentsOf: artWorkUrl) {
+                        DispatchQueue.main.async {
+                            self.artWorkImageView.image = UIImage(data: artWorkData)
+                        }
+                    }
+                }
                 self.nameLabel.text = appItem.trackName
                 self.genreLabel.text = appItem.genres.joined(separator: ", ")
             })

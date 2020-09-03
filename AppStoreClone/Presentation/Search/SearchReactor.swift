@@ -26,6 +26,7 @@ final class SearchReactor: Reactor {
         case search(keyword: String)
         case loadMore
         case keywordListVisibility
+        case cancel
         case disconnected
         case showDetail(appItem: AppItem)
     }
@@ -70,6 +71,9 @@ final class SearchReactor: Reactor {
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelect(keyword:))
             return .empty()
+        case .cancel:
+            service.cancel()
+            return .just(.clearItems)
         case .disconnected:
             closures?.alertDisconnected()
             return .empty()

@@ -8,8 +8,9 @@
 
 import UIKit
 import ReactorKit
+import Kingfisher
 
-final class SearchTableViewCell: UITableViewCell, View {
+final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
 
     var disposeBag: DisposeBag = DisposeBag()
     private let artWorkImageView = UIImageView().then {
@@ -17,7 +18,6 @@ final class SearchTableViewCell: UITableViewCell, View {
         $0.layer.cornerRadius = 8
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.5
-        $0.image = UIImage(named: "placeholder")
     }
     private let nameLabel = UILabel()
     private let genreLabel = UILabel().then {
@@ -28,12 +28,8 @@ final class SearchTableViewCell: UITableViewCell, View {
     func bind(reactor: SearchItemReactor) {
         reactor.state
             .do(onNext: { (appItem) in
-                DispatchQueue.global(qos: .background).async {
-                    if let artWorkUrl = URL(string: appItem.artworkUrl100), let artWorkData = try? Data(contentsOf: artWorkUrl) {
-                        DispatchQueue.main.async {
-                            self.artWorkImageView.image = UIImage(data: artWorkData)
-                        }
-                    }
+                if let url = URL(string: appItem.artworkUrl100) {
+                    self.artWorkImageView.kf.setImage(with: url)
                 }
                 self.nameLabel.text = appItem.trackName
                 self.genreLabel.text = appItem.genres.joined(separator: ", ")
@@ -76,7 +72,6 @@ final class SearchTableViewCell: UITableViewCell, View {
     override func prepareForReuse() {
         super.prepareForReuse()
         artWorkImageView.image = nil
-//        disposeBag = DisposeBag()
     }
     
 }

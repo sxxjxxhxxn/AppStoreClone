@@ -27,12 +27,8 @@ final class ScreenshotCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(_ imageUrl: String) {
-        DispatchQueue.global(qos: .background).async {
-            if let imageUrl = URL(string: imageUrl), let imageData = try? Data(contentsOf: imageUrl) {
-                DispatchQueue.main.async {
-                    self.imageView.image = UIImage(data: imageData)
-                }
-            }
+        if let imageUrl = URL(string: imageUrl) {
+            self.imageView.kf.setImage(with: imageUrl)
         }
     }
     

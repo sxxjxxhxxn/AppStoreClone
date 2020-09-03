@@ -135,13 +135,9 @@ final class DetailViewController: UIViewController, View {
     
     func bind(reactor: DetailReactor) {
         let appItem = reactor.initialState
-        
-        DispatchQueue.global(qos: .background).async {
-            if let artWorkUrl = URL(string: appItem.artworkUrl512), let artWorkData = try? Data(contentsOf: artWorkUrl) {
-                DispatchQueue.main.async {
-                    self.artWorkImageView.image = UIImage(data: artWorkData)
-                }
-            }
+
+        if let imageUrl = URL(string: appItem.artworkUrl512) {
+            self.artWorkImageView.kf.setImage(with: imageUrl)
         }
         nameLabel.text = appItem.trackName
         artistNameLabel.text = appItem.artistName

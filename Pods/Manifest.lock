@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (5.2.2)
   - Cosmos (22.1.0)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
   - ReachabilitySwift (4.3.1)
   - ReactorKit (2.1.0):
     - RxSwift (~> 5.0)
@@ -36,6 +39,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Cosmos
+  - Kingfisher
   - ReactorKit
   - RxAlamofire
   - RxCocoa
@@ -50,6 +54,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Cosmos
+    - Kingfisher
     - ReachabilitySwift
     - ReactorKit
     - RxAlamofire
@@ -66,6 +71,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   Cosmos: 2795b36ad4bbea1af3050d6d65576ed63875f86a
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   ReactorKit: 12a93358c554bb3f167b16b14c40374fa9cd5acd
   RxAlamofire: f34ddbab56fa2a36f99737f4d4ecc22288a1384f
@@ -79,6 +85,6 @@ SPEC CHECKSUMS:
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
   WeakMapTable: d0327eda092be6a8f7c532942ae98dc7948f5d32
 
-PODFILE CHECKSUM: fdb3b9dd2b32e7e91678812b3018b259cce79f6f
+PODFILE CHECKSUM: da6e62174d28a5047029a4a320e15a9e64251760
 
 COCOAPODS: 1.9.3

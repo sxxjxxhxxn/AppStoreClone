@@ -20,7 +20,7 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
-    let selectedKeyword: PublishSubject<String>
+    let selectedKeyword: PublishSubject<String> = PublishSubject<String>.init()
     
     enum Action {
         case search(keyword: String)
@@ -48,7 +48,6 @@ final class SearchReactor: Reactor {
         self.service = service
         self.storage = storage
         self.closures = closures
-        selectedKeyword = PublishSubject.init()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

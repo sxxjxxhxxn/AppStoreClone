@@ -9,28 +9,26 @@
 import Foundation
 import RxSwift
 
-final class Storage {
+@propertyWrapper
+struct Storage {
     
     private let recentKeywordsKey = "recentKeywords"
-    private var userDefaults: UserDefaults
+    let maxStorageLimit: Int
     
-    init(userDefaults: UserDefaults = UserDefaults.standard) {
-        self.userDefaults = userDefaults
-    }
-
-    func fetch() -> [Keyword] {
-        if let keywordsData = userDefaults.object(forKey: recentKeywordsKey) as? Data {
-            if let keywords = try? JSONDecoder().decode([Keyword].self, from: keywordsData) {
-                return keywords
+    var wrappedValue: [Keyword] {
+        get {
+            if let keywordsData = UserDefaults.standard.object(forKey: recentKeywordsKey) as? Data {
+                if let keywords = try? JSONDecoder().decode([Keyword].self, from: keywordsData) {
+                    return keywords
+                }
             }
+            return []
         }
-        return []
-    }
-
-    func save(keywords: [Keyword], _ maxStorageLimit: Int) {
-        let recentKeywords = removeOldKeywords(keywords, maxStorageLimit)
-        if let encoded = try? JSONEncoder().encode(recentKeywords) {
-            userDefaults.set(encoded, forKey: recentKeywordsKey)
+        set {
+            let recentKeywords = removeOldKeywords(newValue, maxStorageLimit)
+            if let encoded = try? JSONEncoder().encode(recentKeywords) {
+                UserDefaults.standard.set(encoded, forKey: recentKeywordsKey)
+            }
         }
     }
 

@@ -35,15 +35,15 @@ final class SceneDIContainer {
     }
     
     // MARK: - Keyword List
-    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListViewController {
+    func makeKeywordListViewController(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController {
         let keywordListVC = KeywordListViewController.init()
-        keywordListVC.reactor = makeKeywordListReactor(didSelect: didSelect)
+        keywordListVC.reactor = makeKeywordListReactor(didSelectKeyword: didSelectKeyword)
         return keywordListVC
     }
 
-    func makeKeywordListReactor(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListReactor {
+    func makeKeywordListReactor(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListReactor {
         return KeywordListReactor(storage: dependencies.keywordStorage,
-                                  didSelect: didSelect)
+                                  didSelectKeyword: didSelectKeyword)
     }
     
     // MARK: - Flow Coordinators

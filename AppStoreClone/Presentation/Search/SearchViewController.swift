@@ -56,12 +56,12 @@ class SearchViewController: UIViewController, View {
         bindSearchController(reactor)
         
         reactor.selectedKeyword
-            .map { [weak self] in
+            .do(onNext: { [weak self] in
                 self?.keywordListContainer.isHidden = true
-                self?.searchController.searchBar.text = $0
                 self?.searchController.searchBar.endEditing(true)
-                return Reactor.Action.search(keyword: $0)
-            }
+                self?.searchController.searchBar.text = $0
+            })
+            .map { Reactor.Action.loadItems(keyword: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -77,14 +77,16 @@ extension SearchViewController {
             .map { $0.items }
             .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
-                cell.bind(reactor: itemReactor)
+                cell.reactor = itemReactor
                 return cell
             }
             .disposed(by: disposeBag)
         
         tableView.rx
             .reachedBottom()
-            .map { Reactor.Action.loadMore }
+            .map { [weak self] in
+                Reactor.Action.loadItems(keyword: self?.searchController.searchBar.text ?? "")
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -111,19 +113,21 @@ extension SearchViewController {
             .filter { [weak self] in
                 self?.searchController.searchBar.text?.isNotEmpty ?? true
             }
-            .map { [weak self] in
+            .do(onNext: { [weak self] in
                 self?.keywordListContainer.isHidden = true
-                return Reactor.Action.search(keyword: self?.searchController.searchBar.text ?? "")
+            })
+            .map { [weak self] in
+                Reactor.Action.loadItems(keyword: self?.searchController.searchBar.text ?? "")
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchController.searchBar.rx
             .cancelButtonClicked
-            .map { [weak self] in
+            .do(onNext: { [weak self] in
                 self?.keywordListContainer.isHidden = true
-                return Reactor.Action.cancel
-            }
+            })
+            .map { Reactor.Action.cancel }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

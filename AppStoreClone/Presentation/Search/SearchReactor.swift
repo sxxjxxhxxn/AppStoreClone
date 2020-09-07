@@ -19,11 +19,11 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
-    let selectedKeyword: PublishSubject<String> = PublishSubject<String>.init()
+    private var recentKeyword = ""
+    let selectedKeyword: PublishSubject<String> = PublishSubject<String>()
     
     enum Action {
-        case search(keyword: String)
-        case loadMore
+        case loadItems(keyword: String)
         case keywordListVisibility
         case cancel
     }
@@ -51,24 +51,28 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .search(let keyword):
-            storage.saveKeyword(keyword: Keyword(keyword))
-            return .concat([
-                .just(Mutation.clearItems),
-                service.loadItems(keyword)
+        case .loadItems(let keyword):
+            switch keyword {
+            case recentKeyword:
+                return service.loadItems(keyword, .loadMore)
+                    .filter { $0.isNotEmpty }
                     .map { $0.map(SearchItemReactor.init) }
                     .map { Mutation.setItems($0) }
-            ])
-        case .loadMore:
-            return service.loadMoreItems()
-                .filter { $0.isNotEmpty }
-                .map { $0.map(SearchItemReactor.init) }
-                .map { Mutation.setItems($0) }
+            default:
+                recentKeyword = keyword
+                storage.saveKeyword(keyword: Keyword(keyword))
+                return .concat([
+                        .just(Mutation.clearItems),
+                        service.loadItems(keyword, .loadFirst)
+                        .map { $0.map(SearchItemReactor.init) }
+                        .map { Mutation.setItems($0) }
+                    ])
+            }
         case .keywordListVisibility:
-            closures?.setKeywordListVisibility(didSelect(keyword:))
+            closures?.setKeywordListVisibility(didSelectKeyword(keyword:))
             return .empty()
         case .cancel:
-            service.cancel()
+            recentKeyword = ""
             return .just(.clearItems)
         }
     }
@@ -84,7 +88,7 @@ final class SearchReactor: Reactor {
         return newState
     }
     
-    private func didSelect(keyword: Keyword) {
+    private func didSelectKeyword(keyword: Keyword) {
         selectedKeyword.onNext(keyword.text)
     }
     

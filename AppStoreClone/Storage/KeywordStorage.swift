@@ -16,30 +16,24 @@ protocol KeywordStorageType {
 
 final class KeywordStorage: KeywordStorageType {
     
-    private let maxStorageLimit: Int
-    private let storage: Storage
+    @Storage(maxStorageLimit: Constants.MAX_STORAGE_LIMIT) private var storage: [Keyword]
 
-    init(maxStorageLimit: Int, storage: Storage) {
-        self.maxStorageLimit = maxStorageLimit
-        self.storage = storage
-    }
-    
     func fetchKeywords() -> [Keyword] {
-        storage.fetch()
+        storage
     }
     
     func saveKeyword(keyword: Keyword) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
-            var keywords = self.storage.fetch().filter { $0 != keyword }
+            var keywords = self.storage.filter { $0 != keyword }
             keywords.insert(keyword, at: 0)
-            self.storage.save(keywords: keywords, self.maxStorageLimit)
+            self.storage = keywords
         }
     }
 }
 
 final class StorageProvider {
-    func makeKeywordStorage(maxStorageLimit: Int) -> KeywordStorageType {
-        return KeywordStorage(maxStorageLimit: maxStorageLimit, storage: Storage())
+    func makeKeywordStorage() -> KeywordStorageType {
+        return KeywordStorage()
     }
 }

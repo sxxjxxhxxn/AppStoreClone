@@ -15,10 +15,12 @@ final class KeywordListTableViewCell: UITableViewCell, View {
 
     var disposeBag: DisposeBag = DisposeBag()
     private let keywordLabel = UILabel()
+    fileprivate var keyword: Keyword?
+    var onTapKeyword: ((Keyword?) -> Void)?
     
     func bind(reactor: KeywordItemReactor) {
-        let keyword = reactor.initialState
-        keywordLabel.text = keyword.text
+        keyword = reactor.initialState
+        keywordLabel.text = keyword?.text
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -31,7 +33,11 @@ final class KeywordListTableViewCell: UITableViewCell, View {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if selected {
+            onTapKeyword?(keyword)
+        }
+    }
     
     private func setConstraints() {
         keywordLabel.snp.makeConstraints { (make) in

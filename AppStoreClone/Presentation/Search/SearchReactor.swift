@@ -19,7 +19,7 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
-    private var recentKeyword = ""
+    private var latestKeyword = ""
     let selectedKeyword: PublishSubject<String> = PublishSubject<String>()
     
     enum Action {
@@ -52,27 +52,24 @@ final class SearchReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadItems(let keyword):
+            let loadItems = service.loadItems(keyword)
+                .filter { $0.isNotEmpty }
+                .map { $0.map(SearchItemReactor.init) }
+                .map { Mutation.setItems($0) }
             switch keyword {
-            case recentKeyword:
-                return service.loadItems(keyword, .loadMore)
-                    .filter { $0.isNotEmpty }
-                    .map { $0.map(SearchItemReactor.init) }
-                    .map { Mutation.setItems($0) }
+            case latestKeyword:
+                return loadItems
             default:
-                recentKeyword = keyword
+                latestKeyword = keyword
                 storage.saveKeyword(keyword: Keyword(keyword))
-                return .concat([
-                        .just(Mutation.clearItems),
-                        service.loadItems(keyword, .loadFirst)
-                        .map { $0.map(SearchItemReactor.init) }
-                        .map { Mutation.setItems($0) }
-                    ])
+                return .concat([.just(Mutation.clearItems),
+                                loadItems])
             }
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelectKeyword(keyword:))
             return .empty()
         case .cancel:
-            recentKeyword = ""
+            latestKeyword = ""
             return .just(.clearItems)
         }
     }

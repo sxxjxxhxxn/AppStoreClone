@@ -99,9 +99,15 @@ extension SearchViewController {
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state
             .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+            .bind(to: tableView.rx.items) { (tableView, _, appItem) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
+                let itemReactor = SearchItemReactor(appItem: appItem)
                 cell.reactor = itemReactor
+                cell.onTapAppItem = { [weak self] appItem in
+                    if let appItem = appItem {
+                        self?.reactor?.action.onNext(.showDetail(appItem: appItem))
+                    }
+                }
                 return cell
             }
             .disposed(by: disposeBag)
@@ -111,13 +117,6 @@ extension SearchViewController {
             .map { [weak self] in
                 Reactor.Action.loadItems(keyword: self?.searchController.searchBar.text ?? "")
             }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        tableView.rx
-            .modelSelected(SearchItemReactor.self)
-            .map { $0.initialState }
-            .map { Reactor.Action.showDetail(appItem: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

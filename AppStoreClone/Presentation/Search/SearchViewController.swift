@@ -13,6 +13,8 @@ import RxCocoa
 import RxSwiftExt
 import SnapKit
 import Then
+import Reachability
+import RxReachability
 
 class SearchViewController: UIViewController, View {
     
@@ -35,6 +37,7 @@ class SearchViewController: UIViewController, View {
         $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         $0.style = .whiteLarge
     }
+    private let reachability: Reachability? = Reachability()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +79,12 @@ class SearchViewController: UIViewController, View {
         reactor.state
             .map { $0.isFetching }
             .bind(to: spinner.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        reachability?.rx
+            .isDisconnected
+            .map { Reactor.Action.disconnected }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 

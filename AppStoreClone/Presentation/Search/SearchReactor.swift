@@ -26,6 +26,7 @@ final class SearchReactor: Reactor {
         case loadItems(keyword: String)
         case keywordListVisibility
         case cancel
+        case disconnected
     }
     
     enum Mutation {
@@ -75,6 +76,9 @@ final class SearchReactor: Reactor {
         case .cancel:
             latestKeyword = ""
             return .just(.clearItems)
+        case .disconnected:
+//            closures?.alertDisconnected()
+            return .empty()
         }
     }
 

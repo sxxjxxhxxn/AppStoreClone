@@ -76,6 +76,7 @@ final class SearchReactor: Reactor {
             return .empty()
         case .cancel:
             latestKeyword = ""
+            service.cancel()
             return .just(.clearItems)
         case .disconnected:
             closures?.alertDisconnected()

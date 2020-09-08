@@ -11,6 +11,7 @@ import RxSwift
 
 protocol AppStoreServiceType {
     func loadItems(_ keyword: String) -> Observable<[AppItem]>
+    func cancel()
 }
 
 final class AppStoreService: AppStoreServiceType {
@@ -50,6 +51,10 @@ final class AppStoreService: AppStoreServiceType {
                 self.cursor = appItems.count
                 return items
         }
+    }
+    
+    func cancel() {
+        latestKeyword = nil
     }
 }
 

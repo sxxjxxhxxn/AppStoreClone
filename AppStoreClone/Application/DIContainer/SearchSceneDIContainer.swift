@@ -22,13 +22,13 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - Search List
-    func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController {
+    func makeSearchViewController(closures: SearchReactor.Closures) -> SearchViewController {
         let searchVC = SearchViewController()
         searchVC.reactor = makeSearchReactor(closures: closures)
         return searchVC
     }
     
-    func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
+    func makeSearchReactor(closures: SearchReactor.Closures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
                              storage: dependencies.keywordStorage,
                              closures: closures)
@@ -47,25 +47,25 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - Detail Page
-    func makeDetailViewController(appItem: AppItem) -> DetailViewController {
+    func makeDetailViewController(appItem: AppItem, closure: DetailReactorClosure) -> DetailViewController {
         let detailVC = DetailViewController()
-        detailVC.reactor = makeDetailReactor(appItem: appItem)
+        detailVC.reactor = makeDetailReactor(appItem: appItem, closure: closure)
         return detailVC
     }
     
-    func makeDetailReactor(appItem: AppItem) -> DetailReactor {
-        return DetailReactor(appItem: appItem)
+    func makeDetailReactor(appItem: AppItem, closure: DetailReactorClosure) -> DetailReactor {
+        return DetailReactor(appItem: appItem, closure: closure)
     }
     
     // MARK: - Detail Images Page
-    func makeDetailImagesViewController(screenshotUrl: [URL]) -> DetailImagesViewController {
+    func makeDetailImagesViewController(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesViewController {
         let detailImagesVC = DetailImagesViewController()
-        detailImagesVC.reactor = makeDetailImagesReactor(screenshotUrl: screenshotUrl)
+        detailImagesVC.reactor = makeDetailImagesReactor(indexPath: indexPath, screenshotUrls: screenshotUrls)
         return detailImagesVC
     }
     
-    func makeDetailImagesReactor(screenshotUrl: [URL]) -> DetailImagesReactor {
-        return DetailImagesReactor(screenshotUrl: screenshotUrl)
+    func makeDetailImagesReactor(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesReactor {
+        return DetailImagesReactor(indexPath: indexPath, screenshotUrls: screenshotUrls)
     }
 
     // MARK: - Flow Coordinators

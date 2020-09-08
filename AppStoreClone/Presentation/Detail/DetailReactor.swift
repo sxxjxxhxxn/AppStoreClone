@@ -9,28 +9,28 @@
 import Foundation
 import ReactorKit
 
-struct DetailReactorClosures {
-    let showDetail: (IndexPath) -> Void
+struct DetailReactorClosure {
+    let showDetailImages: (IndexPath, [String]) -> Void
 }
 
 final class DetailReactor: Reactor {
     let initialState: AppItem
-    private let closures: DetailReactorClosures?
+    private let closure: DetailReactorClosure?
     
     enum Action {
-        case showDetailImages(indexPath: IndexPath)
+        case showDetailImages(indexPath: IndexPath, screenshotUrls: [String])
     }
     
     init(appItem: AppItem,
-         closures: DetailReactorClosures? = nil) {
+         closure: DetailReactorClosure? = nil) {
         self.initialState = appItem
-        self.closures = closures
+        self.closure = closure
     }
     
     func mutate(action: Action) -> Observable<Action> {
         switch action {
-        case .showDetailImages(let indexPath):
-            closures?.showDetail(indexPath)
+        case let .showDetailImages(indexPath, screenshotUrls):
+            closure?.showDetailImages(indexPath, screenshotUrls)
             return .empty()
         }
     }

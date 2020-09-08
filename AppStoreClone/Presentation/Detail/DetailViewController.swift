@@ -171,7 +171,7 @@ final class DetailViewController: UIViewController, View {
         
         screenShotCollectionView.rx
             .itemSelected
-            .map { Reactor.Action.showDetailImages(indexPath: $0) }
+            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

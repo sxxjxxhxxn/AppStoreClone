@@ -10,10 +10,10 @@ import UIKit
 import RxSwift
 
 protocol SearchFlowCoordinatorDependencies {
-    func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
+    func makeSearchViewController(closures: SearchReactor.Closures) -> SearchViewController
     func makeKeywordListViewController(didSelect: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController
-    func makeDetailViewController(appItem: AppItem) -> DetailViewController
-    func makeDetailImagesViewController(screenshotUrl: [URL]) -> DetailImagesViewController
+    func makeDetailViewController(appItem: AppItem, closure: DetailReactorClosure) -> DetailViewController
+    func makeDetailImagesViewController(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesViewController
 }
 
 final class SearchFlowCoordinator {
@@ -31,7 +31,7 @@ final class SearchFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility,
+        let closures = SearchReactor.Closures(setKeywordListVisibility: setKeywordListVisibility,
                                              showDetail: showDetail,
                                              alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
@@ -67,12 +67,16 @@ final class SearchFlowCoordinator {
         if #available(iOS 11.0, *) {
             navigationController.navigationBar.prefersLargeTitles = false
         }
-        let detailVC = dependencies.makeDetailViewController(appItem: appItem)
+        
+        let closure = DetailReactorClosure(showDetailImages: showDetailImages)
+        let detailVC = dependencies.makeDetailViewController(appItem: appItem, closure: closure)
         navigationController.pushViewController(detailVC, animated: true)
     }
     
-    private func showDetailImages(screenshotUrl: [URL]) {
-        let detailImagesVC = dependencies.makeDetailImagesViewController(screenshotUrl: screenshotUrl)
-        navigationController.present(detailImagesVC, animated: true)
+    private func showDetailImages(indexPath: IndexPath, screenshotUrls: [String]) {
+        let detailImagesVC = dependencies.makeDetailImagesViewController(indexPath: indexPath, screenshotUrls: screenshotUrls)
+        let navigation = UINavigationController(rootViewController: detailImagesVC)
+        navigation.modalPresentationStyle = .fullScreen
+        navigationController.present(navigation, animated: true)
     }
 }

@@ -13,7 +13,7 @@ final class ScreenshotCollectionViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView().then {
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 8
     }
     
     override init(frame: CGRect) {

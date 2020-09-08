@@ -9,17 +9,11 @@
 import Foundation
 import ReactorKit
 
-struct SearchReactorClosures {
-    let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
-    let showDetail: (AppItem) -> Void
-    let alertDisconnected: () -> Void
-}
-
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
-    private let closures: SearchReactorClosures?
+    private let closures: SearchReactor.Closures?
     private var latestKeyword = ""
     let selectedKeyword: PublishSubject<String> = PublishSubject<String>()
     
@@ -44,7 +38,7 @@ final class SearchReactor: Reactor {
     
     init(service: AppStoreServiceType,
          storage: KeywordStorageType,
-         closures: SearchReactorClosures? = nil) {
+         closures: SearchReactor.Closures? = nil) {
         self.service = service
         self.storage = storage
         self.closures = closures
@@ -88,10 +82,8 @@ final class SearchReactor: Reactor {
         var newState = state
         switch mutation {
         case .clearItems:
-            print("clear")
             newState.items.removeAll()
         case let .setItems(items):
-            print("setItems")
             newState.items += items
         case let .setFetching(isFetching):
             newState.isFetching = isFetching
@@ -103,4 +95,12 @@ final class SearchReactor: Reactor {
         selectedKeyword.onNext(keyword.text)
     }
     
+}
+
+extension SearchReactor {
+    struct Closures {
+        let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
+        let showDetail: (AppItem) -> Void
+        let alertDisconnected: () -> Void
+    }
 }

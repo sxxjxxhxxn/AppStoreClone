@@ -10,12 +10,17 @@ import Foundation
 import ReactorKit
 
 final class DetailImagesReactor: Reactor {
-    let initialState: [URL]
+    var initialState: State
     
     typealias Action = NoAction
     
-    init(screenshotUrl: [URL]) {
-        self.initialState = screenshotUrl
+    struct State {
+        let indexPath: IndexPath
+        let screenshotUrls: [String]
+    }
+    
+    init(indexPath: IndexPath, screenshotUrls: [String]) {
+        initialState = State(indexPath: indexPath, screenshotUrls: screenshotUrls)
     }
 
 }

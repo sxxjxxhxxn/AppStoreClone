@@ -20,11 +20,11 @@ final class SearchReactor: Reactor {
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
     private let closures: SearchReactorClosures?
-    let selectedKeyword: PublishSubject<String> = PublishSubject<String>.init()
+    private var latestKeyword = ""
+    let selectedKeyword: PublishSubject<String> = PublishSubject<String>()
     
     enum Action {
-        case search(keyword: String)
-        case loadMore
+        case loadItems(keyword: String)
         case keywordListVisibility
         case cancel
         case disconnected
@@ -52,26 +52,25 @@ final class SearchReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .search(let keyword):
-            storage.saveKeyword(keyword: Keyword(keyword))
-            return .concat([
-                .just(.clearItems),
-                .just(.setFetching(true)),
-                service.loadItems(keyword)
-                    .map { $0.map(SearchItemReactor.init) }
-                    .map { .setItems($0) },
-                .just(.setFetching(false))
-            ])
-        case .loadMore:
-            return service.loadMoreItems()
+        case .loadItems(let keyword):
+            let loadItems = service.loadItems(keyword)
                 .filter { $0.isNotEmpty }
                 .map { $0.map(SearchItemReactor.init) }
-                .map { .setItems($0) }
+                .map { Mutation.setItems($0) }
+            switch keyword {
+            case latestKeyword:
+                return loadItems
+            default:
+                latestKeyword = keyword
+                storage.saveKeyword(keyword: Keyword(keyword))
+                return .concat([.just(Mutation.clearItems),
+                                loadItems])
+            }
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelect(keyword:))
             return .empty()
         case .cancel:
-            service.cancel()
+            latestKeyword = ""
             return .just(.clearItems)
         case .disconnected:
             closures?.alertDisconnected()

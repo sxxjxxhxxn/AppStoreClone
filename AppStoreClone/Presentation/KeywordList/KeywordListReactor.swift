@@ -9,40 +9,37 @@
 import Foundation
 import ReactorKit
 
-typealias KeywordListReactorDidSelectClosure = (Keyword) -> Void
-
 final class KeywordListReactor: Reactor {
     let initialState = State()
     private let storage: KeywordStorageType
-    private let didSelect: KeywordListReactorDidSelectClosure?
+    private let didSelectKeyword: DidSelectClosure?
     
     enum Action {
         case loadKeywords
-        case select(keyword: KeywordItemReactor)
+        case selectKeyword(keyword: Keyword)
     }
     
     enum Mutation {
-        case setKeywords([KeywordItemReactor])
+        case setKeywords([Keyword])
     }
     
     struct State {
-        var keywords: [KeywordItemReactor] = []
+        var keywords: [Keyword] = []
     }
     
     init(storage: KeywordStorageType,
-         didSelect: KeywordListReactorDidSelectClosure? = nil) {
+         didSelectKeyword: DidSelectClosure? = nil) {
         self.storage = storage
-        self.didSelect = didSelect
+        self.didSelectKeyword = didSelectKeyword
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadKeywords:
-            return .just(
-                .setKeywords(storage.fetchKeywords()
-                .map { KeywordItemReactor(keyword: $0) }))
-        case .select(let keywordItemReactor):
-            didSelect(keywordItemReactor)
+            let keywords = storage.fetchKeywords()
+            return .just(.setKeywords(keywords))
+        case .selectKeyword(let keyword):
+            didSelectKeyword(keyword)
             return .empty()
         }
     }
@@ -56,8 +53,12 @@ final class KeywordListReactor: Reactor {
         return newState
     }
     
-    private func didSelect(_ item: KeywordItemReactor) {
-        didSelect?(Keyword(item.initialState.text))
+    private func didSelectKeyword(_ keyword: Keyword) {
+        didSelectKeyword?(keyword)
     }
-    
+
+}
+
+extension KeywordListReactor {
+    typealias DidSelectClosure = (Keyword) -> Void
 }

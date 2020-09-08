@@ -50,17 +50,17 @@ extension KeywordListViewController {
     private func bindTableView(_ reactor: KeywordListReactor) {
         reactor.state
             .map { $0.keywords }
-            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+            .bind(to: tableView.rx.items) { (tableView, _, keyword) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: KeywordListTableViewCell.self)
-                cell.bind(reactor: itemReactor)
+                let itemReactor = KeywordItemReactor(keyword: keyword)
+                cell.reactor = itemReactor
+                cell.onTapKeyword = { [weak self] keyword in
+                    if let keyword = keyword {
+                        self?.reactor?.action.onNext(.selectKeyword(keyword: keyword))
+                    }
+                }
                 return cell
             }
-            .disposed(by: disposeBag)
-        
-        tableView.rx
-            .modelSelected(KeywordItemReactor.self)
-            .map { Reactor.Action.select(keyword: $0) }
-            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
     

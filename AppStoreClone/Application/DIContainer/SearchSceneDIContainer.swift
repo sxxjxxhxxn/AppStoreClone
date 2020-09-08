@@ -35,15 +35,15 @@ final class SearchSceneDIContainer {
     }
     
     // MARK: - Keyword List
-    func makeKeywordListViewController(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListViewController {
+    func makeKeywordListViewController(didSelect: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController {
         let keywordListVC = KeywordListViewController.init()
         keywordListVC.reactor = makeKeywordListReactor(didSelect: didSelect)
         return keywordListVC
     }
 
-    func makeKeywordListReactor(didSelect: @escaping KeywordListReactorDidSelectClosure) -> KeywordListReactor {
+    func makeKeywordListReactor(didSelect: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListReactor {
         return KeywordListReactor(storage: dependencies.keywordStorage,
-                                  didSelect: didSelect)
+                                  didSelectKeyword: didSelect)
     }
     
     // MARK: - Detail Page

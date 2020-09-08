@@ -93,8 +93,8 @@ final class DetailViewController: UIViewController, View {
     }
     private let screenshotView = UIView()
     private let screenShotCollectionView = UICollectionView(frame: CGRect.zero,
-                                                    collectionViewLayout: UICollectionViewFlowLayout.init()).then {
-        let layout = UICollectionViewFlowLayout.init()
+                                                            collectionViewLayout: UICollectionViewFlowLayout()).then {
+        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         layout.itemSize = CGSize(width: 196, height: 348)
 

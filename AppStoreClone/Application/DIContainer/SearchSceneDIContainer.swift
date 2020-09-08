@@ -56,6 +56,17 @@ final class SearchSceneDIContainer {
     func makeDetailReactor(appItem: AppItem) -> DetailReactor {
         return DetailReactor(appItem: appItem)
     }
+    
+    // MARK: - Detail Images Page
+    func makeDetailImagesViewController(screenshotUrl: [URL]) -> DetailImagesViewController {
+        let detailImagesVC = DetailImagesViewController()
+        detailImagesVC.reactor = makeDetailImagesReactor(screenshotUrl: screenshotUrl)
+        return detailImagesVC
+    }
+    
+    func makeDetailImagesReactor(screenshotUrl: [URL]) -> DetailImagesReactor {
+        return DetailImagesReactor(screenshotUrl: screenshotUrl)
+    }
 
     // MARK: - Flow Coordinators
     func makeSearchFlowCoordinator(navigationController: UINavigationController) -> SearchFlowCoordinator {

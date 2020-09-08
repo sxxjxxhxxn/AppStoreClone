@@ -151,6 +151,15 @@ final class DetailViewController: UIViewController, View {
         contentRatingSubLabel.text = "연령"
         descriptionLabel.text = appItem.description
         
+        sellerButton.rx
+            .tap
+            .subscribe { _ in
+                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
+                    UIApplication.shared.open(sellerUrl)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.screenshotUrls }
             .bind(to: screenShotCollectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
@@ -160,13 +169,10 @@ final class DetailViewController: UIViewController, View {
             }
             .disposed(by: disposeBag)
         
-        sellerButton.rx
-            .tap
-            .subscribe { _ in
-                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
-                    UIApplication.shared.open(sellerUrl)
-                }
-            }
+        screenShotCollectionView.rx
+            .itemSelected
+            .map { Reactor.Action.showDetailImages(indexPath: $0) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
     

@@ -9,12 +9,29 @@
 import Foundation
 import ReactorKit
 
+struct DetailReactorClosures {
+    let showDetail: (IndexPath) -> Void
+}
+
 final class DetailReactor: Reactor {
     let initialState: AppItem
+    private let closures: DetailReactorClosures?
     
-    typealias Action = NoAction
+    enum Action {
+        case showDetailImages(indexPath: IndexPath)
+    }
     
-    init(appItem: AppItem) {
+    init(appItem: AppItem,
+         closures: DetailReactorClosures? = nil) {
         self.initialState = appItem
+        self.closures = closures
+    }
+    
+    func mutate(action: Action) -> Observable<Action> {
+        switch action {
+        case .showDetailImages(let indexPath):
+            closures?.showDetail(indexPath)
+            return .empty()
+        }
     }
 }

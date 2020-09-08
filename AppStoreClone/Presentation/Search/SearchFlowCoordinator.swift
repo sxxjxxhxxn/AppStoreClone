@@ -13,6 +13,7 @@ protocol SearchFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
     func makeKeywordListViewController(didSelect: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController
     func makeDetailViewController(appItem: AppItem) -> DetailViewController
+    func makeDetailImagesViewController(screenshotUrl: [URL]) -> DetailImagesViewController
 }
 
 final class SearchFlowCoordinator {
@@ -68,5 +69,10 @@ final class SearchFlowCoordinator {
         }
         let detailVC = dependencies.makeDetailViewController(appItem: appItem)
         navigationController.pushViewController(detailVC, animated: true)
+    }
+    
+    private func showDetailImages(screenshotUrl: [URL]) {
+        let detailImagesVC = dependencies.makeDetailImagesViewController(screenshotUrl: screenshotUrl)
+        navigationController.present(detailImagesVC, animated: true)
     }
 }

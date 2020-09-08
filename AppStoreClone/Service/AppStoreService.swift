@@ -11,6 +11,7 @@ import RxSwift
 
 protocol AppStoreServiceType {
     func loadItems(_ keyword: String) -> Observable<[AppItem]>
+    func cancel()
 }
 
 final class AppStoreService: AppStoreServiceType {
@@ -18,6 +19,7 @@ final class AppStoreService: AppStoreServiceType {
     private let network: Network<AppItemResponse>
     private var cursor: Int = Constants.BASIC_NUMBER_OF_ITEMS
     private var latestKeyword: String?
+    private var isCanceled: Bool = false
 
     init(network: Network<AppItemResponse>) {
         self.network = network
@@ -32,6 +34,11 @@ final class AppStoreService: AppStoreServiceType {
                         self?.latestKeyword = keyword
                     })
                     .map { $0?.results ?? [] }
+                    .filter { [weak self] _ in
+                        let isCanceled = self?.isCanceled ?? false
+                        self?.isCanceled = false
+                        return !isCanceled
+                    }
         }
 
         return network.getItem("\(keyword)&limit=\(cursor + Constants.BASIC_NUMBER_OF_ITEMS)")
@@ -50,6 +57,10 @@ final class AppStoreService: AppStoreServiceType {
                 self.cursor = appItems.count
                 return items
         }
+    }
+    
+    func cancel() {
+        latestKeyword = nil
     }
 }
 

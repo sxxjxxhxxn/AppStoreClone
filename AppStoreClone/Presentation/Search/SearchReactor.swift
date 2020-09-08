@@ -63,14 +63,17 @@ final class SearchReactor: Reactor {
             default:
                 latestKeyword = keyword
                 storage.saveKeyword(keyword: Keyword(keyword))
-                return .concat([.just(Mutation.clearItems),
-                                loadItems])
+                return .concat([.just(.setFetching(true)),
+                                .just(.clearItems),
+                                loadItems,
+                                .just(.setFetching(false))])
             }
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelect(keyword:))
             return .empty()
         case .cancel:
             latestKeyword = ""
+            service.cancel()
             return .just(.clearItems)
         case .disconnected:
             closures?.alertDisconnected()
@@ -85,8 +88,10 @@ final class SearchReactor: Reactor {
         var newState = state
         switch mutation {
         case .clearItems:
+            print("clear")
             newState.items.removeAll()
         case let .setItems(items):
+            print("setItems")
             newState.items += items
         case let .setFetching(isFetching):
             newState.isFetching = isFetching

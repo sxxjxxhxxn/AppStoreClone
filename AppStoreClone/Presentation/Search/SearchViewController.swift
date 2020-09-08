@@ -53,8 +53,10 @@ class SearchViewController: UIViewController, View {
         keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        
+        try? reachability?.startNotifier()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {

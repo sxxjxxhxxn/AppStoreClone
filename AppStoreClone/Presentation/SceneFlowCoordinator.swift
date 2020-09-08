@@ -28,7 +28,8 @@ final class SceneFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility)
+        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility,
+                                             alertDisconnected: alertDisconnected)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
@@ -46,6 +47,16 @@ final class SceneFlowCoordinator {
         if !searchViewController.keywordListContainer.isHidden {
             keywordListVC?.loadKeywords()
         }
+    }
+    
+    private func alertDisconnected() {
+        let alert: UIAlertController = UIAlertController(title: "Network error",
+                                                         message: "Disconnected",
+                                                         preferredStyle: .alert)
+        let alertAction: UIAlertAction = UIAlertAction(title: "확인",
+                                                       style: .default)
+        alert.addAction(alertAction)
+        navigationController.present(alert, animated: true)
     }
     
 }

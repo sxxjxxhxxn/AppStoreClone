@@ -12,6 +12,7 @@ import ReactorKit
 
 struct SearchReactorClosures {
     let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
+    let alertDisconnected: () -> Void
 }
 
 final class SearchReactor: Reactor {
@@ -77,7 +78,7 @@ final class SearchReactor: Reactor {
             latestKeyword = ""
             return .just(.clearItems)
         case .disconnected:
-//            closures?.alertDisconnected()
+            closures?.alertDisconnected()
             return .empty()
         }
     }

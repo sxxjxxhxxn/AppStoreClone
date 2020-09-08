@@ -31,10 +31,12 @@ final class SearchReactor: Reactor {
     enum Mutation {
         case clearItems
         case setItems([SearchItemReactor])
+        case setFetching(Bool)
     }
     
     struct State {
         var items: [SearchItemReactor] = []
+        var isFetching: Bool = false
     }
     
     init(service: AppStoreServiceType,
@@ -63,7 +65,9 @@ final class SearchReactor: Reactor {
                 latestKeyword = keyword
                 storage.saveKeyword(keyword: Keyword(keyword))
                 return .concat([.just(Mutation.clearItems),
-                                loadItems])
+                                .just(.setFetching(true)),
+                                loadItems,
+                                .just(.setFetching(false))])
             }
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelectKeyword(keyword:))
@@ -81,6 +85,8 @@ final class SearchReactor: Reactor {
             newState.items.removeAll()
         case let .setItems(items):
             newState.items += items
+        case let .setFetching(isFetching):
+            newState.isFetching = isFetching
         }
         return newState
     }

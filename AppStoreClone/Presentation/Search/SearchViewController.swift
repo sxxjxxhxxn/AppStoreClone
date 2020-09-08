@@ -31,11 +31,17 @@ class SearchViewController: UIViewController, View {
     let keywordListContainer = UIView().then {
         $0.isHidden = true
     }
+    private let spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds).then {
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        $0.style = .whiteLarge
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "검색"
         view.addSubview(tableView)
         view.addSubview(keywordListContainer)
+        view.addSubview(spinner)
         
         setupSearchController()
         tableView.snp.makeConstraints { (make) in
@@ -44,8 +50,10 @@ class SearchViewController: UIViewController, View {
         keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
-        title = "검색"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
@@ -63,6 +71,11 @@ class SearchViewController: UIViewController, View {
             })
             .map { Reactor.Action.loadItems(keyword: $0) }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isFetching }
+            .bind(to: spinner.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 

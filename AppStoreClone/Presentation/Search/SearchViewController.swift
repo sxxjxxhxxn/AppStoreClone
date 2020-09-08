@@ -99,9 +99,9 @@ extension SearchViewController {
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state
             .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+            .bind(to: tableView.rx.items) { (tableView, _, appItem) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
-                cell.reactor = itemReactor
+                cell.reactor = SearchItemReactor(appItem: appItem)
                 return cell
             }
             .disposed(by: disposeBag)

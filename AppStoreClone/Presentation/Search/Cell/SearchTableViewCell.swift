@@ -26,14 +26,15 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
         $0.textColor = UIColor.darkGray
         $0.font = UIFont.systemFont(ofSize: 15.0)
     }
+    fileprivate var appItem: AppItem?
     
     func bind(reactor: SearchItemReactor) {
-        let appItem = reactor.currentState
-        if let url = URL(string: appItem.artworkUrl100) {
+        appItem = reactor.initialState
+        if let artworkUrl100 = appItem?.artworkUrl100, let url = URL(string: artworkUrl100) {
             self.artWorkImageView.kf.setImage(with: url)
         }
-        self.nameLabel.text = appItem.trackName
-        self.genreLabel.text = appItem.genres.joined(separator: ", ")
+        self.nameLabel.text = appItem?.trackName
+        self.genreLabel.text = appItem?.genres.joined(separator: ", ")
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

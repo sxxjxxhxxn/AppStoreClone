@@ -32,12 +32,12 @@ final class SearchReactor: Reactor {
     
     enum Mutation {
         case clearItems
-        case setItems([SearchItemReactor])
+        case setItems([AppItem])
         case setFetching(Bool)
     }
     
     struct State {
-        var items: [SearchItemReactor] = []
+        var items: [AppItem] = []
         var isFetching: Bool = false
     }
     
@@ -58,7 +58,6 @@ final class SearchReactor: Reactor {
         case .loadItems(let keyword):
             let loadItems = service.loadItems(keyword)
                 .filter { $0.isNotEmpty }
-                .map { $0.map(SearchItemReactor.init) }
                 .map { Mutation.setItems($0) }
             switch keyword {
             case latestKeyword:

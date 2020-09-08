@@ -48,8 +48,7 @@ extension KeywordListViewController {
             .map { $0.keywords }
             .bind(to: tableView.rx.items) { (tableView, _, keyword) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: KeywordListTableViewCell.self)
-                let itemReactor = KeywordItemReactor(keyword: keyword)
-                cell.reactor = itemReactor
+                cell.reactor = KeywordItemReactor(keyword: keyword)
                 cell.onTapKeyword = { [weak self] keyword in
                     if let keyword = keyword {
                         self?.reactor?.action.onNext(.selectKeyword(keyword: keyword))

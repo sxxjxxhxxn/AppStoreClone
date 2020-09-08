@@ -1,5 +1,9 @@
 PODS:
   - Alamofire (4.9.1)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
+  - ReachabilitySwift (4.3.1)
   - ReactorKit (2.0.0):
     - RxSwift (~> 5.0)
   - RxAlamofire (5.1.0):
@@ -9,6 +13,10 @@ PODS:
     - RxSwift (~> 5.0)
   - RxCocoa (5.1.0):
     - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxReachability (1.0.0):
+    - ReachabilitySwift (~> 4.3.1)
+    - RxCocoa (~> 5)
     - RxSwift (~> 5)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
@@ -26,9 +34,11 @@ PODS:
   - Then (2.7.0)
 
 DEPENDENCIES:
+  - Kingfisher
   - ReactorKit (= 2.0.0)
   - RxAlamofire (= 5.1.0)
   - RxCocoa (= 5.1.0)
+  - RxReachability
   - RxSwift (= 5.1.0)
   - RxSwiftExt (= 5.2.0)
   - SnapKit
@@ -38,9 +48,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Kingfisher
+    - ReachabilitySwift
     - ReactorKit
     - RxAlamofire
     - RxCocoa
+    - RxReachability
     - RxRelay
     - RxSwift
     - RxSwiftExt
@@ -50,9 +63,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
+  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   ReactorKit: cbb2fab2d84f24b686a4252b26665f5fc91f77f3
   RxAlamofire: a2d7621de4c23a0c6e7b476b504acc32838ee341
   RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
+  RxReachability: 21d3e96f39bc166a21c357e923f47dec148ca97b
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
@@ -60,6 +76,6 @@ SPEC CHECKSUMS:
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 0659d25758b7571c2b6ca166a4ac7995ca8d873f
+PODFILE CHECKSUM: d2f87f9a3b7091b37e4bdd60df901d518bc1cda6
 
 COCOAPODS: 1.9.3

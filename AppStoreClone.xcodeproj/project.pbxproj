@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F48B93224FF4FBD00F85E95 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F48B93124FF4FBD00F85E95 /* Storage.swift */; };
+		0F48B93424FF502C00F85E95 /* KeywordStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F48B93324FF502C00F85E95 /* KeywordStorage.swift */; };
 		0F79811F24E100F8006F6406 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79811E24E100F8006F6406 /* AppDelegate.swift */; };
 		0F79812824E100F9006F6406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F79812724E100F9006F6406 /* Assets.xcassets */; };
 		0F79812B24E100F9006F6406 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F79812924E100F9006F6406 /* LaunchScreen.storyboard */; };
@@ -32,8 +34,8 @@
 		0FBFACCC24EB6F3E00C5BEEA /* SearchItemReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */; };
 		0FBFACD224EE1DE200C5BEEA /* NotEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFACD124EE1DE200C5BEEA /* NotEmpty.swift */; };
 		382B38DD24F22D67005ADD69 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382B38DC24F22D67005ADD69 /* Constant.swift */; };
-		6A6C845601113E4384347C68 /* Pods_AppStoreCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49D7437CB252FA43D0EB45A /* Pods_AppStoreCloneTests.framework */; };
-		A553454622FFF6425813AAD3 /* Pods_AppStoreClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE7B022E7D9023AF74E52AA /* Pods_AppStoreClone.framework */; };
+		73663F3AB9F8744CFA9EFA6A /* Pods_AppStoreCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4FAA893B2198C6E63A1E38F /* Pods_AppStoreCloneTests.framework */; };
+		F15D7BC2FBB32D3017556117 /* Pods_AppStoreClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F14774DA2AB0AA52DF64F1EC /* Pods_AppStoreClone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08B34F52ACC085A0F5307570 /* Pods-AppStoreCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0F48B93124FF4FBD00F85E95 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		0F48B93324FF502C00F85E95 /* KeywordStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordStorage.swift; sourceTree = "<group>"; };
 		0F79811B24E100F8006F6406 /* AppStoreClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppStoreClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F79811E24E100F8006F6406 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F79812724E100F9006F6406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,13 +80,12 @@
 		0FBFACC724EB6EBA00C5BEEA /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		0FBFACCB24EB6F3E00C5BEEA /* SearchItemReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemReactor.swift; sourceTree = "<group>"; };
 		0FBFACD124EE1DE200C5BEEA /* NotEmpty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotEmpty.swift; sourceTree = "<group>"; };
-		12AE5CD42C9D8A1C606B6AF8 /* Pods-AppStoreCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2DD66B437930054F2CF2BAE8 /* Pods-AppStoreClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.debug.xcconfig"; sourceTree = "<group>"; };
 		382B38DC24F22D67005ADD69 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		5AE7B022E7D9023AF74E52AA /* Pods_AppStoreClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DE0DAC155F30290404467A4 /* Pods-AppStoreCloneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.release.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.release.xcconfig"; sourceTree = "<group>"; };
-		D49D7437CB252FA43D0EB45A /* Pods_AppStoreCloneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreCloneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9A460BBE03874FD8F43DCA3 /* Pods-AppStoreClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.release.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.release.xcconfig"; sourceTree = "<group>"; };
-		E48DDA678818366882E40D09 /* Pods-AppStoreClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.debug.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.debug.xcconfig"; sourceTree = "<group>"; };
+		C4FAA893B2198C6E63A1E38F /* Pods_AppStoreCloneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreCloneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8014B2356C38F48CC2BE6E2 /* Pods-AppStoreClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreClone.release.xcconfig"; path = "Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone.release.xcconfig"; sourceTree = "<group>"; };
+		D40496B4B61B9BBFA069505C /* Pods-AppStoreCloneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppStoreCloneTests.release.xcconfig"; path = "Target Support Files/Pods-AppStoreCloneTests/Pods-AppStoreCloneTests.release.xcconfig"; sourceTree = "<group>"; };
+		F14774DA2AB0AA52DF64F1EC /* Pods_AppStoreClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppStoreClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A553454622FFF6425813AAD3 /* Pods_AppStoreClone.framework in Frameworks */,
+				F15D7BC2FBB32D3017556117 /* Pods_AppStoreClone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,13 +101,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A6C845601113E4384347C68 /* Pods_AppStoreCloneTests.framework in Frameworks */,
+				73663F3AB9F8744CFA9EFA6A /* Pods_AppStoreCloneTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F48B93024FF473500F85E95 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				0F48B93124FF4FBD00F85E95 /* Storage.swift */,
+				0F48B93324FF502C00F85E95 /* KeywordStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		0F79811224E100F8006F6406 = {
 			isa = PBXGroup;
 			children = (
@@ -112,7 +125,7 @@
 				0F79813424E100F9006F6406 /* AppStoreCloneTests */,
 				0F79811C24E100F8006F6406 /* Products */,
 				6E92B0439F0B5E12F9254A24 /* Pods */,
-				A756BE3E86C99322C718D345 /* Frameworks */,
+				A9AE3C432EBFDDC4821F5314 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,6 +145,7 @@
 				0F79815524E244CA006F6406 /* Presentation */,
 				0F79814924E11119006F6406 /* Model */,
 				0F79814324E10F71006F6406 /* Service */,
+				0F48B93024FF473500F85E95 /* Storage */,
 				0F79815424E2449B006F6406 /* Resources */,
 				0F79815624E244FE006F6406 /* Utils */,
 			);
@@ -256,19 +270,19 @@
 		6E92B0439F0B5E12F9254A24 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E48DDA678818366882E40D09 /* Pods-AppStoreClone.debug.xcconfig */,
-				D9A460BBE03874FD8F43DCA3 /* Pods-AppStoreClone.release.xcconfig */,
-				12AE5CD42C9D8A1C606B6AF8 /* Pods-AppStoreCloneTests.debug.xcconfig */,
-				5DE0DAC155F30290404467A4 /* Pods-AppStoreCloneTests.release.xcconfig */,
+				2DD66B437930054F2CF2BAE8 /* Pods-AppStoreClone.debug.xcconfig */,
+				C8014B2356C38F48CC2BE6E2 /* Pods-AppStoreClone.release.xcconfig */,
+				08B34F52ACC085A0F5307570 /* Pods-AppStoreCloneTests.debug.xcconfig */,
+				D40496B4B61B9BBFA069505C /* Pods-AppStoreCloneTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		A756BE3E86C99322C718D345 /* Frameworks */ = {
+		A9AE3C432EBFDDC4821F5314 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5AE7B022E7D9023AF74E52AA /* Pods_AppStoreClone.framework */,
-				D49D7437CB252FA43D0EB45A /* Pods_AppStoreCloneTests.framework */,
+				F14774DA2AB0AA52DF64F1EC /* Pods_AppStoreClone.framework */,
+				C4FAA893B2198C6E63A1E38F /* Pods_AppStoreCloneTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -280,12 +294,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F79813A24E100F9006F6406 /* Build configuration list for PBXNativeTarget "AppStoreClone" */;
 			buildPhases = (
-				77EEAA5C6008A6B4C92583D0 /* [CP] Check Pods Manifest.lock */,
+				A081D310A94E6D1F51246ACD /* [CP] Check Pods Manifest.lock */,
 				0F79811724E100F8006F6406 /* Sources */,
 				0F79811824E100F8006F6406 /* Frameworks */,
 				0F79811924E100F8006F6406 /* Resources */,
 				0F79814024E10881006F6406 /* ShellScript */,
-				653626D5CD7240870A3D2553 /* [CP] Embed Pods Frameworks */,
+				488B5D2F774F48BD8CB3AECA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -300,7 +314,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F79813D24E100F9006F6406 /* Build configuration list for PBXNativeTarget "AppStoreCloneTests" */;
 			buildPhases = (
-				E218DFF81FC256308DF88A38 /* [CP] Check Pods Manifest.lock */,
+				CE99F8B3F5D770A6326A06DF /* [CP] Check Pods Manifest.lock */,
 				0F79812D24E100F9006F6406 /* Sources */,
 				0F79812E24E100F9006F6406 /* Frameworks */,
 				0F79812F24E100F9006F6406 /* Resources */,
@@ -391,7 +405,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
-		653626D5CD7240870A3D2553 /* [CP] Embed Pods Frameworks */ = {
+		488B5D2F774F48BD8CB3AECA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -408,7 +422,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppStoreClone/Pods-AppStoreClone-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		77EEAA5C6008A6B4C92583D0 /* [CP] Check Pods Manifest.lock */ = {
+		A081D310A94E6D1F51246ACD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -430,7 +444,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E218DFF81FC256308DF88A38 /* [CP] Check Pods Manifest.lock */ = {
+		CE99F8B3F5D770A6326A06DF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -460,6 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F7AEF9E24FCFA520079A177 /* AddChild.swift in Sources */,
+				0F48B93224FF4FBD00F85E95 /* Storage.swift in Sources */,
 				0FAC4A6E24F505C20046825F /* SceneFlowCoordinator.swift in Sources */,
 				0FBFACCC24EB6F3E00C5BEEA /* SearchItemReactor.swift in Sources */,
 				0F79814E24E13175006F6406 /* SearchViewController.swift in Sources */,
@@ -476,6 +491,7 @@
 				0FAC4A7A24F50B470046825F /* KeywordListTableViewCell.swift in Sources */,
 				0FAC4A6A24F504480046825F /* AppDIContainer.swift in Sources */,
 				0FAC4A7824F50B2D0046825F /* KeywordItemReactor.swift in Sources */,
+				0F48B93424FF502C00F85E95 /* KeywordStorage.swift in Sources */,
 				382B38DD24F22D67005ADD69 /* Constant.swift in Sources */,
 				0F79815024E131C9006F6406 /* SearchReactor.swift in Sources */,
 				0F79814824E110B3006F6406 /* AppStoreService.swift in Sources */,
@@ -629,7 +645,7 @@
 		};
 		0F79813B24E100F9006F6406 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E48DDA678818366882E40D09 /* Pods-AppStoreClone.debug.xcconfig */;
+			baseConfigurationReference = 2DD66B437930054F2CF2BAE8 /* Pods-AppStoreClone.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -648,7 +664,7 @@
 		};
 		0F79813C24E100F9006F6406 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9A460BBE03874FD8F43DCA3 /* Pods-AppStoreClone.release.xcconfig */;
+			baseConfigurationReference = C8014B2356C38F48CC2BE6E2 /* Pods-AppStoreClone.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -667,7 +683,7 @@
 		};
 		0F79813E24E100F9006F6406 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12AE5CD42C9D8A1C606B6AF8 /* Pods-AppStoreCloneTests.debug.xcconfig */;
+			baseConfigurationReference = 08B34F52ACC085A0F5307570 /* Pods-AppStoreCloneTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -689,7 +705,7 @@
 		};
 		0F79813F24E100F9006F6406 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DE0DAC155F30290404467A4 /* Pods-AppStoreCloneTests.release.xcconfig */;
+			baseConfigurationReference = D40496B4B61B9BBFA069505C /* Pods-AppStoreCloneTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

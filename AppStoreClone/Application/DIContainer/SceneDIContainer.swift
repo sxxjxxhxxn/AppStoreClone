@@ -12,6 +12,7 @@ final class SceneDIContainer {
     
     struct Dependencies {
         let appStoreService: AppStoreServiceType
+        let keywordStorage: KeywordStorageType
     }
     
     private let dependencies: Dependencies
@@ -29,18 +30,20 @@ final class SceneDIContainer {
     
     func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
+                             storage: dependencies.keywordStorage,
                              closures: closures)
     }
     
     // MARK: - Keyword List
-    func makeKeywordListViewController() -> KeywordListViewController {
+    func makeKeywordListViewController(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController {
         let keywordListVC = KeywordListViewController.init()
-        keywordListVC.reactor = makeKeywordListReactor()
+        keywordListVC.reactor = makeKeywordListReactor(didSelectKeyword: didSelectKeyword)
         return keywordListVC
     }
 
-    func makeKeywordListReactor() -> KeywordListReactor {
-        return KeywordListReactor()
+    func makeKeywordListReactor(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListReactor {
+        return KeywordListReactor(storage: dependencies.keywordStorage,
+                                  didSelectKeyword: didSelectKeyword)
     }
     
     // MARK: - Flow Coordinators

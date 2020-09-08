@@ -9,48 +9,47 @@
 import Foundation
 import RxSwift
 
-public protocol AppStoreServiceType {
+protocol AppStoreServiceType {
     func loadItems(_ keyword: String) -> Observable<[AppItem]>
-    func loadMoreItems() -> Observable<[AppItem]>
 }
 
 final class AppStoreService: AppStoreServiceType {
 
     private let network: Network<AppItemResponse>
-    private var recentKeyword: String = ""
-    private var limit: Int = Constants.BASIC_NUMBER_OF_ITEMS
+    private var cursor: Int = Constants.BASIC_NUMBER_OF_ITEMS
+    private var latestKeyword: String?
 
     init(network: Network<AppItemResponse>) {
         self.network = network
     }
     
     func loadItems(_ keyword: String) -> Observable<[AppItem]> {
-        recentKeyword = keyword
-        limit = Constants.BASIC_NUMBER_OF_ITEMS
-        return network.getItem("\(keyword)&limit=\(limit)")
-            .map { [weak self] (response) -> [AppItem] in
-                self?.limit = response?.resultCount ?? 0
-                return response?.results ?? []
-            }
-    }
-    
-    func loadMoreItems() -> Observable<[AppItem]> {
-        return network.getItem("\(recentKeyword)&limit=\(limit+Constants.BASIC_NUMBER_OF_ITEMS)")
+        guard let latestKeyword = latestKeyword,
+            latestKeyword.elementsEqual(keyword) else {
+                return network.getItem("\(keyword)&limit=\(Constants.BASIC_NUMBER_OF_ITEMS)")
+                    .do(onNext: { [weak self] in
+                        self?.cursor = $0?.resultCount ?? 0
+                        self?.latestKeyword = keyword
+                    })
+                    .map { $0?.results ?? [] }
+        }
+
+        return network.getItem("\(keyword)&limit=\(cursor + Constants.BASIC_NUMBER_OF_ITEMS)")
             .map { [weak self] (response) -> [AppItem] in
                 guard let self = self else { return [] }
-                guard let results = response?.results, results.count > self.limit else { return [] }
-                
+                guard let results = response?.results, results.count > self.cursor else { return [] }
+
                 return results
             }
             .map { [weak self] (appItems) -> [AppItem] in
                 guard let self = self else { return [] }
                 guard appItems.isNotEmpty else { return [] }
-            
+
                 var items = appItems
-                items.removeSubrange(0 ..< self.limit)
-                self.limit = appItems.count
+                items.removeSubrange(0 ..< self.cursor)
+                self.cursor = appItems.count
                 return items
-            }
+        }
     }
 }
 

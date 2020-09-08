@@ -10,7 +10,7 @@ import UIKit
 
 protocol SceneFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
-    func makeKeywordListViewController() -> KeywordListViewController
+    func makeKeywordListViewController(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController
 }
 
 final class SceneFlowCoordinator {
@@ -34,15 +34,18 @@ final class SceneFlowCoordinator {
         searchVC = vc
     }
 
-    private func setKeywordListVisibility() {
+    private func setKeywordListVisibility(_ didSelectKeyword: @escaping (Keyword) -> Void) {
         guard let searchViewController = searchVC else { return }
         if keywordListVC == nil {
-            let keywordListViewController = dependencies.makeKeywordListViewController()
+            let keywordListViewController = dependencies.makeKeywordListViewController(didSelectKeyword: didSelectKeyword)
             searchViewController.add(child: keywordListViewController, container: searchViewController.keywordListContainer)
             keywordListVC = keywordListViewController
         }
         
         searchViewController.keywordListContainer.isHidden.toggle()
+        if !searchViewController.keywordListContainer.isHidden {
+            keywordListVC?.loadKeywords()
+        }
     }
     
 }

@@ -46,6 +46,42 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
     private var thumbnailViews: [UIImageView] = []
     fileprivate var appItem: AppItem?
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUp()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUp() {
+        contentView.addSubview(artWorkImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(genreLabel)
+        contentView.addSubview(thumbnailStackView)
+        
+        artWorkImageView.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 70, height: 70))
+            make.top.equalToSuperview().inset(15)
+            make.leading.equalToSuperview().inset(16)
+        }
+        nameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(artWorkImageView.snp.top).inset(1)
+            make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(16)
+        }
+        genreLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalTo(nameLabel)
+        }
+        thumbnailStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(artWorkImageView.snp.bottom).offset(10)
+            make.bottom.equalToSuperview().inset(15)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
     func bind(reactor: Reactor) {
         appItem = reactor.initialState
         if let artworkUrl100 = appItem?.artworkUrl100, let url = URL(string: artworkUrl100) {
@@ -82,43 +118,7 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
         }
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUp()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {}
-    
-    private func setUp() {
-        contentView.addSubview(artWorkImageView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(genreLabel)
-        contentView.addSubview(thumbnailStackView)
-        
-        artWorkImageView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 70, height: 70))
-            make.top.equalToSuperview().inset(15)
-            make.leading.equalToSuperview().inset(16)
-        }
-        nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(artWorkImageView.snp.top).inset(1)
-            make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(16)
-        }
-        genreLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.leading.trailing.equalTo(nameLabel)
-        }
-        thumbnailStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(artWorkImageView.snp.bottom).offset(10)
-            make.bottom.equalToSuperview().inset(15)
-            make.centerX.equalToSuperview()
-        }
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()

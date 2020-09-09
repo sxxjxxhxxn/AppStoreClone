@@ -18,6 +18,7 @@ import RxReachability
 
 class SearchViewController: UIViewController, View {
     
+    typealias Reactor = SearchReactor
     var disposeBag = DisposeBag()
     private let tableView = UITableView().then {
         $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
@@ -41,6 +42,18 @@ class SearchViewController: UIViewController, View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+        try? reachability?.startNotifier()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+    
+    private func setUp() {
         title = "검색"
         view.addSubview(tableView)
         view.addSubview(keywordListContainer)
@@ -53,18 +66,9 @@ class SearchViewController: UIViewController, View {
         keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
-        try? reachability?.startNotifier()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
     }
     
-    func bind(reactor: SearchReactor) {
+    func bind(reactor: Reactor) {
         bindTableView(reactor)
         bindSearchController(reactor)
         

@@ -14,6 +14,7 @@ import Then
 
 class KeywordListViewController: UIViewController, View {
 
+    typealias Reactor = KeywordListReactor
     var disposeBag = DisposeBag()
     private let tableView = UITableView().then {
         $0.register(KeywordListTableViewCell.self, forCellReuseIdentifier: KeywordListTableViewCell.reuseID)
@@ -23,13 +24,17 @@ class KeywordListViewController: UIViewController, View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+    }
+    
+    private func setUp() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
 
-    func bind(reactor: KeywordListReactor) {
+    func bind(reactor: Reactor) {
         bindTableView(reactor)
     }
     
@@ -43,7 +48,7 @@ class KeywordListViewController: UIViewController, View {
 
 extension KeywordListViewController {
     
-    private func bindTableView(_ reactor: KeywordListReactor) {
+    private func bindTableView(_ reactor: Reactor) {
         reactor.state
             .map { $0.keywords }
             .bind(to: tableView.rx.items) { (tableView, _, keyword) -> UITableViewCell in

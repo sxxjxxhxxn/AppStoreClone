@@ -13,20 +13,20 @@ import SnapKit
 
 final class KeywordListTableViewCell: UITableViewCell, View {
 
+    typealias Reactor = KeywordItemReactor
     var disposeBag: DisposeBag = DisposeBag()
     private let keywordLabel = UILabel()
     fileprivate var keyword: Keyword?
     var onTapKeyword: ((Keyword?) -> Void)?
     
-    func bind(reactor: KeywordItemReactor) {
+    func bind(reactor: Reactor) {
         keyword = reactor.initialState
         keywordLabel.text = keyword?.text
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(keywordLabel)
-        setConstraints()
+        setUp()
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +39,9 @@ final class KeywordListTableViewCell: UITableViewCell, View {
         }
     }
     
-    private func setConstraints() {
+    private func setUp() {
+        contentView.addSubview(keywordLabel)
+        
         keywordLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()

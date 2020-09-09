@@ -16,6 +16,7 @@ target 'AppStoreClone' do
 	pod 'Then'
 	pod 'RxReachability'
 	pod 'Kingfisher'
+	pod 'Cosmos'
 
   target 'AppStoreCloneTests' do
     inherit! :search_paths

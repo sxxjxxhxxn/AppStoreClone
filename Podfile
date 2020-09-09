@@ -14,7 +14,6 @@ target 'AppStoreClone' do
 	pod 'RxSwiftExt', '= 5.2.0'
 	pod 'SnapKit'
 	pod 'Then'
-	pod 'RxReachability'
 	pod 'Kingfisher'
 	pod 'Cosmos'
 

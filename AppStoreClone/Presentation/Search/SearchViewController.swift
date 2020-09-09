@@ -13,8 +13,8 @@ import RxCocoa
 import RxSwiftExt
 import SnapKit
 import Then
-import Reachability
-import RxReachability
+import Alamofire
+import RxAlamofire
 
 class SearchViewController: UIViewController, View {
     
@@ -38,12 +38,11 @@ class SearchViewController: UIViewController, View {
         $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         $0.style = .whiteLarge
     }
-    private let reachability: Reachability? = Reachability()
+    private let networkReachabilityManager = NetworkReachabilityManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
-        try? reachability?.startNotifier()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -87,11 +86,18 @@ class SearchViewController: UIViewController, View {
             .bind(to: spinner.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        reachability?.rx
-            .isDisconnected
-            .map { Reactor.Action.disconnected }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        networkReachabilityManager?.listener = { status in
+            switch status {
+            case .notReachable:
+                Observable.just(Void())
+                    .map { Reactor.Action.disconnected }
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            default:
+                break
+            }
+        }
+        networkReachabilityManager?.startListening()
     }
 
 }

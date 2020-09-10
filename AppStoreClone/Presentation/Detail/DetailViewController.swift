@@ -194,12 +194,13 @@ final class DetailViewController: UIViewController, View {
         descriptionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(screenshotView.snp.bottom).offset(30)
             make.leading.trailing.equalTo(screenshotView)
-            make.bottom.equalToSuperview().inset(10)
         }
         let tap = UITapGestureRecognizer(target: self, action: #selector(readMore))
         descriptionLabel.addGestureRecognizer(tap)
         readMoreLabel.snp.makeConstraints { (make) in
-            make.trailing.bottom.equalTo(descriptionLabel)
+            make.top.equalTo(descriptionLabel.snp.bottom)
+            make.trailing.equalTo(descriptionLabel)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     

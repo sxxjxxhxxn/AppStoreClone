@@ -42,6 +42,13 @@ final class DetailViewController: UIViewController, View {
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         $0.layer.cornerRadius = 16
     }
+    private var actionButton = UIButton().then {
+        if #available(iOS 13.0, *) {
+            $0.setBackgroundImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        } else {
+            $0.setBackgroundImage(UIImage(named: "square.and.arrow.up"), for: .normal)
+        }
+    }
     private let infoStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
@@ -115,6 +122,7 @@ final class DetailViewController: UIViewController, View {
         contentView.addSubview(nameLabel)
         contentView.addSubview(artistNameLabel)
         contentView.addSubview(sellerButton)
+        contentView.addSubview(actionButton)
         contentView.addSubview(infoStackView)
         contentView.addSubview(screenshotView)
         screenshotView.addSubview(screenShotCollectionView)
@@ -174,6 +182,16 @@ final class DetailViewController: UIViewController, View {
             .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        actionButton.rx
+            .tap
+            .subscribe { _ in
+                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
+                    let activityViewController = UIActivityViewController(activityItems: [sellerUrl], applicationActivities: nil)
+                    self.present(activityViewController, animated: true, completion: nil)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     private func setConstraints() {
@@ -187,12 +205,12 @@ final class DetailViewController: UIViewController, View {
         artWorkImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 120, height: 120))
             make.top.equalToSuperview().inset(10)
-            make.leading.equalToSuperview().inset(16)
+            make.leading.equalToSuperview().inset(24)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(artWorkImageView.snp.top).inset(10)
             make.leading.equalTo(artWorkImageView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(24)
         }
         artistNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
@@ -202,6 +220,11 @@ final class DetailViewController: UIViewController, View {
             make.leading.equalTo(artistNameLabel)
             make.bottom.equalTo(artWorkImageView)
             make.size.equalTo(CGSize(width: 60, height: 30))
+        }
+        actionButton.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 25, height: 25))
+            make.bottom.equalTo(artWorkImageView)
+            make.trailing.equalTo(artistNameLabel)
         }
         infoStackView.snp.makeConstraints { (make) in
             make.top.equalTo(artWorkImageView.snp.bottom).offset(40)

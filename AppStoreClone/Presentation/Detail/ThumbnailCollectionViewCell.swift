@@ -35,7 +35,7 @@ final class ThumbnailCollectionViewCell: UICollectionViewCell {
     
     func bind(_ imageUrl: String) {
         if let imageUrl = URL(string: imageUrl) {
-            self.imageView.kf.setImage(with: imageUrl)
+            imageView.kf.setImage(with: imageUrl)
         }
     }
     

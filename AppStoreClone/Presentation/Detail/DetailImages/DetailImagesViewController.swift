@@ -44,7 +44,7 @@ final class DetailImagesViewController: UIViewController, View {
 
     func bind(reactor: Reactor) {
         reactor.state
-            .map { $0.screenshotUrls }
+            .map { $0.screenshotURLs }
             .bind(to: collectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
                 let cell = collectionView.dequeueReusableCell(of: ThumbnailCollectionViewCell.self)
                 cell.bind(imageUrl)
@@ -55,15 +55,14 @@ final class DetailImagesViewController: UIViewController, View {
         collectionView.rx
             .willDisplayCell
             .take(1)
-            .do(onNext: { _ in
-                self.collectionView.scrollToItem(at: reactor.initialState.indexPath, at: .centeredHorizontally, animated: false)
+            .subscribe({ [weak self] _ in
+                self?.collectionView.scrollToItem(at: reactor.initialState.indexPath, at: .centeredHorizontally, animated: false)
             })
-            .subscribe()
             .disposed(by: disposeBag)
     }
     
     @objc func tapDone(sender: UIBarButtonItem) {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
     
 }

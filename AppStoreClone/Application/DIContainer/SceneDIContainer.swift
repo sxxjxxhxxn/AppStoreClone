@@ -58,14 +58,14 @@ final class SceneDIContainer {
     }
     
     // MARK: - Detail Images Page
-    func makeDetailImagesViewController(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesViewController {
+    func makeDetailImagesViewController(indexPath: IndexPath, screenshotURLs: [String]) -> DetailImagesViewController {
         let detailImagesVC = DetailImagesViewController()
-        detailImagesVC.reactor = makeDetailImagesReactor(indexPath: indexPath, screenshotUrls: screenshotUrls)
+        detailImagesVC.reactor = makeDetailImagesReactor(indexPath: indexPath, screenshotURLs: screenshotURLs)
         return detailImagesVC
     }
     
-    func makeDetailImagesReactor(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesReactor {
-        return DetailImagesReactor(indexPath: indexPath, screenshotUrls: screenshotUrls)
+    func makeDetailImagesReactor(indexPath: IndexPath, screenshotURLs: [String]) -> DetailImagesReactor {
+        return DetailImagesReactor(indexPath: indexPath, screenshotURLs: screenshotURLs)
     }
     
     // MARK: - Flow Coordinators

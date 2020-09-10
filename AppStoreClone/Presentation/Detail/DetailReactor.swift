@@ -15,7 +15,7 @@ final class DetailReactor: Reactor {
     private let closure: Closure?
     
     enum Action {
-        case showDetailImages(indexPath: IndexPath, screenshotUrls: [String])
+        case showDetailImages(indexPath: IndexPath, screenshotURLs: [String])
     }
     
     init(appItem: AppItem,
@@ -26,8 +26,8 @@ final class DetailReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Action> {
         switch action {
-        case let .showDetailImages(indexPath, screenshotUrls):
-            closure?.showDetailImages(indexPath, screenshotUrls)
+        case let .showDetailImages(indexPath, screenshotURLs):
+            closure?.showDetailImages(indexPath, screenshotURLs)
             return .empty()
         }
     }

@@ -12,7 +12,7 @@ protocol SceneFlowCoordinatorDependencies {
     func makeSearchViewController(closures: SearchReactor.Closures) -> SearchViewController
     func makeKeywordListViewController(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController
     func makeDetailViewController(appItem: AppItem, closure: DetailReactor.Closure) -> DetailViewController
-    func makeDetailImagesViewController(indexPath: IndexPath, screenshotUrls: [String]) -> DetailImagesViewController
+    func makeDetailImagesViewController(indexPath: IndexPath, screenshotURLs: [String]) -> DetailImagesViewController
 }
 
 final class SceneFlowCoordinator {
@@ -72,8 +72,8 @@ final class SceneFlowCoordinator {
         navigationController.pushViewController(detailVC, animated: true)
     }
     
-    private func showDetailImages(indexPath: IndexPath, screenshotUrls: [String]) {
-        let detailImagesVC = dependencies.makeDetailImagesViewController(indexPath: indexPath, screenshotUrls: screenshotUrls)
+    private func showDetailImages(indexPath: IndexPath, screenshotURLs: [String]) {
+        let detailImagesVC = dependencies.makeDetailImagesViewController(indexPath: indexPath, screenshotURLs: screenshotURLs)
         let navigation = UINavigationController(rootViewController: detailImagesVC)
         navigation.modalPresentationStyle = .fullScreen
         navigationController.present(navigation, animated: true)

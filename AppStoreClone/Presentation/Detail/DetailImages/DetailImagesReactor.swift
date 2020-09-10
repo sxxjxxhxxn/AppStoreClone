@@ -16,11 +16,11 @@ final class DetailImagesReactor: Reactor {
     
     struct State {
         let indexPath: IndexPath
-        let screenshotUrls: [String]
+        let screenshotURLs: [String]
     }
     
-    init(indexPath: IndexPath, screenshotUrls: [String]) {
-        initialState = State(indexPath: indexPath, screenshotUrls: screenshotUrls)
+    init(indexPath: IndexPath, screenshotURLs: [String]) {
+        initialState = State(indexPath: indexPath, screenshotURLs: screenshotURLs)
     }
 
 }

@@ -236,10 +236,10 @@ final class DetailViewController: UIViewController, View {
         
         actionButton.rx
             .tap
-            .subscribe { _ in
+            .subscribe { [weak self] _ in
                 if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
                     let activityViewController = UIActivityViewController(activityItems: [sellerUrl], applicationActivities: nil)
-                    self.present(activityViewController, animated: true)
+                    self?.present(activityViewController, animated: true)
                 }
             }
             .disposed(by: disposeBag)
@@ -255,7 +255,7 @@ final class DetailViewController: UIViewController, View {
         
         screenShotCollectionView.rx
             .itemSelected
-            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
+            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotURLs: appItem.screenshotUrls) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

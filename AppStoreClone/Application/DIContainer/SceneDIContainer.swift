@@ -22,13 +22,13 @@ final class SceneDIContainer {
     }
     
     // MARK: - Search List
-    func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController {
+    func makeSearchViewController(closures: SearchReactor.Closures) -> SearchViewController {
         let searchVC = SearchViewController.init()
         searchVC.reactor = makeSearchReactor(closures: closures)
         return searchVC
     }
     
-    func makeSearchReactor(closures: SearchReactorClosures) -> SearchReactor {
+    func makeSearchReactor(closures: SearchReactor.Closures) -> SearchReactor {
         return SearchReactor(service: dependencies.appStoreService,
                              storage: dependencies.keywordStorage,
                              closures: closures)
@@ -44,6 +44,17 @@ final class SceneDIContainer {
     func makeKeywordListReactor(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListReactor {
         return KeywordListReactor(storage: dependencies.keywordStorage,
                                   didSelectKeyword: didSelectKeyword)
+    }
+    
+    // MARK: - Detail Page
+    func makeDetailViewController(appItem: AppItem) -> DetailViewController {
+        let detailVC = DetailViewController()
+        detailVC.reactor = makeDetailReactor(appItem: appItem)
+        return detailVC
+    }
+    
+    func makeDetailReactor(appItem: AppItem) -> DetailReactor {
+        return DetailReactor(appItem: appItem)
     }
     
     // MARK: - Flow Coordinators

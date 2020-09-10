@@ -196,7 +196,7 @@ final class DetailViewController: UIViewController, View {
             make.leading.trailing.equalTo(screenshotView)
             make.bottom.equalToSuperview().inset(10)
         }
-        let tap = UITapGestureRecognizer(target: self, action: #selector(expand))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(readMore))
         descriptionLabel.addGestureRecognizer(tap)
         readMoreLabel.snp.makeConstraints { (make) in
             make.trailing.bottom.equalTo(descriptionLabel)
@@ -233,15 +233,6 @@ final class DetailViewController: UIViewController, View {
             }
             .disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.screenshotUrls }
-            .bind(to: screenShotCollectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
-                let cell = collectionView.dequeueReusableCell(of: ThumbnailCollectionViewCell.self)
-                cell.bind(imageUrl)
-                return cell
-            }
-            .disposed(by: disposeBag)
-        
         actionButton.rx
             .tap
             .subscribe { _ in
@@ -251,9 +242,18 @@ final class DetailViewController: UIViewController, View {
                 }
             }
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.screenshotUrls }
+            .bind(to: screenShotCollectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
+                let cell = collectionView.dequeueReusableCell(of: ThumbnailCollectionViewCell.self)
+                cell.bind(imageUrl)
+                return cell
+            }
+            .disposed(by: disposeBag)
     }
     
-    @objc func expand() {
+    @objc func readMore() {
         descriptionLabel.numberOfLines = 0
         readMoreLabel.isHidden = true
     }

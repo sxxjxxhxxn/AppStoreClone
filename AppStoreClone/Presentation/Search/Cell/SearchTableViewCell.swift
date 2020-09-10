@@ -45,6 +45,7 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
     }
     private var thumbnailViews: [UIImageView] = []
     fileprivate var appItem: AppItem?
+    var onTapAppItem: ((AppItem?) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -118,7 +119,11 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
         }
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if selected {
+            onTapAppItem?(appItem)
+        }
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -12,19 +12,29 @@ import ReactorKit
 
 final class DetailReactor: Reactor {
     let initialState: AppItem
+    private let closure: Closure?
     
     enum Action {
         case showDetailImages(indexPath: IndexPath, screenshotUrls: [String])
     }
     
-    init(appItem: AppItem) {
+    init(appItem: AppItem,
+         closure: Closure? = nil) {
         self.initialState = appItem
+        self.closure = closure
     }
     
     func mutate(action: Action) -> Observable<Action> {
         switch action {
-        case let .showDetailImages(_, _):
+        case let .showDetailImages(indexPath, screenshotUrls):
+            closure?.showDetailImages(indexPath, screenshotUrls)
             return .empty()
         }
+    }
+}
+
+extension DetailReactor {
+    struct Closure {
+        let showDetailImages: (IndexPath, [String]) -> Void
     }
 }

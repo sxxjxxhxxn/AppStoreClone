@@ -251,6 +251,12 @@ final class DetailViewController: UIViewController, View {
                 return cell
             }
             .disposed(by: disposeBag)
+        
+        screenShotCollectionView.rx
+            .itemSelected
+            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     @objc func readMore() {

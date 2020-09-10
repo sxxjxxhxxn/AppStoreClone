@@ -13,9 +13,12 @@ import RxCocoa
 import RxSwiftExt
 import SnapKit
 import Then
+import Alamofire
+import RxAlamofire
 
 class SearchViewController: UIViewController, View {
     
+    typealias Reactor = SearchReactor
     var disposeBag = DisposeBag()
     private let tableView = UITableView().then {
         $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
@@ -31,11 +34,29 @@ class SearchViewController: UIViewController, View {
     let keywordListContainer = UIView().then {
         $0.isHidden = true
     }
+    private let spinner = UIActivityIndicatorView(frame: UIScreen.main.bounds).then {
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        $0.style = .whiteLarge
+    }
+    private let networkReachabilityManager = NetworkReachabilityManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+    
+    private func setUp() {
+        title = "검색"
         view.addSubview(tableView)
         view.addSubview(keywordListContainer)
+        view.addSubview(spinner)
         
         setupSearchController()
         tableView.snp.makeConstraints { (make) in
@@ -44,14 +65,9 @@ class SearchViewController: UIViewController, View {
         keywordListContainer.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
-        title = "검색"
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
     }
     
-    func bind(reactor: SearchReactor) {
+    func bind(reactor: Reactor) {
         bindTableView(reactor)
         bindSearchController(reactor)
         
@@ -64,6 +80,24 @@ class SearchViewController: UIViewController, View {
             .map { Reactor.Action.loadItems(keyword: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isFetching }
+            .bind(to: spinner.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        networkReachabilityManager?.listener = { status in
+            switch status {
+            case .notReachable:
+                Observable.just(Void())
+                    .map { Reactor.Action.disconnected }
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            default:
+                break
+            }
+        }
+        networkReachabilityManager?.startListening()
     }
 
 }
@@ -75,9 +109,9 @@ extension SearchViewController {
     private func bindTableView(_ reactor: SearchReactor) {
         reactor.state
             .map { $0.items }
-            .bind(to: tableView.rx.items) { (tableView, _, itemReactor) -> UITableViewCell in
+            .bind(to: tableView.rx.items) { (tableView, _, appItem) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
-                cell.reactor = itemReactor
+                cell.reactor = SearchItemReactor(appItem: appItem)
                 return cell
             }
             .disposed(by: disposeBag)

@@ -12,6 +12,7 @@ import ReactorKit
 
 struct SearchReactorClosures {
     let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
+    let alertDisconnected: () -> Void
 }
 
 final class SearchReactor: Reactor {
@@ -26,15 +27,18 @@ final class SearchReactor: Reactor {
         case loadItems(keyword: String)
         case keywordListVisibility
         case cancel
+        case disconnected
     }
     
     enum Mutation {
         case clearItems
-        case setItems([SearchItemReactor])
+        case setItems([AppItem])
+        case setFetching(Bool)
     }
     
     struct State {
-        var items: [SearchItemReactor] = []
+        var items: [AppItem] = []
+        var isFetching: Bool = false
     }
     
     init(service: AppStoreServiceType,
@@ -54,7 +58,6 @@ final class SearchReactor: Reactor {
         case .loadItems(let keyword):
             let loadItems = service.loadItems(keyword)
                 .filter { $0.isNotEmpty }
-                .map { $0.map(SearchItemReactor.init) }
                 .map { Mutation.setItems($0) }
             switch keyword {
             case latestKeyword:
@@ -63,14 +66,20 @@ final class SearchReactor: Reactor {
                 latestKeyword = keyword
                 storage.saveKeyword(keyword: Keyword(keyword))
                 return .concat([.just(Mutation.clearItems),
-                                loadItems])
+                                .just(.setFetching(true)),
+                                loadItems,
+                                .just(.setFetching(false))])
             }
         case .keywordListVisibility:
             closures?.setKeywordListVisibility(didSelectKeyword(keyword:))
             return .empty()
         case .cancel:
             latestKeyword = ""
+            service.cancel()
             return .just(.clearItems)
+        case .disconnected:
+            closures?.alertDisconnected()
+            return .empty()
         }
     }
 
@@ -81,6 +90,8 @@ final class SearchReactor: Reactor {
             newState.items.removeAll()
         case let .setItems(items):
             newState.items += items
+        case let .setFetching(isFetching):
+            newState.isFetching = isFetching
         }
         return newState
     }

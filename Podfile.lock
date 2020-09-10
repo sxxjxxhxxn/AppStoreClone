@@ -1,5 +1,9 @@
 PODS:
   - Alamofire (4.9.1)
+  - Cosmos (22.1.0)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
   - ReactorKit (2.0.0):
     - RxSwift (~> 5.0)
   - RxAlamofire (5.1.0):
@@ -26,6 +30,8 @@ PODS:
   - Then (2.7.0)
 
 DEPENDENCIES:
+  - Cosmos
+  - Kingfisher
   - ReactorKit (= 2.0.0)
   - RxAlamofire (= 5.1.0)
   - RxCocoa (= 5.1.0)
@@ -38,6 +44,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Cosmos
+    - Kingfisher
     - ReactorKit
     - RxAlamofire
     - RxCocoa
@@ -50,6 +58,8 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Cosmos: 2795b36ad4bbea1af3050d6d65576ed63875f86a
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   ReactorKit: cbb2fab2d84f24b686a4252b26665f5fc91f77f3
   RxAlamofire: a2d7621de4c23a0c6e7b476b504acc32838ee341
   RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
@@ -60,6 +70,6 @@ SPEC CHECKSUMS:
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 0659d25758b7571c2b6ca166a4ac7995ca8d873f
+PODFILE CHECKSUM: 640006b1388bc156032ea84acbcfd5287cc47c91
 
 COCOAPODS: 1.9.3

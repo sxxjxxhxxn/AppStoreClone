@@ -24,7 +24,7 @@ public struct AppItem: Decodable {
     public let genres: [String]
     public let price: Float
     public let description: String
-    public let userRatingCount: Int
+    public let userRatingCount: Double
 }
 
 public struct AppItemResponse: Decodable {

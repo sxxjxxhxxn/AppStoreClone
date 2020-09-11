@@ -74,9 +74,12 @@ final class SearchFlowCoordinator {
     }
     
     private func showDetailImages(indexPath: IndexPath, screenshotUrls: [String]) {
+        guard let detailVC = navigationController.topViewController as? DetailViewController else { return }
+        
         let detailImagesVC = dependencies.makeDetailImagesViewController(indexPath: indexPath, screenshotUrls: screenshotUrls)
         let navigation = UINavigationController(rootViewController: detailImagesVC)
         navigation.modalPresentationStyle = .fullScreen
-        navigationController.present(navigation, animated: true)
+        navigation.transitioningDelegate = detailVC
+        detailVC.present(navigation, animated: true)
     }
 }

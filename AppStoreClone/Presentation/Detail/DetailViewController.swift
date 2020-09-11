@@ -55,7 +55,6 @@ final class DetailViewController: UIViewController, View {
     }
     private let userRatingStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 5
     }
     private let userRatingBar = CosmosView().then {
         $0.settings.textFont = UIFont.boldSystemFont(ofSize: 21)
@@ -73,7 +72,6 @@ final class DetailViewController: UIViewController, View {
     }
     private let priceGenreStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 5
         $0.alignment = .center
     }
     private let priceLabel = UILabel().then {
@@ -87,8 +85,7 @@ final class DetailViewController: UIViewController, View {
     }
     private let contentRatingStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 5
-        $0.alignment = .trailing
+        $0.alignment = .center
     }
     private let contentRatingLabel = UILabel().then {
         $0.textColor = UIColor.darkGray
@@ -110,11 +107,21 @@ final class DetailViewController: UIViewController, View {
         $0.backgroundColor = UIColor.clear
     }
     private let descriptionLabel = UILabel().then {
-        $0.numberOfLines = 0
+        $0.numberOfLines = 5
+        $0.isUserInteractionEnabled = true
     }
+    private let readMoreLabel = UILabel().then {
+        $0.textColor = .blue
+        $0.text = "더 보기"
+    }
+    private var transition = AnimationTransition()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+    }
+    
+    private func setUp() {
         view.backgroundColor = UIColor.white
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -127,6 +134,7 @@ final class DetailViewController: UIViewController, View {
         contentView.addSubview(screenshotView)
         screenshotView.addSubview(screenShotCollectionView)
         contentView.addSubview(descriptionLabel)
+        contentView.addSubview(readMoreLabel)
         
         infoStackView.addArrangedSubview(userRatingStackView)
         infoStackView.addArrangedSubview(priceGenreStackView)
@@ -138,63 +146,6 @@ final class DetailViewController: UIViewController, View {
         contentRatingStackView.addArrangedSubview(contentRatingLabel)
         contentRatingStackView.addArrangedSubview(contentRatingSubLabel)
         
-        setConstraints()
-    }
-    
-    func bind(reactor: DetailReactor) {
-        let appItem = reactor.initialState
-
-        if let imageUrl = URL(string: appItem.artworkUrl512) {
-            self.artWorkImageView.kf.setImage(with: imageUrl)
-        }
-        nameLabel.text = appItem.trackName
-        artistNameLabel.text = appItem.artistName
-        if appItem.sellerUrl == nil { sellerButton.backgroundColor = UIColor.lightGray }
-        userRatingBar.rating = appItem.averageUserRating
-        userRatingBar.text = appItem.userRatingCount == 0 ? "" : "\(round(appItem.averageUserRating*10)/10)"
-        userRatingSubLabel.text = appItem.userRatingCount == 0 ? "평가 부족" : "\(round(appItem.userRatingCount/100)/10)천개의 평가"
-        priceLabel.text = appItem.formattedPrice
-        genreLabel.text = (appItem.genres.count<4 ? appItem.genres : appItem.genres.dropLast(2)).joined(separator: ", ")
-        contentRatingLabel.text = appItem.trackContentRating
-        contentRatingSubLabel.text = "연령"
-        descriptionLabel.text = appItem.description
-        
-        sellerButton.rx
-            .tap
-            .subscribe { _ in
-                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
-                    UIApplication.shared.open(sellerUrl)
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.screenshotUrls }
-            .bind(to: screenShotCollectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
-                let cell = collectionView.dequeueReusableCell(of: ScreenshotCollectionViewCell.self)
-                cell.bind(imageUrl)
-                return cell
-            }
-            .disposed(by: disposeBag)
-        
-        screenShotCollectionView.rx
-            .itemSelected
-            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        actionButton.rx
-            .tap
-            .subscribe { _ in
-                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
-                    let activityViewController = UIActivityViewController(activityItems: [sellerUrl], applicationActivities: nil)
-                    self.present(activityViewController, animated: true, completion: nil)
-                }
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    private func setConstraints() {
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -244,6 +195,91 @@ final class DetailViewController: UIViewController, View {
             make.leading.trailing.equalTo(screenshotView)
             make.bottom.equalToSuperview().inset(10)
         }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(expand))
+        descriptionLabel.addGestureRecognizer(tap)
+        readMoreLabel.snp.makeConstraints { (make) in
+            make.trailing.bottom.equalTo(descriptionLabel)
+        }
+    }
+    
+    func bind(reactor: DetailReactor) {
+        let appItem = reactor.initialState
+
+        if let imageUrl = URL(string: appItem.artworkUrl512) {
+            artWorkImageView.kf.setImage(with: imageUrl)
+        }
+        nameLabel.text = appItem.trackName
+        artistNameLabel.text = appItem.artistName
+        if appItem.sellerUrl == nil {
+            sellerButton.backgroundColor = UIColor.lightGray
+            actionButton.tintColor = UIColor.lightGray
+        }
+        userRatingBar.rating = appItem.averageUserRating
+        userRatingBar.text = appItem.userRatingCount == 0 ? "" : "\(round(appItem.averageUserRating*10)/10)"
+        userRatingSubLabel.text = appItem.userRatingCount == 0 ? "평가 부족" : "\(round(appItem.userRatingCount/100)/10)천개의 평가"
+        priceLabel.text = appItem.formattedPrice
+        genreLabel.text = (appItem.genres.count<4 ? appItem.genres : appItem.genres.dropLast(2)).joined(separator: ", ")
+        contentRatingLabel.text = appItem.trackContentRating
+        contentRatingSubLabel.text = "연령"
+        descriptionLabel.text = appItem.description
+        
+        sellerButton.rx
+            .tap
+            .subscribe { _ in
+                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
+                    UIApplication.shared.open(sellerUrl)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.screenshotUrls }
+            .bind(to: screenShotCollectionView.rx.items) { (collectionView, _, imageUrl) -> UICollectionViewCell in
+                let cell = collectionView.dequeueReusableCell(of: ScreenshotCollectionViewCell.self)
+                cell.bind(imageUrl)
+                return cell
+            }
+            .disposed(by: disposeBag)
+        
+        screenShotCollectionView.rx
+            .itemSelected
+            .do(onNext: { [weak self] indexPath in
+                if let cell = self?.screenShotCollectionView.cellForItem(at: indexPath) {
+                    let cellOriginFrame = cell.superview?.convert(cell.frame, to: nil)
+                    self?.transition.originFrame = cellOriginFrame
+                }
+            })
+            .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        actionButton.rx
+            .tap
+            .subscribe { _ in
+                if let sellerUrlStr = appItem.sellerUrl, let sellerUrl = URL(string: sellerUrlStr) {
+                    let activityViewController = UIActivityViewController(activityItems: [sellerUrl], applicationActivities: nil)
+                    self.present(activityViewController, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    @objc func expand() {
+        descriptionLabel.numberOfLines = 0
+        readMoreLabel.isHidden = true
     }
 
+}
+
+extension DetailViewController: UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DisMissAnimationTransition()
+    }
 }

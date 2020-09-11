@@ -3,6 +3,7 @@ disabled_rules:
     - trailing_whitespace
     - identifier_name
     - function_body_length
+    - type_body_length
 enabled_rules:
     - closure_spacing
 excluded:

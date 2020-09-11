@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 import ReactorKit
 import SnapKit
@@ -110,12 +111,12 @@ final class DetailViewController: UIViewController, View {
     }
     private let descriptionLabel = UILabel().then {
         $0.numberOfLines = 5
-        $0.isUserInteractionEnabled = true
     }
-    private let readMoreLabel = UILabel().then {
-        $0.textColor = .blue
-        $0.text = "더 보기"
+    private let readMoreButton = UIButton().then {
+        $0.setTitleColor(.blue, for: .normal)
+        $0.setTitle("더 보기", for: .normal)
     }
+    private let transition = AnimationTransition()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,7 +136,7 @@ final class DetailViewController: UIViewController, View {
         contentView.addSubview(screenshotView)
         screenshotView.addSubview(screenShotCollectionView)
         contentView.addSubview(descriptionLabel)
-        contentView.addSubview(readMoreLabel)
+        contentView.addSubview(readMoreButton)
         
         infoStackView.addArrangedSubview(userRatingStackView)
         infoStackView.addArrangedSubview(priceGenreStackView)
@@ -195,9 +196,7 @@ final class DetailViewController: UIViewController, View {
             make.top.equalTo(screenshotView.snp.bottom).offset(30)
             make.leading.trailing.equalTo(screenshotView)
         }
-        let tap = UITapGestureRecognizer(target: self, action: #selector(readMore))
-        descriptionLabel.addGestureRecognizer(tap)
-        readMoreLabel.snp.makeConstraints { (make) in
+        readMoreButton.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp.bottom)
             make.trailing.equalTo(descriptionLabel)
             make.bottom.equalToSuperview().inset(10)
@@ -208,7 +207,7 @@ final class DetailViewController: UIViewController, View {
         let appItem = reactor.initialState
 
         if let imageUrl = URL(string: appItem.artworkUrl512) {
-            artWorkImageView.kf.setImage(with: imageUrl)
+            artWorkImageView.kf.setImage(with: imageUrl, options: [.loadDiskFileSynchronously])
         }
         nameLabel.text = appItem.trackName
         artistNameLabel.text = appItem.artistName
@@ -255,14 +254,35 @@ final class DetailViewController: UIViewController, View {
         
         screenShotCollectionView.rx
             .itemSelected
+            .do(onNext: { [weak self] indexPath in
+                if let cell = self?.screenShotCollectionView.cellForItem(at: indexPath) {
+                    let cellOriginFrame = cell.superview?.convert(cell.frame, to: nil)
+                    self?.transition.setFrame(frame: cellOriginFrame)
+                }
+            })
             .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotURLs: appItem.screenshotUrls) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-    }
     
-    @objc func readMore() {
-        descriptionLabel.numberOfLines = 0
-        readMoreLabel.isHidden = true
+        readMoreButton.rx
+            .tap
+            .subscribe { [weak self] _ in
+                self?.descriptionLabel.numberOfLines = 0
+                self?.readMoreButton.isHidden = true
+            }
+            .disposed(by: disposeBag)
     }
 
+}
+
+extension DetailViewController: UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DisMissAnimationTransition()
+    }
 }

@@ -35,7 +35,7 @@ final class ThumbnailCollectionViewCell: UICollectionViewCell {
     
     func bind(_ imageUrl: String) {
         if let imageUrl = URL(string: imageUrl) {
-            imageView.kf.setImage(with: imageUrl)
+            imageView.kf.setImage(with: imageUrl, options: [.loadDiskFileSynchronously])
         }
     }
     

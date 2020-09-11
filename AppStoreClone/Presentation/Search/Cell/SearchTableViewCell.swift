@@ -86,7 +86,7 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
     func bind(reactor: Reactor) {
         appItem = reactor.initialState
         if let artworkUrl100 = appItem?.artworkUrl100, let url = URL(string: artworkUrl100) {
-            artWorkImageView.kf.setImage(with: url)
+            artWorkImageView.kf.setImage(with: url, options: [.loadDiskFileSynchronously])
         }
         nameLabel.text = appItem?.trackName
         genreLabel.text = appItem?.genres.joined(separator: ", ")
@@ -110,7 +110,7 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
                 }
             }
             if let thumbnailStr = appItem?.screenshotUrls[index], let thumbnailUrl = URL(string: thumbnailStr) {
-                thumbnailView.kf.setImage(with: thumbnailUrl)
+                thumbnailView.kf.setImage(with: thumbnailUrl, options: [.loadDiskFileSynchronously])
                 thumbnailViews.append(thumbnailView)
             }
         }

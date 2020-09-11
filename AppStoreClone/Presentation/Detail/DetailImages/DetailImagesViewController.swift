@@ -24,7 +24,7 @@ final class DetailImagesViewController: UIViewController, View {
         $0.register(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailCollectionViewCell.reuseID)
         $0.backgroundColor = UIColor.clear
     }
-    private var completeButton: UIBarButtonItem?
+    private let completeButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,6 @@ final class DetailImagesViewController: UIViewController, View {
     private func setUp() {
         view.backgroundColor = UIColor.white
         view.addSubview(collectionView)
-        completeButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tapDone(sender:)))
         navigationItem.rightBarButtonItem = completeButton
         
         collectionView.snp.makeConstraints { (make) in
@@ -57,6 +56,12 @@ final class DetailImagesViewController: UIViewController, View {
             .take(1)
             .subscribe({ [weak self] _ in
                 self?.collectionView.scrollToItem(at: reactor.initialState.indexPath, at: .centeredHorizontally, animated: false)
+            })
+            .disposed(by: disposeBag)
+        
+        completeButton.rx.tap
+            .subscribe(onNext: { [weak self] (_) in
+                self?.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
     }

@@ -206,7 +206,7 @@ final class DetailViewController: UIViewController, View {
         let appItem = reactor.initialState
 
         if let imageUrl = URL(string: appItem.artworkUrl512) {
-            artWorkImageView.kf.setImage(with: imageUrl)
+            artWorkImageView.kf.setImage(with: imageUrl, options: [.loadDiskFileSynchronously])
         }
         nameLabel.text = appItem.trackName
         artistNameLabel.text = appItem.artistName
@@ -246,7 +246,7 @@ final class DetailViewController: UIViewController, View {
             .do(onNext: { [weak self] indexPath in
                 if let cell = self?.screenShotCollectionView.cellForItem(at: indexPath) {
                     let cellOriginFrame = cell.superview?.convert(cell.frame, to: nil)
-                    self?.transition.originFrame = cellOriginFrame
+                    self?.transition.setFrame(frame: cellOriginFrame)
                 }
             })
             .map { Reactor.Action.showDetailImages(indexPath: $0, screenshotUrls: appItem.screenshotUrls) }

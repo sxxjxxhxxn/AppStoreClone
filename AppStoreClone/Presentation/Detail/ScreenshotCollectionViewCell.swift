@@ -28,7 +28,7 @@ final class ScreenshotCollectionViewCell: UICollectionViewCell {
     
     func bind(_ imageUrl: String) {
         if let imageUrl = URL(string: imageUrl) {
-            self.imageView.kf.setImage(with: imageUrl)
+            self.imageView.kf.setImage(with: imageUrl, options: [.loadDiskFileSynchronously])
         }
     }
     

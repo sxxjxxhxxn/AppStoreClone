@@ -11,7 +11,7 @@ import SnapKit
 
 class AnimationTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     
-    var originFrame: CGRect?
+    private var originFrame: CGRect?
     
     func setFrame(frame: CGRect?) {
         self.originFrame = frame

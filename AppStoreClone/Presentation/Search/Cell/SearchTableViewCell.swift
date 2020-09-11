@@ -30,7 +30,7 @@ final class SearchTableViewCell: UITableViewCell, ReactorKit.View {
     func bind(reactor: SearchItemReactor) {
         appItem = reactor.initialState
         if let artworkUrl100 = appItem?.artworkUrl100, let url = URL(string: artworkUrl100) {
-            self.artWorkImageView.kf.setImage(with: url)
+            self.artWorkImageView.kf.setImage(with: url, options: [.loadDiskFileSynchronously])
         }
         self.nameLabel.text = appItem?.trackName
         self.genreLabel.text = appItem?.genres.joined(separator: ", ")

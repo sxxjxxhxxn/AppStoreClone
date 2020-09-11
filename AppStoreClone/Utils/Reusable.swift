@@ -22,6 +22,8 @@ extension UITableViewCell: Reusable {}
 
 extension UIViewController: Reusable {}
 
+extension UICollectionViewCell: Reusable {}
+
 extension UITableView {
     func dequeueReusableCell<T>(of cellType: T.Type = T.self) -> T where T: UITableViewCell {
         guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID) as? T else {
@@ -38,5 +40,14 @@ extension UIViewController {
             fatalError("instantiate fatalError - \(self.reuseID) could not be instantiate")
         }
         return viewController
+    }
+}
+
+extension UICollectionView {
+    func dequeueReusableCell<T>(of cellType: T.Type = T.self) -> T where T: UICollectionViewCell {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: cellType.reuseID, for: IndexPath()) as? T else {
+            fatalError("dequeueReusableCell fatalError - cell of \(cellType)")
+        }
+        return cell
     }
 }

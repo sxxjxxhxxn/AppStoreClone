@@ -112,6 +112,11 @@ extension SearchViewController {
             .bind(to: tableView.rx.items) { (tableView, _, appItem) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(of: SearchTableViewCell.self)
                 cell.reactor = SearchItemReactor(appItem: appItem)
+                cell.onTapAppItem = { [weak self] appItem in
+                    if let appItem = appItem {
+                        self?.reactor?.action.onNext(.showDetail(appItem: appItem))
+                    }
+                }
                 return cell
             }
             .disposed(by: disposeBag)

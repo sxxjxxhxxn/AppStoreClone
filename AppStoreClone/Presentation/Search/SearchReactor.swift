@@ -10,16 +10,11 @@ import Foundation
 import RxSwift
 import ReactorKit
 
-struct SearchReactorClosures {
-    let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
-    let alertDisconnected: () -> Void
-}
-
 final class SearchReactor: Reactor {
     let initialState = State()
     private let service: AppStoreServiceType
     private let storage: KeywordStorageType
-    private let closures: SearchReactorClosures?
+    private let closures: Closures?
     private var latestKeyword = ""
     let selectedKeyword: PublishSubject<String> = PublishSubject<String>()
     
@@ -28,6 +23,7 @@ final class SearchReactor: Reactor {
         case keywordListVisibility
         case cancel
         case disconnected
+        case showDetail(appItem: AppItem)
     }
     
     enum Mutation {
@@ -43,7 +39,7 @@ final class SearchReactor: Reactor {
     
     init(service: AppStoreServiceType,
          storage: KeywordStorageType,
-         closures: SearchReactorClosures? = nil) {
+         closures: Closures? = nil) {
         self.service = service
         self.storage = storage
         self.closures = closures
@@ -80,6 +76,9 @@ final class SearchReactor: Reactor {
         case .disconnected:
             closures?.alertDisconnected()
             return .empty()
+        case .showDetail(let appItem):
+            closures?.showDetail(appItem)
+            return .empty()
         }
     }
 
@@ -100,4 +99,12 @@ final class SearchReactor: Reactor {
         selectedKeyword.onNext(keyword.text)
     }
     
+}
+
+extension SearchReactor {
+    struct Closures {
+        let setKeywordListVisibility: (@escaping (Keyword) -> Void) -> Void
+        let alertDisconnected: () -> Void
+        let showDetail: (AppItem) -> Void
+    }
 }

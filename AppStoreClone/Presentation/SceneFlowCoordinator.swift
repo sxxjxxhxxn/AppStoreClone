@@ -9,8 +9,10 @@
 import UIKit
 
 protocol SceneFlowCoordinatorDependencies {
-    func makeSearchViewController(closures: SearchReactorClosures) -> SearchViewController
+    func makeSearchViewController(closures: SearchReactor.Closures) -> SearchViewController
     func makeKeywordListViewController(didSelectKeyword: @escaping KeywordListReactor.DidSelectClosure) -> KeywordListViewController
+    func makeDetailViewController(appItem: AppItem, closure: DetailReactor.Closure) -> DetailViewController
+    func makeDetailImagesViewController(indexPath: IndexPath, screenshotURLs: [String]) -> DetailImagesViewController
 }
 
 final class SceneFlowCoordinator {
@@ -28,8 +30,9 @@ final class SceneFlowCoordinator {
     }
     
     func start() {
-        let closures = SearchReactorClosures(setKeywordListVisibility: setKeywordListVisibility,
-                                             alertDisconnected: alertDisconnected)
+        let closures = SearchReactor.Closures(setKeywordListVisibility: setKeywordListVisibility,
+                                              alertDisconnected: alertDisconnected,
+                                              showDetail: showDetail)
         let vc = dependencies.makeSearchViewController(closures: closures)
         navigationController.pushViewController(vc, animated: false)
         searchVC = vc
@@ -59,4 +62,23 @@ final class SceneFlowCoordinator {
         navigationController.present(alert, animated: true)
     }
     
+    private func showDetail(appItem: AppItem) {
+        if #available(iOS 11.0, *) {
+            navigationController.navigationBar.prefersLargeTitles = false
+        }
+        
+        let closure = DetailReactor.Closure(showDetailImages: showDetailImages)
+        let detailVC = dependencies.makeDetailViewController(appItem: appItem, closure: closure)
+        navigationController.pushViewController(detailVC, animated: true)
+    }
+    
+    private func showDetailImages(indexPath: IndexPath, screenshotURLs: [String]) {
+        guard let detailVC = navigationController.topViewController as? DetailViewController else { return }
+        
+        let detailImagesVC = dependencies.makeDetailImagesViewController(indexPath: indexPath, screenshotURLs: screenshotURLs)
+        let navigation = UINavigationController(rootViewController: detailImagesVC)
+        navigation.modalPresentationStyle = .fullScreen
+        navigation.transitioningDelegate = detailVC
+        detailVC.present(navigation, animated: true)
+    }
 }
